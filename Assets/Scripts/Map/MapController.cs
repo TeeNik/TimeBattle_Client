@@ -10,9 +10,13 @@ public class MapController : MonoBehaviour
     public Transform Pointer;
     public Grid grid;
 
+    private MapData[][] _mapDatas;
+
+
     void Start()
     {
-        
+        MapContructor contructor = new MapContructor();
+        _mapDatas = contructor.GenerateMap(tileMap);
     }
 
     // Update is called once per frame
