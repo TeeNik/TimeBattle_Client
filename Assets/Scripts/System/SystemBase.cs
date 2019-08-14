@@ -10,6 +10,6 @@ public abstract class SystemBase<T> where T : ComponentBase
         Components = new Dictionary<int, T>();
     }
 
-    protected abstract void Update();
+    public abstract void Update();
 
 }

@@ -41,7 +41,6 @@ public class MapContructor
                 {
                     tilemap.SetTile(new Vector3Int(i, j, 0), bases[1]);
                 }
-
             }
         }
 
