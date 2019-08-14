@@ -6,6 +6,7 @@ public class GameLayer : MonoBehaviour
 
     public SystemController SystemController { get; private set; } 
     public EntityManager EntityManager { get; private set; }
+    public MapController MapController;
 
     public void Start()
     {
@@ -13,6 +14,9 @@ public class GameLayer : MonoBehaviour
 
         SystemController = new SystemController();
         EntityManager = new EntityManager();
+        MapController.Init();
+
+        InitialEvent();
     }
 
     //TODO Incapsulate
@@ -21,4 +25,10 @@ public class GameLayer : MonoBehaviour
         SystemController.UpdateSystems();
     }
 
+    //TODO Replace by server event
+    private void InitialEvent()
+    {
+        EntityManager.CreatePlayer();
+        SendSystemUpdate();
+    }
 }

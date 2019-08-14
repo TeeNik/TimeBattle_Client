@@ -8,4 +8,8 @@
         MovementSystem = new MovementSystem();
     }
 
+    public void UpdateSystems()
+    {
+        MovementSystem.Update();
+    }
 }

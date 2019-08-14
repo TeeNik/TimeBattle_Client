@@ -12,4 +12,9 @@ public abstract class SystemBase<T> where T : ComponentBase
 
     public abstract void Update();
 
+    public void AddComponent(int entityId, T component)
+    {
+        Components.Add(entityId, component);
+    }
+
 }
