@@ -12,7 +12,11 @@ public class InputDataController : MonoBehaviour
 
     public Dictionary<int, List<AvailableActions>> CurrentActions;
 
-    
-    private void UpdateActions
+    private Character _selectedChar;
 
+
+    public void SelectCharacter(Character ch)
+    {
+        _selectedChar = ch;
+    }
 }
