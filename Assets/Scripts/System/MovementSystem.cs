@@ -6,9 +6,9 @@ public class MovementSystem : SystemBase<MovementComponent>
     {
         foreach (var component in Components)
         {
-            var entity = GameLayer.I.EntityManager.GetEntity(component.Key);
+            var entity = RoomModel.I.EntityManager.GetEntity(component.Key);
             var data = component.Value;
-            var map = GameLayer.I.MapController;
+            var map = RoomModel.I.MapController;
 
             if (data.IsInitial)
             {

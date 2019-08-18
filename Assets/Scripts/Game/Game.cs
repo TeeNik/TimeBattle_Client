@@ -1,10 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class Game
+﻿public class Game
 {
 
+    public void OnJoinGame()
+    {
 
+    }
 
 }

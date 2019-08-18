@@ -24,7 +24,7 @@ public class EntityManager
         character.Init(_idCounter);
         Entities.Add(_idCounter, character);
         var moveComp = new MovementComponent(true, new[]{new Vector3Int(8,8,0)});
-        GameLayer.I.SystemController.MovementSystem.AddComponent(_idCounter, moveComp);
+        RoomModel.I.SystemController.MovementSystem.AddComponent(_idCounter, moveComp);
 
         ++_idCounter;
     }

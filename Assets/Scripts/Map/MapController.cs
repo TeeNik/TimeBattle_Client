@@ -10,6 +10,7 @@ public class MapController : MonoBehaviour
 
     private MapData[][] _mapDatas;
     private bool _isInited;
+    private readonly Vector3 HidePos = new Vector3(1000, 1000);
 
 
     public void Init()
@@ -26,9 +27,16 @@ public class MapController : MonoBehaviour
         {
             var mouse = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             var tile = grid.WorldToCell(mouse);
-            Pointer.position = tileMap.GetCellCenterWorld(new Vector3Int(tile.x, tile.y, tile.z));
+
+            var i = tile.x;
+            var j = tile.y;
+            bool isShow = false;
+            if(i > 0 && i < _mapDatas.Length && j > 0 && j < _mapDatas[0].Length && _mapDatas[i][j] != MapData.Wall)
+            {
+                isShow = true;
+            }
+            Pointer.position = isShow ? tileMap.GetCellCenterWorld(new Vector3Int(tile.x, tile.y, tile.z)) : HidePos;
         }
-        //Debug.Log($"Pos: x={tile.x} y={tile.y}");
     }
 
     public Vector3 SetToPosition(MapData objectToMove, Vector3Int position)
@@ -37,4 +45,5 @@ public class MapController : MonoBehaviour
         _mapDatas[position.x][position.y] = objectToMove;
         return worldPos;
     }
+
 }
