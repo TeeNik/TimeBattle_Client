@@ -40,9 +40,17 @@ public class CharacterActionController : MonoBehaviour
         }
     }
 
-    private void OnActionClick()
+    private void OnActionClick(ActionType action)
     {
+        switch (action)
+        {
+            case ActionType.None:
+                break;
+            case ActionType.Move:
+                break;
+            case ActionType.Shoot:
+                break;
+        }
 
     }
-
 }
