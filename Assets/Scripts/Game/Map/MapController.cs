@@ -20,7 +20,6 @@ public class MapController : MonoBehaviour
         _isInited = true;
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (_isInited)
@@ -30,11 +29,7 @@ public class MapController : MonoBehaviour
 
             var i = tile.x;
             var j = tile.y;
-            bool isShow = false;
-            if(i > 0 && i < _mapDatas.Length && j > 0 && j < _mapDatas[0].Length && _mapDatas[i][j] != MapData.Wall)
-            {
-                isShow = true;
-            }
+            bool isShow = i > 0 && i < _mapDatas.Length && j > 0 && j < _mapDatas[0].Length && _mapDatas[i][j] != MapData.Wall;
             Pointer.position = isShow ? tileMap.GetCellCenterWorld(new Vector3Int(tile.x, tile.y, tile.z)) : HidePos;
         }
     }
@@ -44,6 +39,18 @@ public class MapController : MonoBehaviour
         var worldPos = tileMap.GetCellCenterWorld(position);
         _mapDatas[position.x][position.y] = objectToMove;
         return worldPos;
+    }
+
+    public Vector3 GetTilePositionByMouse()
+    {
+        var tile = GetTileByMouse();
+        return tileMap.GetCellCenterWorld(new Vector3Int(tile.x, tile.y, tile.z));
+    }
+
+    public Vector3Int GetTileByMouse()
+    {
+        var mouse = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        return grid.WorldToCell(mouse);
     }
 
 }
