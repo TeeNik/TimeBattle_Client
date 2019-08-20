@@ -9,9 +9,12 @@ public class NetworkController
     private readonly string Address = "ws://116.203.77.112:8080/multiplayer/rand";
 
     private WebSocket _ws;
+    private EventAgregator _eventAgregator;
 
     public void Auth()
     {
+        _eventAgregator = new EventAgregator();
+
         _ws = new WebSocket(Address);
         _ws.OnMessage += OnMessage;
         _ws.OnOpen += OnConnectionOpen;

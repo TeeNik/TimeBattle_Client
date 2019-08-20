@@ -49,6 +49,7 @@ public class CharacterActionController : MonoBehaviour
     private void SelectAction(ActionType type)
     {
         _selectedInput = _actionInputs[type];
+
     }
 
     private void Update()
@@ -59,6 +60,7 @@ public class CharacterActionController : MonoBehaviour
             {
                 _selectedInput.ProduceInput();
                 _selectedInput = null;
+                HideActionPanel();
             }
             else
             {

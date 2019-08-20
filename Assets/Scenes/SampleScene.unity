@@ -495,7 +495,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: e45aa0dcedead6646aa9e1bc71fe264b, type: 2}
   CharacterPrefab: {fileID: 6299787003037800029, guid: 5af2d50ece50b6648b3b1a7121572d7e,
     type: 3}
-  CharacterPrediction: {fileID: 0}
+  CharacterPrediction: {fileID: 7298365584693076154, guid: 783f0ef64461d254eb966b2dbddac456,
+    type: 3}
 --- !u!114 &586783190
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -708,7 +709,8 @@ MonoBehaviour:
   ActionPanel: {fileID: 65422190}
   SelectionTarget: {fileID: 655803861}
   PredictionMap: {fileID: 1357878870}
-  ActionButtonPrefab: {fileID: 0}
+  ActionButtonPrefab: {fileID: 2592523750891926335, guid: ac6e260a1c37e74489fec7489064abff,
+    type: 3}
 --- !u!222 &687276512
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1387,7 +1389,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _predictionTilemap: {fileID: 1447314698}
   _objectsPrediction: []
-  _parent: {fileID: 0}
+  _parent: {fileID: 1360173685}
 --- !u!1 &1358072507
 GameObject:
   m_ObjectHideFlags: 0
@@ -1493,6 +1495,36 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1360173684
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1360173685}
+  m_Layer: 0
+  m_Name: ObjectPredictionParent
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1360173685
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1360173684}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1447314696}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1439859576
 GameObject:
@@ -1664,7 +1696,8 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 1360173685}
   m_Father: {fileID: 1875228709}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

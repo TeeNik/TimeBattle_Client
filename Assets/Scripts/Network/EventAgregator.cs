@@ -8,15 +8,21 @@ public class EventAgregator
 
     private Dictionary<string, BaseEventClass> _events;
 
-    public void InitEvents()
+    public EventAgregator()
     {
-        var t = typeof(BaseEventClass);
-        var types = Assembly.GetAssembly(t).GetTypes().Where(myType => myType.IsClass && !myType.IsAbstract && t.IsAssignableFrom(myType));
-        foreach (Type type in types)
+        _events = new Dictionary<string, BaseEventClass>();
+        var type = typeof(BaseEventClass);
+        var types = Assembly.GetAssembly(type).GetTypes().Where(myType => myType.IsClass && !myType.IsAbstract && type.IsAssignableFrom(myType));
+        foreach (Type t in types)
         {
-            var evebtBase = (BaseEventClass)Activator.CreateInstance(type);
-            _events.Add(evebtBase.Type, command);
+            var eventBase = (BaseEventClass)Activator.CreateInstance(t);
+            _events.Add(eventBase.Header, eventBase);
         }
+    }
+
+    public BaseEventClass GetEvent(string header)
+    {
+        return _events[header];
     }
 
 }
