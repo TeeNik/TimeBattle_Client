@@ -1,11 +1,13 @@
-﻿using UnityEngine;
+﻿using System;
+using System.Collections.Generic;
+using UnityEngine;
 
 public class MovementComponent : ComponentBase
 {
-    public readonly bool IsInitial;
-    public readonly Vector3Int[] Positions;
+    public bool IsInitial;
+    public List<Vector3Int> Positions;
 
-    public MovementComponent(bool isInitial, Vector3Int[] positions)
+    public MovementComponent(bool isInitial, List<Vector3Int> positions)
     {
         IsInitial = isInitial;
         Positions = positions;

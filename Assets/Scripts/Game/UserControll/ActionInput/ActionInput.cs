@@ -1,6 +1,6 @@
 ﻿public interface ActionInput
 {
-    ActionType GetType();
+    ActionType GetActionType();
     void Update();
     void ProduceInput();
 

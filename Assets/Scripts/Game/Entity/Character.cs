@@ -3,6 +3,6 @@
 
     private void OnMouseDown()
     {
-        RoomModel.I.InputController.SelectCharacter(this);
+        Game.I.InputController.SelectCharacter(this);
     }
 }

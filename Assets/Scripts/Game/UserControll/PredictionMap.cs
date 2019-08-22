@@ -14,7 +14,7 @@ public class PredictionMap : MonoBehaviour
 
     public void DrawCharacter()
     {
-        var map = RoomModel.I.MapController;
+        var map = Game.I.MapController;
         var position = map.GetTilePositionByMouse();
         var ch = Instantiate(ResourceManager.Instance.CharacterPrediction, _parent);
         ch.transform.position = position;

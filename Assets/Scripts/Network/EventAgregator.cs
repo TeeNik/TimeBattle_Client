@@ -12,7 +12,7 @@ public class EventAgregator
     {
         _events = new Dictionary<string, BaseEventClass>();
         var type = typeof(BaseEventClass);
-        var types = Assembly.GetAssembly(type).GetTypes().Where(myType => myType.IsClass && !myType.IsAbstract && type.IsAssignableFrom(myType));
+        var types = Utils.GetTypesOfParent(type);
         foreach (Type t in types)
         {
             var eventBase = (BaseEventClass)Activator.CreateInstance(t);

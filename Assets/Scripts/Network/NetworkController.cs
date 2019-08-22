@@ -52,7 +52,7 @@ public class NetworkController
 
     private void OnMessage(object sender, MessageEventArgs args)
     {
-        Debug.Log(args.Data);
+        //Debug.Log(args.Data);
     }
 
     public class LoginMsg

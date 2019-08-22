@@ -4,7 +4,7 @@ using UnityEngine;
 public abstract class Entity : MonoBehaviour
 {
 
-    protected int Id;
+    public int Id { get; private set; }
     protected List<ComponentBase> Components;
 
     public void Init(int id)
