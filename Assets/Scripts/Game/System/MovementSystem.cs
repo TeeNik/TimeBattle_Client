@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using DG.Tweening;
+using System.Linq;
 using UnityEngine;
 
 public class MovementSystem : SystemBase<MovementComponent>
@@ -22,7 +23,7 @@ public class MovementSystem : SystemBase<MovementComponent>
             }
             else
             {
-                entity.transform.position = pos; 
+                entity.transform.DOMove(pos, 3);// position = pos; 
             }
 
             if (data.Positions.Count == 0)

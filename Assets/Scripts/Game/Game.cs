@@ -48,7 +48,7 @@ public class Game : MonoBehaviour
 
     public void OnTurnData(List<ActionDto> data)
     {
-        _turnData = data;
+        _turnData = data.ToList();
         _currentPhase = 0;
     }
 
