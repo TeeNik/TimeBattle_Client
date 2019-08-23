@@ -13,7 +13,9 @@ public class Game : MonoBehaviour
     public InputDataController InputController;
 
     private List<ActionDto> _turnData;
+
     private int _currentPhase;
+    private int _currentPhaseAction;
 
     private void Start()
     {
@@ -54,6 +56,11 @@ public class Game : MonoBehaviour
 
     public void ProducePhase()
     {
+        if (_currentPhaseAction < SystemController.GetMaxPhaseLength())
+        {
+
+        }
+
         foreach (var dto in _turnData)
         {
             if (dto.phases.Count > _currentPhase)
@@ -62,6 +69,6 @@ public class Game : MonoBehaviour
             }
         }
         SystemController.UpdateSystems();
-        ++_currentPhase;
+        //++_currentPhase;
     }
 }

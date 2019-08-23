@@ -23,7 +23,7 @@ public class EntityManager
         var character = GameObject.Instantiate(playerPrefab);
         character.Init(_idCounter);
         Entities.Add(_idCounter, character);
-        var moveComp = new MovementComponent(true, new List<Vector3Int>() {new Vector3Int(8,8,0)});
+        var moveComp = new MovementComponent(true, new List<Point>() {new Point(8,8)});
         Game.I.SystemController.MovementSystem.AddComponent(_idCounter, moveComp);
 
         ++_idCounter;

@@ -1,6 +1,5 @@
 ﻿using DG.Tweening;
 using System.Linq;
-using UnityEngine;
 
 public class MovementSystem : SystemBase<MovementComponent>
 {
@@ -31,5 +30,10 @@ public class MovementSystem : SystemBase<MovementComponent>
                 ToDelete.Add(component.Key);
             }
         }
+    }
+
+    public override int GetPhaseLength()
+    {
+        return Components.Max(c=>c.Value.Positions.Count);
     }
 }

@@ -7,6 +7,8 @@ public class MapController : MonoBehaviour
     public Tilemap tileMap;
     public Transform Pointer;
     public Grid grid;
+    
+    public PathFinder PathFinder { get; private set; }
 
     private MapData[][] _mapDatas;
     private bool _isInited;
@@ -17,6 +19,7 @@ public class MapController : MonoBehaviour
     {
         MapContructor contructor = new MapContructor();
         _mapDatas = contructor.GenerateMap(tileMap);
+        PathFinder = new PathFinder(_mapDatas);
         _isInited = true;
     }
 
@@ -29,15 +32,16 @@ public class MapController : MonoBehaviour
 
             var i = tile.x;
             var j = tile.y;
-            bool isShow = i > 0 && i < _mapDatas.Length && j > 0 && j < _mapDatas[0].Length && _mapDatas[i][j] != MapData.Wall;
+            bool isShow = IsInBounds(tile)&& _mapDatas[i][j] != MapData.Wall;
             Pointer.position = isShow ? tileMap.GetCellCenterWorld(new Vector3Int(tile.x, tile.y, tile.z)) : HidePos;
         }
     }
 
-    public Vector3 SetToPosition(MapData objectToMove, Vector3Int position)
+    public Vector3 SetToPosition(MapData objectToMove, Point position)
     {
-        var worldPos = tileMap.GetCellCenterWorld(position);
-        _mapDatas[position.x][position.y] = objectToMove;
+        var tile = new Vector3Int(position.X, position.Y, 0);
+        var worldPos = tileMap.GetCellCenterWorld(tile);
+        _mapDatas[position.X][position.Y] = objectToMove;
         return worldPos;
     }
 
@@ -51,6 +55,23 @@ public class MapController : MonoBehaviour
     {
         var mouse = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         return grid.WorldToCell(mouse);
+    }
+
+    public Vector3Int GetTileByVector3(Vector3 pos)
+    {
+        return grid.WorldToCell(pos);
+    }
+
+    public bool IsWalkable(Vector3Int tile)
+    {
+        return IsInBounds(tile) && _mapDatas[tile.x][tile.y] == MapData.Empty;
+    }
+
+    private bool IsInBounds(Vector3Int tile)
+    {
+        var i = tile.x;
+        var j = tile.y;
+        return i > 0 && i < _mapDatas.Length && j > 0 && j < _mapDatas[0].Length;
     }
 
 }

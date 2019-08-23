@@ -20,9 +20,14 @@ public class PredictionMap : MonoBehaviour
         ch.transform.position = position;
     }
 
-    public void DrawPath()
+    public void DrawPath(List<Point> path)
     {
-
+        ClearTiles();
+        TileBase tile = ResourceManager.Instance.TileBases[(int)TileType.Path];
+        foreach (var point in path)
+        {
+            _predictionTilemap.SetTile(new Vector3Int(point.X, point.Y, 0), tile);
+        }
     }
 
     public void ClearPrediction()
@@ -34,7 +39,7 @@ public class PredictionMap : MonoBehaviour
         }
     }
 
-    private void ClearTiles()
+    public void ClearTiles()
     {
         _predictionTilemap.ClearAllTiles();
     }

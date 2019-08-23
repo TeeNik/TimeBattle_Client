@@ -23,6 +23,8 @@ public abstract class SystemBase<T> where T : ComponentBase
 
     public abstract void UpdateImpl();
 
+    public abstract int GetPhaseLength();
+
     public void AddComponent(int entityId, T component)
     {
         Components.Add(entityId, component);

@@ -5,9 +5,9 @@ using UnityEngine;
 public class MovementComponent : ComponentBase
 {
     public bool IsInitial;
-    public List<Vector3Int> Positions;
+    public List<Point> Positions;
 
-    public MovementComponent(bool isInitial, List<Vector3Int> positions)
+    public MovementComponent(bool isInitial, List<Point> positions)
     {
         IsInitial = isInitial;
         Positions = positions;

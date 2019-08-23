@@ -21,6 +21,7 @@ public class CharacterActionController : MonoBehaviour
     private ActionInput _selectedInput;
     private Dictionary<ActionType, ActionInput> _actionInputs;
     private List<ActionButton> _actionButtons;
+    private Character _selectedChar;
 
     void Start()
     {
@@ -30,6 +31,7 @@ public class CharacterActionController : MonoBehaviour
 
     public void ShowActionPanel(Character ch)
     {
+        _selectedChar = ch;
         ActionPanel.SetActive(true);
         SelectionTarget.position = ch.transform.position;
 
@@ -43,6 +45,7 @@ public class CharacterActionController : MonoBehaviour
 
     public void HideActionPanel()
     {
+        _selectedChar = null;
         ActionPanel.SetActive(false);
     }
 
@@ -63,7 +66,7 @@ public class CharacterActionController : MonoBehaviour
             }
             else
             {
-                _selectedInput.Update();
+                _selectedInput.Update(_selectedChar);
             }
         }
     }

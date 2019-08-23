@@ -1,6 +1,13 @@
 ﻿using UnityEngine;
 using UnityEngine.Tilemaps;
 
+public enum TileType
+{
+    Wall,
+    Floor,
+    Path
+}
+
 public class MapContructor
 {
     private const int Width = 17;
@@ -32,15 +39,8 @@ public class MapContructor
             {
                 var value = (MapData) _map[i][j];
                 mapData[i][j] = value;
-
-                if (value == MapData.Wall)
-                {
-                    tilemap.SetTile(new Vector3Int(i, j, 0), bases[0]);
-                }
-                else
-                {
-                    tilemap.SetTile(new Vector3Int(i, j, 0), bases[1]);
-                }
+                var tileType = value == MapData.Wall ? TileType.Wall : TileType.Floor;
+                tilemap.SetTile(new Vector3Int(i, j, 0), bases[(int)tileType]);
             }
         }
 

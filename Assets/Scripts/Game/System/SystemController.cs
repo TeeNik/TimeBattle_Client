@@ -26,4 +26,9 @@
                 break;
         }
     }
+
+    public int GetMaxPhaseLength()
+    {
+        return MovementSystem.GetPhaseLength();
+    }
 }
