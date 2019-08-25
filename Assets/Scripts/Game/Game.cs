@@ -11,6 +11,7 @@ public class Game : MonoBehaviour
     public EntityManager EntityManager { get; private set; }
     public MapController MapController;
     public InputDataController InputController;
+    public PlayerType PlayerType = PlayerType.Player1;
 
     private List<ActionDto> _turnData;
 
@@ -88,6 +89,10 @@ public class Game : MonoBehaviour
         {
             SystemController.UpdateSystems();
             _currentPhaseAction++;
+        }
+        else
+        {
+            SystemController.ShootingSystem.ClearSystem();
         }
     }
 }

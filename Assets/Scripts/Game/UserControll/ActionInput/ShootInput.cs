@@ -28,34 +28,26 @@ public class ShootInput : ActionInput
 
     public void Update(Character ch)
     {
-        Debug.Log(Time.time);
         var map = Game.I.MapController;
-
         var position = Game.I.SystemController.PositionSystem.GetComponent(ch.Id).Position;
-
         var tile = map.GetTileByMouse();
-
-        List<Point> range = null;
         Weapon weapon = ch.Weapon;
 
-        if(tile.y < position.Y)
+        List<Point> range;
+        if (tile.y < position.Y)
         {
-            Debug.Log("Left");
             range = weapon.Left;
         }
         else if (tile.y > position.Y)
         {
-            Debug.Log("Right");
             range = weapon.Right;
-        } 
+        }
         else if (tile.x > position.X)
         {
-            Debug.Log("Down");
             range = weapon.Down;
         }
         else
         {
-            Debug.Log("Up");
             range = weapon.Up;
         }
 

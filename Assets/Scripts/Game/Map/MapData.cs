@@ -2,7 +2,7 @@
 {
     Wall,
     Empty,
-    Player,
-    Enemy,
+    Player1,
+    Player2,
     Cover
 }

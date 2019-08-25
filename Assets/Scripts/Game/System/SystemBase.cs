@@ -32,6 +32,11 @@ public abstract class SystemBase<T> where T : ComponentBase
         Components.Remove(entityId);
     }
 
+    public void ClearSystem()
+    {
+        Components.Clear();
+    }
+
     public T GetComponent(int entityId)
     {
         return Components[entityId];

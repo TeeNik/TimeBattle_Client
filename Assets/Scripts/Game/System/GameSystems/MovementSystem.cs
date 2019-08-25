@@ -18,8 +18,9 @@ public class MovementSystem : GameSystem<MovementComponent>
 
             var system = Game.I.SystemController;
             var position = system.PositionSystem.GetComponent(entity.Id);
-
-            var pos = map.MoveToPosition(MapData.Player, position.Position, nextPosition);
+            var info = system.OperativeInfoSystem.GetComponent(entity.Id);
+            var mapData = info.Owner == PlayerType.Player1 ? MapData.Player1 : MapData.Player2;
+            var pos = map.MoveToPosition(mapData, position.Position, nextPosition);
             position.Position = nextPosition;
 
             ++_moving;

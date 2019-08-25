@@ -84,4 +84,15 @@ public class MapController : MonoBehaviour
         return i > 0 && i < _mapDatas.Length && j > 0 && j < _mapDatas[0].Length;
     }
 
+    private bool IsInBounds(Point p)
+    {
+        var i = p.X;
+        var j = p.Y;
+        return i > 0 && i < _mapDatas.Length && j > 0 && j < _mapDatas[0].Length;
+    }
+
+    public bool HasEnemy(Point p, MapData enemy)
+    {
+        return IsInBounds(p) && _mapDatas[p.X][p.Y] == enemy;
+    }
 }

@@ -17,10 +17,16 @@ public class ShootingSystem : GameSystem<ShootComponent>
         foreach (var component in Components)
         {
             var range = component.Value.Range;
-
+            var enemy = Utils.PlayerTypeToMap(Utils.GetOppositePlayer());
             foreach(var point in range)
             {
+                var hasEnemy = map.HasEnemy(point, enemy);
 
+                if (hasEnemy)
+                {
+                    Debug.Log("Shoot!!!");
+                    break;
+                }
             }
         }
     }

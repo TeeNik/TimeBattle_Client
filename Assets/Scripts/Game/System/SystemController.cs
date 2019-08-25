@@ -3,16 +3,21 @@
 
     public readonly MovementSystem MovementSystem;
     public readonly PositionSystem PositionSystem;
+    public readonly OperativeInfoSystem OperativeInfoSystem;
+    public readonly ShootingSystem ShootingSystem;
 
     public SystemController()
     {
         MovementSystem = new MovementSystem();
         PositionSystem = new PositionSystem();
+        OperativeInfoSystem = new OperativeInfoSystem();
+        ShootingSystem = new ShootingSystem();
     }
 
     public void UpdateSystems()
     {
         MovementSystem.Update();
+        ShootingSystem.Update();
     }
 
     public void ProcessData(int entityId, ActionPhase phase)

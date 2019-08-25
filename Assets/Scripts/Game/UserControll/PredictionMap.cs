@@ -18,6 +18,7 @@ public class PredictionMap : MonoBehaviour
         var position = map.GetTilePositionByMouse();
         var ch = Instantiate(ResourceManager.Instance.CharacterPrediction, _parent);
         ch.transform.position = position;
+        _objectsPrediction.Add(ch);
     }
 
     public void DrawPath(List<Point> path)
@@ -35,9 +36,9 @@ public class PredictionMap : MonoBehaviour
         ClearTiles();
         foreach (var o in _objectsPrediction)
         {
-            _objectsPrediction.Remove(o);
             Destroy(o.gameObject);
         }
+        _objectsPrediction.Clear();
     }
 
     public void ClearTiles()
