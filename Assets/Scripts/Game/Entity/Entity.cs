@@ -22,4 +22,6 @@ public abstract class Entity : MonoBehaviour
     {
         Components.Remove(component);
     }
+
+
 }

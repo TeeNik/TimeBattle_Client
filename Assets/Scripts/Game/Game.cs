@@ -44,7 +44,20 @@ public class Game : MonoBehaviour
     //TODO Replace by server event
     private void InitialEvent()
     {
-        EntityManager.CreatePlayer();
+        var spawn1 = new SpawnEntityDto();
+        spawn1.operativeInfo = new OperativeInfoCmponent(PlayerType.Player1, OperativeType.Soldier);
+        spawn1.spawnPosition = new PositionComponent(new Point(8, 8));
+
+        var spawn2 = new SpawnEntityDto();
+        spawn2.operativeInfo = new OperativeInfoCmponent(PlayerType.Player2, OperativeType.Soldier);
+        spawn2.spawnPosition = new PositionComponent(new Point(9, 4));
+
+
+        EntityManager.CreatePlayer(spawn1);
+        EntityManager.CreatePlayer(spawn2);
+
+
+
         SendSystemUpdate();
     }
 
@@ -52,15 +65,11 @@ public class Game : MonoBehaviour
     {
         _turnData = data.ToList();
         _currentPhase = 0;
+        ProducePhase();
     }
 
     public void ProducePhase()
     {
-        if (_currentPhaseAction < SystemController.GetMaxPhaseLength())
-        {
-
-        }
-
         foreach (var dto in _turnData)
         {
             if (dto.phases.Count > _currentPhase)
@@ -68,7 +77,17 @@ public class Game : MonoBehaviour
                 SystemController.ProcessData(dto.entityId, dto.phases[_currentPhase]);
             }
         }
-        SystemController.UpdateSystems();
-        //++_currentPhase;
+
+        ++_currentPhase;
+        IterateOverPhase();
+    }
+
+    public void IterateOverPhase()
+    {
+        if (SystemController.IsProcessing())
+        {
+            SystemController.UpdateSystems();
+            _currentPhaseAction++;
+        }
     }
 }

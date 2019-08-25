@@ -32,10 +32,11 @@ public class PredictionMap : MonoBehaviour
 
     public void ClearPrediction()
     {
+        ClearTiles();
         foreach (var o in _objectsPrediction)
         {
             _objectsPrediction.Remove(o);
-            Destroy(o);
+            Destroy(o.gameObject);
         }
     }
 

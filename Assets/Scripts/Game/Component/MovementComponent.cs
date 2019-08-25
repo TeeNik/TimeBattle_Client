@@ -4,12 +4,10 @@ using UnityEngine;
 
 public class MovementComponent : ComponentBase
 {
-    public bool IsInitial;
     public List<Point> Positions;
 
-    public MovementComponent(bool isInitial, List<Point> positions)
+    public MovementComponent(List<Point> positions)
     {
-        IsInitial = isInitial;
         Positions = positions;
     }
 }

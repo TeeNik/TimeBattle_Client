@@ -1,24 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using UnityEngine;
-
-public class Point
-{
-    public int X;
-    public int Y;
-
-    public Point(int x, int y)
-    {
-        X = x;
-        Y = y;
-    }
-
-    public bool Equals(Point other)
-    {
-        return X == other.X && Y == other.Y;
-    }
-}
 
 public class PathFinder
 {
@@ -110,6 +94,7 @@ public class PathFinder
             currentNode = currentNode.Parent;
         }
         result.Reverse();
+        result.RemoveAt(0);
         return result;
     }
 

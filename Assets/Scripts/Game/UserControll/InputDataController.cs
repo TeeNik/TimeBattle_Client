@@ -64,6 +64,7 @@ public class InputDataController : MonoBehaviour
 
     public void ProduceSystemUpdate()
     {
+        ActionController.ClearPrediction();
         Game.I.OnTurnData(_storedInputs);
         _storedInputs.Clear();
     }

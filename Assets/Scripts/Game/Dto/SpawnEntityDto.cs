@@ -6,6 +6,6 @@
 public class SpawnEntityDto
 {
     public int entityId;
-    public OperativeType operativeType;
-    public MovementComponent spawnPosition;
+    public OperativeInfoCmponent operativeInfo;
+    public PositionComponent spawnPosition;
 }

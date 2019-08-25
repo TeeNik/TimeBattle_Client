@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.Tilemaps;
 
 public class MapController : MonoBehaviour
@@ -42,6 +43,15 @@ public class MapController : MonoBehaviour
         var tile = new Vector3Int(position.X, position.Y, 0);
         var worldPos = tileMap.GetCellCenterWorld(tile);
         _mapDatas[position.X][position.Y] = objectToMove;
+        return worldPos;
+    }
+
+    public Vector3 MoveToPosition(MapData objectToMove, Point from, Point to)
+    {
+        var tile = new Vector3Int(to.X, to.Y, 0);
+        var worldPos = tileMap.GetCellCenterWorld(tile);
+        _mapDatas[from.X][from.Y] = MapData.Empty;
+        _mapDatas[to.X][to.Y] = objectToMove;
         return worldPos;
     }
 

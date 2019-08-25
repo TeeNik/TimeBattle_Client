@@ -90,5 +90,11 @@ public class CharacterActionController : MonoBehaviour
         _actionInputs = new Dictionary<ActionType, ActionInput>();
 
         _actionInputs.Add(ActionType.Move, new MoveInput(PredictionMap));
+        _actionInputs.Add(ActionType.Shoot, new ShootInput(PredictionMap));
+    }
+
+    public void ClearPrediction()
+    {
+        PredictionMap.ClearPrediction();
     }
 }

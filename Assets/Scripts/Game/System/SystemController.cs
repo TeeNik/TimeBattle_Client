@@ -2,10 +2,12 @@
 {
 
     public readonly MovementSystem MovementSystem;
+    public readonly PositionSystem PositionSystem;
 
     public SystemController()
     {
         MovementSystem = new MovementSystem();
+        PositionSystem = new PositionSystem();
     }
 
     public void UpdateSystems()
@@ -27,8 +29,8 @@
         }
     }
 
-    public int GetMaxPhaseLength()
+    public bool IsProcessing()
     {
-        return MovementSystem.GetPhaseLength();
+        return MovementSystem.IsProcessing();
     }
 }

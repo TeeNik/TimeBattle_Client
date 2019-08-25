@@ -17,14 +17,13 @@ public class EntityManager
         return Entities[id];
     }
 
-    public void CreatePlayer()
+    public void CreatePlayer(SpawnEntityDto dto)
     {
         var playerPrefab = ResourceManager.Instance.CharacterPrefab;
         var character = GameObject.Instantiate(playerPrefab);
         character.Init(_idCounter);
         Entities.Add(_idCounter, character);
-        var moveComp = new MovementComponent(true, new List<Point>() {new Point(8,8)});
-        Game.I.SystemController.MovementSystem.AddComponent(_idCounter, moveComp);
+        Game.I.SystemController.PositionSystem.AddComponent(_idCounter, dto.spawnPosition);
 
         ++_idCounter;
     }
