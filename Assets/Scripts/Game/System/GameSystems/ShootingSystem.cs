@@ -17,7 +17,8 @@ public class ShootingSystem : GameSystem<ShootComponent>
         foreach (var component in Components)
         {
             var range = component.Value.Range;
-            var enemy = Utils.PlayerTypeToMap(Utils.GetOppositePlayer());
+            var info = system.OperativeInfoSystem.GetComponent(component.Key);
+            var enemy = Utils.PlayerTypeToMap(Utils.GetOppositePlayer(info.Owner));
             foreach(var point in range)
             {
                 var hasEnemy = map.HasEnemy(point, enemy);

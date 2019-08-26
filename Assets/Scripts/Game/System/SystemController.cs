@@ -30,6 +30,7 @@
                 MovementSystem.AddComponent(entityId, (MovementComponent)phase.component);
                 break;
             case ActionType.Shoot:
+                ShootingSystem.AddComponent(entityId, (ShootComponent)phase.component);
                 break;
         }
     }

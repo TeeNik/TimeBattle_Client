@@ -56,7 +56,7 @@ public class ShootInput : ActionInput
         {
             toDraw.Add(position.Sum(point));
         }
-
+        _range = toDraw;
         _prediction.DrawPath(toDraw);
     }
 }

@@ -15,9 +15,9 @@ public static class Utils
         return player == PlayerType.Player1 ? MapData.Player1 : MapData.Player2;
     }
 
-    public static PlayerType GetOppositePlayer()
+    public static PlayerType GetOppositePlayer(PlayerType type)
     {
-        return Game.I.PlayerType == PlayerType.Player1 ? PlayerType.Player2 : PlayerType.Player1;
+        return type == PlayerType.Player1 ? PlayerType.Player2 : PlayerType.Player1;
     }
 
 }
