@@ -5,15 +5,16 @@ public class MovementComponent : ComponentBase
     public List<Point> Path;
     public Point Position;
 
-    public void Update(MovementComponent data)
+    public void Update(ComponentBase data)
     {
-        if (data.Position != null)
+        var mc = (MovementComponent)data;
+        if (mc.Position != null)
         {
-            Position = data.Position;
+            Position = mc.Position;
         }
-        if (data.Path != null)
+        if (mc.Path != null)
         {
-            Path = data.Path;
+            Path = mc.Path;
         }
     }
 }

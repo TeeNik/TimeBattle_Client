@@ -4,9 +4,6 @@ using System.Collections.Generic;
 public class SystemController
 {
 
-    //public readonly PositionSystem PositionSystem;
-    public readonly OperativeInfoSystem OperativeInfoSystem;
-
     public Dictionary<Type, ISystem> Systems { get; private set; }
 
     public SystemController()
@@ -15,30 +12,25 @@ public class SystemController
 
         Systems.Add(typeof(MovementComponent), new MovementSystem());
         Systems.Add(typeof(ShootComponent), new ShootingSystem());
-
-        //PositionSystem = new PositionSystem();
-        OperativeInfoSystem = new OperativeInfoSystem();
+        Systems.Add(typeof(OperativeInfoCmponent), new OperativeInfoSystem());
     }
 
     public void UpdateSystems()
     {
-        MovementSystem.Update();
-        ShootingSystem.Update();
-
-        MovementSystem
     }
 
     public void ProcessData(int entityId, ActionPhase phase)
     {
+        var entity = Game.I.EntityManager.GetEntity(entityId);
         switch (phase.type)
         {
             case ActionType.None:
                 break;
             case ActionType.Move:
-                MovementSystem.AddComponent(entityId, (MovementComponent)phase.component);
+                entity.GetComponent<MovementComponent>().Update(phase.component);
                 break;
             case ActionType.Shoot:
-                ShootingSystem.AddComponent(entityId, (ShootComponent)phase.component);
+                entity.GetComponent<ShootComponent>().Update(phase.component);
                 break;
         }
     }

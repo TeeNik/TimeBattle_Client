@@ -1,4 +1,4 @@
 ﻿public interface ComponentBase
 {
-    void Update(ComponentBase b);
+    void Update(ComponentBase newData);
 }

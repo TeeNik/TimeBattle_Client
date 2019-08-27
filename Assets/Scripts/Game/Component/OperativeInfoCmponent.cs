@@ -15,4 +15,8 @@ public class OperativeInfoCmponent : ComponentBase
         Owner = owner;
         OperativeType = operativeType;
     }
+
+    public void Update(ComponentBase newData)
+    {
+    }
 }

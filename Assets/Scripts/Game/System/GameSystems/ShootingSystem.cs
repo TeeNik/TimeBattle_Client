@@ -4,15 +4,17 @@ using UnityEngine;
 
 public class ShootingSystem : ISystem
 {
+    private Dictionary<int, ShootComponent> _components = new Dictionary<int, ShootComponent>();
+
     public void Update()
     {
         var map = Game.I.MapController;
-        var system = Game.I.SystemController;
 
-        foreach (var component in Components)
+        foreach (var component in _components)
         {
             var range = component.Value.Range;
-            var info = system.OperativeInfoSystem.GetComponent(component.Key);
+            var entity = Game.I.EntityManager.GetEntity(component.Key);
+            var info = entity.GetComponent<OperativeInfoCmponent>();
             var enemy = Utils.PlayerTypeToMap(Utils.GetOppositePlayer(info.Owner));
             foreach(var point in range)
             {
@@ -27,13 +29,14 @@ public class ShootingSystem : ISystem
         }
     }
 
-    public void AddComponent(ComponentBase component)
+    public void AddComponent(int entityId, ComponentBase component)
     {
-        
+        _components.Add(entityId, (ShootComponent)component);
     }
 
     public bool IsProcessing()
     {
         return false;
     }
+
 }

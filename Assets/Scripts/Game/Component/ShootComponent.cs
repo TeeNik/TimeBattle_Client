@@ -8,4 +8,13 @@ public class ShootComponent : ComponentBase
     {
         Range = range;
     }
+
+    public void Update(ComponentBase newData)
+    {
+        var sc = (ShootComponent)newData;
+        if(sc.Range != null)
+        {
+            Range = sc.Range;
+        }
+    }
 }
