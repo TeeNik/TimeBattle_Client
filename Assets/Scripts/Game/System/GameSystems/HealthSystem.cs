@@ -4,6 +4,21 @@ using UnityEngine;
 
 public class HealthSystem : SystemBase<HealthComponent>
 {
+    private EventListener _eventListener;
+
+    public HealthSystem()
+    {
+        _eventListener = new EventListener();
+        _eventListener.Add(Game.I.Messages.Subscribe<TakeDamageMsg>(OnTakeDamageMsg));
+    }
+
+    private void OnTakeDamageMsg(TakeDamageMsg msg)
+    {
+        var entity = (Character)Game.I.EntityManager.GetEntity(msg.EntityId);
+        var health = ()
+
+    }
+
     public override void UpdateImpl()
     {
     }

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -9,6 +10,7 @@ public class Game : MonoBehaviour
 
     public SystemController SystemController { get; private set; }
     public EntityManager EntityManager { get; private set; }
+    public GameEventDispatcher Messages { get; private set; }
     public MapController MapController;
     public InputDataController InputController;
     public PlayerType PlayerType = PlayerType.Player1;
@@ -25,10 +27,14 @@ public class Game : MonoBehaviour
         StartCoroutine(DelayedStart());
     }
 
+
+    private EventListener _eventListener;
+
     IEnumerator DelayedStart()
     {
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(1);
 
+        Messages = new GameEventDispatcher();
         SystemController = new SystemController();
         EntityManager = new EntityManager();
         MapController.Init();
@@ -94,5 +100,10 @@ public class Game : MonoBehaviour
         {
             SystemController.ShootingSystem.ClearSystem();
         }
+    }
+
+    void OnDestroy()
+    {
+        Messages.Dispose();
     }
 }
