@@ -47,4 +47,5 @@ public interface ISystem
 {
     void Update();
     void AddComponent(int entityId, ComponentBase component);
+    bool IsProcessing();
 }

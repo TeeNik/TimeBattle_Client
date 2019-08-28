@@ -2,7 +2,7 @@
 
 public class ShootComponent : ComponentBase
 {
-    public readonly List<Point> Range;
+    public List<Point> Range;
 
     public ShootComponent(List<Point> range)
     {

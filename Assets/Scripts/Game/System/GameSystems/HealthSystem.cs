@@ -1,8 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class HealthSystem : SystemBase<HealthComponent>
+﻿public class HealthSystem : ISystem
 {
     private EventListener _eventListener;
 
@@ -15,17 +11,20 @@ public class HealthSystem : SystemBase<HealthComponent>
     private void OnTakeDamageMsg(TakeDamageMsg msg)
     {
         var entity = (Character)Game.I.EntityManager.GetEntity(msg.EntityId);
-
     }
 
-    public override void UpdateImpl()
+    public void Update()
     {
+        
     }
 
-    public override void OnComponentAdded(int entityId, HealthComponent component)
+    public void AddComponent(int entityId, ComponentBase component)
     {
-        base.OnComponentAdded(entityId, component);
+        
+    }
 
-        var entity = Game.I.EntityManager.GetEntity(entityId);
+    public bool IsProcessing()
+    {
+        return false;
     }
 }

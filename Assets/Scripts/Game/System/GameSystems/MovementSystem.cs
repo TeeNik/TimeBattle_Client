@@ -46,8 +46,6 @@ public class MovementSystem : ISystem
 
     public bool IsProcessing()
     {
-        return _components.Count > 0;
+        return _components.Any(c=>c.Value.Path != null);
     }
-
-
 }
