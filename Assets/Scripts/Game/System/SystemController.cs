@@ -1,23 +1,31 @@
-﻿public class SystemController
+﻿using System;
+using System.Collections.Generic;
+
+public class SystemController
 {
 
-    public readonly MovementSystem MovementSystem;
-    public readonly PositionSystem PositionSystem;
+    //public readonly PositionSystem PositionSystem;
     public readonly OperativeInfoSystem OperativeInfoSystem;
-    public readonly ShootingSystem ShootingSystem;
+
+    public Dictionary<Type, ISystem> Systems { get; private set; }
 
     public SystemController()
     {
-        MovementSystem = new MovementSystem();
-        PositionSystem = new PositionSystem();
+        Systems = new Dictionary<Type, ISystem>();
+
+        Systems.Add(typeof(MovementComponent), new MovementSystem());
+        Systems.Add(typeof(ShootComponent), new ShootingSystem());
+
+        //PositionSystem = new PositionSystem();
         OperativeInfoSystem = new OperativeInfoSystem();
-        ShootingSystem = new ShootingSystem();
     }
 
     public void UpdateSystems()
     {
         MovementSystem.Update();
         ShootingSystem.Update();
+
+        MovementSystem
     }
 
     public void ProcessData(int entityId, ActionPhase phase)

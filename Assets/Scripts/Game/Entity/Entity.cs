@@ -23,5 +23,9 @@ public abstract class Entity : MonoBehaviour
         Components.Remove(component);
     }
 
-
+    public T GetEcsComponent<T>()
+    {
+        var component = (T)Components.Find(c => c.GetType() == typeof(T));
+        return component;
+    }
 }

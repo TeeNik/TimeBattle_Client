@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 
-public abstract class SystemBase<T> where T : ComponentBase
+/*public abstract class SystemBase<T> where T : ComponentBase
 {
     protected Dictionary<int, T> Components;
-    
+
     protected SystemBase()
     {
         Components = new Dictionary<int, T>();
@@ -41,4 +41,10 @@ public abstract class SystemBase<T> where T : ComponentBase
     {
         return Components[entityId];
     }
+}*/
+
+public interface ISystem
+{
+    void Update();
+    void AddComponent(int entityId, ComponentBase component);
 }

@@ -1,35 +1,37 @@
-﻿using DG.Tweening;
+﻿using System.Collections.Generic;
+using DG.Tweening;
 using System.Linq;
 
-public class MovementSystem : GameSystem<MovementComponent>
+public class MovementSystem : ISystem
 {
     private int _moving = 0;
 
-    public override void UpdateImpl()
+    private Dictionary<int, MovementComponent> _components = new Dictionary<int, MovementComponent>();
+
+    public void AddComponent(int entityId, ComponentBase component)
     {
-        foreach (var component in Components)
+        _components.Add(entityId, (MovementComponent) component);
+    }
+
+    public void Update()
+    {
+        foreach (var component in _components)
         {
             var entity = Game.I.EntityManager.GetEntity(component.Key);
             var data = component.Value;
             var map = Game.I.MapController;
 
-            var nextPosition = data.Positions.First();
-            data.Positions.Remove(nextPosition);
+            var nextPosition = data.Path.First();
+            data.Path.Remove(nextPosition);
 
-            var system = Game.I.SystemController;
-            var position = system.PositionSystem.GetComponent(entity.Id);
-            var info = system.OperativeInfoSystem.GetComponent(entity.Id);
+            var position = component.Value.Position;
+            var info = entity.GetComponent<OperativeInfoCmponent>();
             var mapData = info.Owner == PlayerType.Player1 ? MapData.Player1 : MapData.Player2;
-            var pos = map.MoveToPosition(mapData, position.Position, nextPosition);
-            position.Position = nextPosition;
+            var pos = map.MoveToPosition(mapData, position, nextPosition);
+            position = nextPosition;
 
             ++_moving;
             entity.transform.DOMove(pos, 1f).SetSpeedBased().SetEase(Ease.Linear).OnComplete(OnStopMoving);
-
-            if (data.Positions.Count == 0)
-            {
-                ToDelete.Add(component.Key);
-            }
         }
     }
 
@@ -42,8 +44,10 @@ public class MovementSystem : GameSystem<MovementComponent>
         }
     }
 
-    public override bool IsProcessing()
+    public bool IsProcessing()
     {
-        return Components.Count > 0;
+        return _components.Count > 0;
     }
+
+
 }

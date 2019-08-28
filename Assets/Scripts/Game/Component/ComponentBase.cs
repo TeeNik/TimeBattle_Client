@@ -1,3 +1,4 @@
-﻿public abstract class ComponentBase
+﻿public interface ComponentBase
 {
+    void Update(ComponentBase b);
 }

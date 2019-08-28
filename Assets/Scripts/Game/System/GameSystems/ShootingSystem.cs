@@ -2,14 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ShootingSystem : GameSystem<ShootComponent>
+public class ShootingSystem : ISystem
 {
-    public override bool IsProcessing()
-    {
-        return false;
-    }
-
-    public override void UpdateImpl()
+    public void Update()
     {
         var map = Game.I.MapController;
         var system = Game.I.SystemController;
@@ -30,5 +25,15 @@ public class ShootingSystem : GameSystem<ShootComponent>
                 }
             }
         }
+    }
+
+    public void AddComponent(ComponentBase component)
+    {
+        
+    }
+
+    public bool IsProcessing()
+    {
+        return false;
     }
 }

@@ -1,4 +1,4 @@
-﻿public class PositionSystem : SystemBase<PositionComponent>
+﻿/*public class PositionSystem : SystemBase<PositionComponent>
 {
 
     public override void OnComponentAdded(int entityId, PositionComponent component)
@@ -15,4 +15,5 @@
     {
 
     }
-}
+
+}*/

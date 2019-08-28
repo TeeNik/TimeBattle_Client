@@ -15,7 +15,6 @@ public class HealthSystem : SystemBase<HealthComponent>
     private void OnTakeDamageMsg(TakeDamageMsg msg)
     {
         var entity = (Character)Game.I.EntityManager.GetEntity(msg.EntityId);
-        var health = ()
 
     }
 

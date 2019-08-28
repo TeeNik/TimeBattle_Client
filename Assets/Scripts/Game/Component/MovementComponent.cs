@@ -1,13 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using System.Collections.Generic;
 
 public class MovementComponent : ComponentBase
 {
-    public List<Point> Positions;
+    public List<Point> Path;
+    public Point Position;
 
-    public MovementComponent(List<Point> positions)
+    public void Update(MovementComponent data)
     {
-        Positions = positions;
+        if (data.Position != null)
+        {
+            Position = data.Position;
+        }
+        if (data.Path != null)
+        {
+            Path = data.Path;
+        }
     }
 }
