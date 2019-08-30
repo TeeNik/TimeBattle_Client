@@ -24,10 +24,9 @@ public class PathFinder
 
     public List<Point> FindPath(Point start, Point goal, bool allowDiagonal)
     {
-        // Шаг 1.
         var closedSet = new Collection<PathNode>();
         var openSet = new Collection<PathNode>();
-        // Шаг 2.
+
         PathNode startNode = new PathNode()
         {
             Position = start,
@@ -38,39 +37,32 @@ public class PathFinder
         openSet.Add(startNode);
         while (openSet.Count > 0)
         {
-            // Шаг 3.
+            
             var currentNode = openSet.OrderBy(node => node.FullLength).First();
-            // Шаг 4.
             if (currentNode.Position.Equals(goal))
             {
                 return GetPathForNode(currentNode);
             }
-            // Шаг 5.
             openSet.Remove(currentNode);
             closedSet.Add(currentNode);
-            // Шаг 6.
             foreach (var neighbourNode in GetNeighbours(currentNode, goal, allowDiagonal))
             {
-                // Шаг 7.
                 if (closedSet.Count(node => node.Position.Equals(neighbourNode.Position)) > 0)
                 {
                     continue;
                 }
                 var openNode = openSet.FirstOrDefault(node => node.Position.Equals(neighbourNode.Position));
-                // Шаг 8.
                 if (openNode == null)
                 {
                     openSet.Add(neighbourNode);
                 }
                 else if (openNode.LengthFromStart > neighbourNode.LengthFromStart)
                 {
-                    // Шаг 9.
                     openNode.Parent = currentNode;
                     openNode.LengthFromStart = neighbourNode.LengthFromStart;
                 }
             }
         }
-        // Шаг 10.
         return null;
     }
 

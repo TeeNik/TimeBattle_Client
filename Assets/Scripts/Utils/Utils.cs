@@ -20,4 +20,16 @@ public static class Utils
         return type == PlayerType.Player1 ? PlayerType.Player2 : PlayerType.Player1;
     }
 
+    public static Type ActionTypeToComponent(ActionType type)
+    {
+        switch (type)
+        {
+            case ActionType.Move:
+                return typeof(MovementComponent);
+            case ActionType.Shoot:
+                return typeof(ShootComponent);
+        }
+        throw new ArgumentException();
+    }
+
 }

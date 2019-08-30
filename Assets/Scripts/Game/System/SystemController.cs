@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 public class SystemController
 {
@@ -17,26 +18,21 @@ public class SystemController
 
     public void UpdateSystems()
     {
+        foreach (var system in Systems.Values)
+        {
+            system.Update();
+        }
     }
 
     public void ProcessData(int entityId, ActionPhase phase)
     {
         var entity = Game.I.EntityManager.GetEntity(entityId);
-        switch (phase.type)
-        {
-            case ActionType.None:
-                break;
-            case ActionType.Move:
-                entity.GetComponent<MovementComponent>().Update(phase.component);
-                break;
-            case ActionType.Shoot:
-                entity.GetComponent<ShootComponent>().Update(phase.component);
-                break;
-        }
+        var comp = Utils.ActionTypeToComponent(phase.type);
+        entity.GetEcsComponent(comp).UpdateComponent(phase.component);
     }
 
     public bool IsProcessing()
     {
-        return MovementSystem.IsProcessing();
+        return Systems.Values.Any(s=>s.IsProcessing());
     }
 }

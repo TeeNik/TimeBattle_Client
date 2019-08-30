@@ -21,10 +21,9 @@ public class EntityManager
     {
         var playerPrefab = ResourceManager.Instance.CharacterPrefab;
         var character = GameObject.Instantiate(playerPrefab);
-        character.Init(_idCounter);
+        var initial = new List<ComponentBase>{dto.operativeInfo, dto.spawnPosition};
         Entities.Add(_idCounter, character);
-        Game.I.SystemController.OperativeInfoSystem.AddComponent(_idCounter, dto.operativeInfo);
-        Game.I.SystemController.PositionSystem.AddComponent(_idCounter, dto.spawnPosition);
+        character.Init(_idCounter, initial);
 
         ++_idCounter;
     }
