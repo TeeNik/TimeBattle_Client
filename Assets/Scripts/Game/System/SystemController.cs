@@ -18,7 +18,7 @@ public class SystemController
 
     public void UpdateSystems()
     {
-        foreach(var system in Systems.Values)
+        foreach (var system in Systems.Values)
         {
             system.Update();
         }
@@ -27,21 +27,12 @@ public class SystemController
     public void ProcessData(int entityId, ActionPhase phase)
     {
         var entity = Game.I.EntityManager.GetEntity(entityId);
-        switch (phase.type)
-        {
-            case ActionType.None:
-                break;
-            case ActionType.Move:
-                entity.GetEcsComponent<MovementComponent>().Update(phase.component);
-                break;
-            case ActionType.Shoot:
-                entity.GetEcsComponent<ShootComponent>().Update(phase.component);
-                break;
-        }
+        var comp = Utils.ActionTypeToComponent(phase.type);
+        entity.GetEcsComponent(comp).UpdateComponent(phase.component);
     }
 
     public bool IsProcessing()
     {
-        return Systems.Values.Any(s => s.IsProcessing());
+        return Systems.Values.Any(s=>s.IsProcessing());
     }
 }

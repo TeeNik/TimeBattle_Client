@@ -96,9 +96,6 @@ public class Game : MonoBehaviour
             SystemController.UpdateSystems();
             _currentPhaseAction++;
         }
-        else
-        {
-        }
     }
 
     void OnDestroy()

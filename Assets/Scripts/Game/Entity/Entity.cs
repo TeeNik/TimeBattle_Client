@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Assertions;
 
@@ -8,11 +10,32 @@ public abstract class Entity : MonoBehaviour
     public int Id { get; private set; }
     protected List<ComponentBase> Components;
 
-    public void Init(int id)
+    public void Init(int id, IEnumerable<ComponentBase> initial = null)
     {
         Id = id;
         Components = new List<ComponentBase>();
+
+    public void AddComponent(ComponentBase component)
+    {
+        Components.Add(component);
     }
+
+    public void RemoveComponent(ComponentBase component)
+    {
+        Components.Remove(component);
+    }
+
+    public T GetEcsComponent<T>()
+    {
+        var component = (T)Components.Find(c => c.GetType() == typeof(T));
+        return component;
+    }
+
+    public ComponentBase GetEcsComponent(Type type)
+    {
+        return Components.Find(c => c.GetType() == type);
+    }
+}
 
     public void AddComponent(ComponentBase component)
     {
@@ -22,16 +45,7 @@ public abstract class Entity : MonoBehaviour
         Assert.IsTrue(systems.ContainsKey(type), $"systems has no {type}");
         systems[type].AddComponent(this, component);
     }
-
     public void RemoveComponent(ComponentBase component)
     {
         Components.Remove(component);
         Game.I.SystemController.Systems[component.GetType()].RemoveComponent(Id);
-    }
-
-    public T GetEcsComponent<T>()
-    {
-        var component = (T)Components.Find(c => c.GetType() == typeof(T));
-        return component;
-    }
-}
