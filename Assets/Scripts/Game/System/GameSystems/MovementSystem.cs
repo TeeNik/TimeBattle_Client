@@ -8,30 +8,41 @@ public class MovementSystem : ISystem
 
     private Dictionary<int, MovementComponent> _components = new Dictionary<int, MovementComponent>();
 
-    public void AddComponent(int entityId, ComponentBase component)
+    public void AddComponent(Entity entity, ComponentBase component)
     {
-        _components.Add(entityId, (MovementComponent) component);
+        var mc = (MovementComponent)component;
+        _components.Add(entity.Id, mc);
+
+        var info = entity.GetEcsComponent<OperativeInfoCmponent>();
+        var mapData = info.Owner == PlayerType.Player1 ? MapData.Player1 : MapData.Player2;
+        var pos = Game.I.MapController.SetToPosition(mapData, mc.Position);
+        entity.transform.position = pos;
     }
 
     public void Update()
     {
+        var map = Game.I.MapController;
+
         foreach (var component in _components)
         {
-            var entity = Game.I.EntityManager.GetEntity(component.Key);
             var data = component.Value;
-            var map = Game.I.MapController;
+            if (data.Path != null)
+            {
+                var entity = Game.I.EntityManager.GetEntity(component.Key);
 
-            var nextPosition = data.Path.First();
-            data.Path.Remove(nextPosition);
+                var nextPosition = data.Path.First();
+                data.Path.Remove(nextPosition);
 
-            var position = component.Value.Position;
-            var info = entity.GetComponent<OperativeInfoCmponent>();
-            var mapData = info.Owner == PlayerType.Player1 ? MapData.Player1 : MapData.Player2;
-            var pos = map.MoveToPosition(mapData, position, nextPosition);
-            position = nextPosition;
+                var position = component.Value.Position;
+                var info = entity.GetEcsComponent<OperativeInfoCmponent>();
+                var mapData = info.Owner == PlayerType.Player1 ? MapData.Player1 : MapData.Player2;
+                var pos = map.MoveToPosition(mapData, position, nextPosition);
+                position = nextPosition;
 
-            ++_moving;
-            entity.transform.DOMove(pos, 1f).SetSpeedBased().SetEase(Ease.Linear).OnComplete(OnStopMoving);
+                ++_moving;
+                entity.transform.DOMove(pos, 1f).SetSpeedBased().SetEase(Ease.Linear).OnComplete(OnStopMoving);
+            }
+
         }
     }
 
@@ -47,5 +58,10 @@ public class MovementSystem : ISystem
     public bool IsProcessing()
     {
         return _components.Any(c=>c.Value.Path != null);
+    }
+
+    public void RemoveComponent(int entityId)
+    {
+        _components.Remove(entityId);
     }
 }

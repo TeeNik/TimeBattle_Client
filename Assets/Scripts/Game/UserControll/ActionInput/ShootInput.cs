@@ -29,7 +29,7 @@ public class ShootInput : ActionInput
     public void Update(Character ch)
     {
         var map = Game.I.MapController;
-        var position = Game.I.SystemController.PositionSystem.GetComponent(ch.Id).Position;
+        var position = ch.GetComponent<PositionComponent>().Position;
         var tile = map.GetTileByMouse();
         Weapon weapon = ch.Weapon;
 

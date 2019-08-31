@@ -6,4 +6,13 @@
     {
         Position = p;
     }
+
+    public void Update(ComponentBase newData)
+    {
+        var pc = (PositionComponent)newData;
+        if(pc.Position != null)
+        {
+            Position = pc.Position;
+        }
+    }
 }

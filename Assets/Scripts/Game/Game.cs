@@ -53,11 +53,11 @@ public class Game : MonoBehaviour
     {
         var spawn1 = new SpawnEntityDto();
         spawn1.operativeInfo = new OperativeInfoCmponent(PlayerType.Player1, OperativeType.Soldier);
-        spawn1.spawnPosition = new PositionComponent(new Point(8, 8));
+        spawn1.spawnPosition = new MovementComponent(new Point(8, 8));
 
         var spawn2 = new SpawnEntityDto();
         spawn2.operativeInfo = new OperativeInfoCmponent(PlayerType.Player2, OperativeType.Soldier);
-        spawn2.spawnPosition = new PositionComponent(new Point(9, 4));
+        spawn2.spawnPosition = new MovementComponent(new Point(9, 4));
 
 
         EntityManager.CreatePlayer(spawn1);
@@ -98,7 +98,6 @@ public class Game : MonoBehaviour
         }
         else
         {
-            SystemController.ShootingSystem.ClearSystem();
         }
     }
 

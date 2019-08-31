@@ -5,6 +5,16 @@ public class MovementComponent : ComponentBase
     public List<Point> Path;
     public Point Position;
 
+    public MovementComponent(List<Point> path)
+    {
+        Path = path;
+    }
+
+    public MovementComponent(Point point)
+    {
+        Position = point;
+    }
+
     public void Update(ComponentBase data)
     {
         var mc = (MovementComponent)data;

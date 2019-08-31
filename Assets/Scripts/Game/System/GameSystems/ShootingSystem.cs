@@ -5,7 +5,6 @@ using UnityEngine;
 public class ShootingSystem : ISystem
 {
     private Dictionary<int, ShootComponent> _components = new Dictionary<int, ShootComponent>();
-
     public void Update()
     {
         var map = Game.I.MapController;
@@ -29,9 +28,9 @@ public class ShootingSystem : ISystem
         }
     }
 
-    public void AddComponent(int entityId, ComponentBase component)
+    public void AddComponent(Entity entity, ComponentBase component)
     {
-        _components.Add(entityId, (ShootComponent)component);
+        _components.Add(entity.Id, (ShootComponent)component);
     }
 
     public bool IsProcessing()
@@ -39,4 +38,8 @@ public class ShootingSystem : ISystem
         return false;
     }
 
+    public void RemoveComponent(int entityId)
+    {
+        _components.Remove(entityId);
+    }
 }

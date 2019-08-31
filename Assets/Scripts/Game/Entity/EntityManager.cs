@@ -23,8 +23,8 @@ public class EntityManager
         var character = GameObject.Instantiate(playerPrefab);
         character.Init(_idCounter);
         Entities.Add(_idCounter, character);
-        Game.I.SystemController.OperativeInfoSystem.AddComponent(_idCounter, dto.operativeInfo);
-        Game.I.SystemController.PositionSystem.AddComponent(_idCounter, dto.spawnPosition);
+        character.AddComponent(dto.operativeInfo);
+        character.AddComponent(dto.spawnPosition);
 
         ++_idCounter;
     }
