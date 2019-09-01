@@ -1,16 +1,19 @@
 ﻿public class HealthComponent : ComponentBase
 {
 
-    public int Health;
+    public int CurrentHealth;
+    public readonly int MaxHealth;
 
-    public HealthComponent(int health)
+
+    public HealthComponent(int maxHealth)
     {
-        Health = health;
+        MaxHealth = maxHealth;
+        CurrentHealth = maxHealth;
     }
 
     public void Update(ComponentBase newData)
     {
         var hc = (HealthComponent)newData;
-        Health = hc.Health;
+        CurrentHealth = hc.CurrentHealth;
     }
 }

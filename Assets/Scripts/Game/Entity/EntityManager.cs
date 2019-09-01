@@ -17,15 +17,25 @@ public class EntityManager
         return Entities[id];
     }
 
+    public void DestroyEntity(int entityId)
+    {
+        var entity = Entities[entityId];
+        entity.ClearComponents();
+        Entities.Remove(entityId);
+        GameObject.Destroy(entity.gameObject);
+    }
+
     public void CreatePlayer(SpawnEntityDto dto)
     {
+        var maxHealth = 2;
         var playerPrefab = ResourceManager.Instance.CharacterPrefab;
         var character = GameObject.Instantiate(playerPrefab);
-        var initial = new List<ComponentBase>{dto.operativeInfo, dto.spawnPosition};
         Entities.Add(_idCounter, character);
+        character.Init(_idCounter);
         character.AddComponent(dto.operativeInfo);
+        character.AddComponent(new HealthComponent(maxHealth));
         character.AddComponent(dto.spawnPosition);
-
+        character.AddComponent(new ShootComponent(null));
         ++_idCounter;
     }
 }

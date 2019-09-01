@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class ShootingSystem : ISystem
@@ -12,17 +11,21 @@ public class ShootingSystem : ISystem
         foreach (var component in _components)
         {
             var range = component.Value.Range;
-            var entity = Game.I.EntityManager.GetEntity(component.Key);
-            var info = entity.GetComponent<OperativeInfoCmponent>();
-            var enemy = Utils.PlayerTypeToMap(Utils.GetOppositePlayer(info.Owner));
-            foreach(var point in range)
-            {
-                var hasEnemy = map.HasEnemy(point, enemy);
 
-                if (hasEnemy)
+            if (range != null)
+            {
+                var entity = Game.I.EntityManager.GetEntity(component.Key);
+                var info = entity.GetEcsComponent<OperativeInfoCmponent>();
+                var enemy = Utils.PlayerTypeToMap(Utils.GetOppositePlayer(info.Owner));
+                foreach (var point in range)
                 {
-                    Debug.Log("Shoot!!!");
-                    break;
+                    var hasEnemy = map.HasEnemy(point, enemy);
+
+                    if (hasEnemy)
+                    {
+                        Debug.Log("Shoot!!!");
+                        break;
+                    }
                 }
             }
         }

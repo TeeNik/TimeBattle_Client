@@ -26,7 +26,7 @@ public class MovementSystem : ISystem
         foreach (var component in _components)
         {
             var data = component.Value;
-            if (data.Path != null)
+            if (data.Path != null && data.Path.Count > 0)
             {
                 var entity = Game.I.EntityManager.GetEntity(component.Key);
 
@@ -36,8 +36,8 @@ public class MovementSystem : ISystem
                 var position = component.Value.Position;
                 var info = entity.GetEcsComponent<OperativeInfoCmponent>();
                 var mapData = info.Owner == PlayerType.Player1 ? MapData.Player1 : MapData.Player2;
-                var pos = map.MoveToPosition(mapData, position, nextPosition);
-                position = nextPosition;
+                var pos = map.MoveToPosition(mapData, component.Value.Position, nextPosition);
+                component.Value.Position = nextPosition;
 
                 ++_moving;
                 entity.transform.DOMove(pos, 1f).SetSpeedBased().SetEase(Ease.Linear).OnComplete(OnStopMoving);

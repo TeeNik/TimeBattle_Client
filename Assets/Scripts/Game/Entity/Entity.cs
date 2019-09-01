@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.Assertions;
 
@@ -10,19 +9,33 @@ public abstract class Entity : MonoBehaviour
     public int Id { get; private set; }
     protected List<ComponentBase> Components;
 
-    public void Init(int id, IEnumerable<ComponentBase> initial = null)
+    public void Init(int id)
     {
         Id = id;
         Components = new List<ComponentBase>();
+    }
 
     public void AddComponent(ComponentBase component)
     {
         Components.Add(component);
+        var systems = Game.I.SystemController.Systems;
+        var type = component.GetType();
+        Assert.IsTrue(systems.ContainsKey(type), $"systems has no {type}");
+        systems[type].AddComponent(this, component);
     }
 
     public void RemoveComponent(ComponentBase component)
     {
         Components.Remove(component);
+        Game.I.SystemController.Systems[component.GetType()].RemoveComponent(Id);
+    }
+
+    public void ClearComponents()
+    {
+        foreach(var comp in Components)
+        {
+            RemoveComponent(comp);
+        }
     }
 
     public T GetEcsComponent<T>()
@@ -36,16 +49,3 @@ public abstract class Entity : MonoBehaviour
         return Components.Find(c => c.GetType() == type);
     }
 }
-
-    public void AddComponent(ComponentBase component)
-    {
-        Components.Add(component);
-        var systems = Game.I.SystemController.Systems;
-        var type = component.GetType();
-        Assert.IsTrue(systems.ContainsKey(type), $"systems has no {type}");
-        systems[type].AddComponent(this, component);
-    }
-    public void RemoveComponent(ComponentBase component)
-    {
-        Components.Remove(component);
-        Game.I.SystemController.Systems[component.GetType()].RemoveComponent(Id);

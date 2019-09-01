@@ -14,6 +14,7 @@ public class SystemController
         Systems.Add(typeof(MovementComponent), new MovementSystem());
         Systems.Add(typeof(ShootComponent), new ShootingSystem());
         Systems.Add(typeof(OperativeInfoCmponent), new OperativeInfoSystem());
+        Systems.Add(typeof(HealthComponent), new HealthSystem());
     }
 
     public void UpdateSystems()
@@ -28,7 +29,7 @@ public class SystemController
     {
         var entity = Game.I.EntityManager.GetEntity(entityId);
         var comp = Utils.ActionTypeToComponent(phase.type);
-        entity.GetEcsComponent(comp).UpdateComponent(phase.component);
+        entity.GetEcsComponent(comp).Update(phase.component);
     }
 
     public bool IsProcessing()
