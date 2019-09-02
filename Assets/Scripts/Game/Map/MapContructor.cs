@@ -37,9 +37,9 @@ public class MapContructor
             mapData[i] = new MapData[Width];
             for (int j = 0; j < Width; j++)
             {
-                var value = (MapData) _map[i][j];
-                mapData[i][j] = value;
-                var tileType = value == MapData.Wall ? TileType.Wall : TileType.Floor;
+                var value = (OnMapType) _map[i][j];
+                mapData[i][j].Type = value;
+                var tileType = value == OnMapType.Wall ? TileType.Wall : TileType.Floor;
                 tilemap.SetTile(new Vector3Int(i, j, 0), bases[(int)tileType]);
             }
         }

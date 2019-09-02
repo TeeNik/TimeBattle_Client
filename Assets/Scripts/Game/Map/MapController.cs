@@ -33,12 +33,12 @@ public class MapController : MonoBehaviour
 
             var i = tile.x;
             var j = tile.y;
-            bool isShow = IsInBounds(tile)&& _mapDatas[i][j] != MapData.Wall;
+            bool isShow = IsInBounds(tile)&& _mapDatas[i][j].Type != OnMapType.Wall;
             Pointer.position = isShow ? tileMap.GetCellCenterWorld(new Vector3Int(tile.x, tile.y, tile.z)) : HidePos;
         }
     }
 
-    public Vector3 SetToPosition(MapData objectToMove, Point position)
+    public Vector3 SetToPosition(OnMapType objectToMove, Point position)
     {
         var tile = new Vector3Int(position.X, position.Y, 0);
         var worldPos = tileMap.GetCellCenterWorld(tile);
@@ -46,12 +46,13 @@ public class MapController : MonoBehaviour
         return worldPos;
     }
 
-    public Vector3 MoveToPosition(MapData objectToMove, Point from, Point to)
+    public Vector3 MoveToPosition(int id, OnMapType objectToMove, Point from, Point to)
     {
         var tile = new Vector3Int(to.X, to.Y, 0);
         var worldPos = tileMap.GetCellCenterWorld(tile);
-        _mapDatas[from.X][from.Y] = MapData.Empty;
-        _mapDatas[to.X][to.Y] = objectToMove;
+        _mapDatas[from.X][from.Y].Type = OnMapType.Empty;
+        _mapDatas[to.X][to.Y].Type = objectToMove;
+        _mapDatas[to.X][to.Y].Type = objectToMove;
         return worldPos;
     }
 
@@ -74,7 +75,7 @@ public class MapController : MonoBehaviour
 
     public bool IsWalkable(Vector3Int tile)
     {
-        return IsInBounds(tile) && _mapDatas[tile.x][tile.y] == MapData.Empty;
+        return IsInBounds(tile) && _mapDatas[tile.x][tile.y] == OnMapType.Empty;
     }
 
     private bool IsInBounds(Vector3Int tile)
@@ -91,7 +92,7 @@ public class MapController : MonoBehaviour
         return i > 0 && i < _mapDatas.Length && j > 0 && j < _mapDatas[0].Length;
     }
 
-    public bool HasEnemy(Point p, MapData enemy)
+    public bool HasEnemy(Point p, OnMapType enemy)
     {
         return IsInBounds(p) && _mapDatas[p.X][p.Y] == enemy;
     }

@@ -889,6 +889,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MapController: {fileID: 1357878868}
   InputController: {fileID: 586783192}
+  PlayerType: 0
 --- !u!1 &655803860
 GameObject:
   m_ObjectHideFlags: 0

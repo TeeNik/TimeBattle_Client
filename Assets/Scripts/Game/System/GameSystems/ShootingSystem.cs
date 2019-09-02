@@ -24,6 +24,7 @@ public class ShootingSystem : ISystem
                     if (hasEnemy)
                     {
                         Debug.Log("Shoot!!!");
+                        Game.I.Messages.SendEvent<TakeDamageMsg>(new TakeDamageMsg(,1))
                         break;
                     }
                 }

@@ -10,9 +10,9 @@ public static class Utils
         return Assembly.GetAssembly(t).GetTypes().Where(myType => myType.IsClass && !myType.IsAbstract && t.IsAssignableFrom(myType));
     }
 
-    public static MapData PlayerTypeToMap(PlayerType player)
+    public static OnMapType PlayerTypeToMap(PlayerType player)
     {
-        return player == PlayerType.Player1 ? MapData.Player1 : MapData.Player2;
+        return player == PlayerType.Player1 ? OnMapType.Player1 : OnMapType.Player2;
     }
 
     public static PlayerType GetOppositePlayer(PlayerType type)

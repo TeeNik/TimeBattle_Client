@@ -1,4 +1,4 @@
 ﻿class StartGameDto
 {
-    public MapData[][] map;
+    public OnMapType[][] map;
 }
