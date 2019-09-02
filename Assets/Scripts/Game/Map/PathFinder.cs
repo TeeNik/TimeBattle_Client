@@ -6,9 +6,9 @@ using UnityEngine;
 
 public class PathFinder
 {
-    private readonly OnMapType[][] _map;
+    private readonly MapData[][] _map;
 
-    public PathFinder(OnMapType[][] map)
+    public PathFinder(MapData[][] map)
     {
         _map = map;
     }
@@ -118,7 +118,7 @@ public class PathFinder
             {
                 continue;
             }
-            if (_map[point.X][point.Y] != OnMapType.Empty)
+            if (_map[point.X][point.Y].Type != OnMapType.Empty)
             {
                 continue;
             }

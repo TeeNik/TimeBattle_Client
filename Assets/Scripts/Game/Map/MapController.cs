@@ -38,11 +38,12 @@ public class MapController : MonoBehaviour
         }
     }
 
-    public Vector3 SetToPosition(OnMapType objectToMove, Point position)
+    public Vector3 SetToPosition(int id, OnMapType objectToMove, Point position)
     {
         var tile = new Vector3Int(position.X, position.Y, 0);
         var worldPos = tileMap.GetCellCenterWorld(tile);
-        _mapDatas[position.X][position.Y] = objectToMove;
+        _mapDatas[position.X][position.Y].Type = objectToMove;
+        _mapDatas[position.X][position.Y].EntityId = id;
         return worldPos;
     }
 
@@ -51,8 +52,9 @@ public class MapController : MonoBehaviour
         var tile = new Vector3Int(to.X, to.Y, 0);
         var worldPos = tileMap.GetCellCenterWorld(tile);
         _mapDatas[from.X][from.Y].Type = OnMapType.Empty;
+        _mapDatas[from.X][from.Y].EntityId = null;
         _mapDatas[to.X][to.Y].Type = objectToMove;
-        _mapDatas[to.X][to.Y].Type = objectToMove;
+        _mapDatas[to.X][to.Y].EntityId = id;
         return worldPos;
     }
 
@@ -75,7 +77,7 @@ public class MapController : MonoBehaviour
 
     public bool IsWalkable(Vector3Int tile)
     {
-        return IsInBounds(tile) && _mapDatas[tile.x][tile.y] == OnMapType.Empty;
+        return IsInBounds(tile) && _mapDatas[tile.x][tile.y].Type == OnMapType.Empty;
     }
 
     private bool IsInBounds(Vector3Int tile)
@@ -94,6 +96,11 @@ public class MapController : MonoBehaviour
 
     public bool HasEnemy(Point p, OnMapType enemy)
     {
-        return IsInBounds(p) && _mapDatas[p.X][p.Y] == enemy;
+        return IsInBounds(p) && _mapDatas[p.X][p.Y].Type == enemy;
+    }
+
+    public int? GetEntityByPoint(Point p)
+    {
+        return _mapDatas[p.X][p.Y].EntityId;
     }
 }

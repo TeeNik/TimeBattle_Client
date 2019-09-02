@@ -23,8 +23,8 @@ public class ShootingSystem : ISystem
 
                     if (hasEnemy)
                     {
-                        Debug.Log("Shoot!!!");
-                        Game.I.Messages.SendEvent<TakeDamageMsg>(new TakeDamageMsg(,1))
+                        var enemyId = map.GetEntityByPoint(point).Value;
+                        Game.I.Messages.SendEvent<TakeDamageMsg>(new TakeDamageMsg(enemyId, 1));
                         break;
                     }
                 }
