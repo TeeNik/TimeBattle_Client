@@ -1,4 +1,6 @@
-﻿public enum OperativeType
+﻿using System.Collections.Generic;
+
+public enum OperativeType
 {
     Soldier
 }
@@ -6,6 +8,8 @@
 public class SpawnEntityDto
 {
     public int entityId;
-    public OperativeInfoCmponent operativeInfo;
-    public MovementComponent spawnPosition;
+    public List<ComponentBase> InitialComponents = new List<ComponentBase>();
+
+    //public OperativeInfoCmponent operativeInfo;
+    //public MovementComponent spawnPosition;
 }

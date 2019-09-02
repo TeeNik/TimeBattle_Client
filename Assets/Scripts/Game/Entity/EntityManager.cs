@@ -27,15 +27,14 @@ public class EntityManager
 
     public void CreatePlayer(SpawnEntityDto dto)
     {
-        var maxHealth = 2;
         var playerPrefab = ResourceManager.Instance.CharacterPrefab;
         var character = GameObject.Instantiate(playerPrefab);
         Entities.Add(_idCounter, character);
         character.Init(_idCounter);
-        character.AddComponent(dto.operativeInfo);
-        character.AddComponent(new HealthComponent(maxHealth));
-        character.AddComponent(dto.spawnPosition);
-        character.AddComponent(new ShootComponent(null));
+        foreach (var comp in dto.InitialComponents)
+        {
+            character.AddComponent(comp);
+        }
         ++_idCounter;
     }
 }

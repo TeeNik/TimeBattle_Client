@@ -31,15 +31,17 @@ public class CharacterActionController : MonoBehaviour
 
     public void ShowActionPanel(Character ch)
     {
+        var ac = ch.GetEcsComponent<CharacterActionComponent>();
+        var all = ac.AllActions;
+
         _selectedChar = ch;
         ActionPanel.SetActive(true);
         SelectionTarget.position = ch.transform.position;
 
-
         //TODO Show only available
         foreach (var button in _actionButtons)
         {
-            button.SetVisibility(true);
+            button.SetVisibility(all.Contains(button.ActionType));
         }
     }
 

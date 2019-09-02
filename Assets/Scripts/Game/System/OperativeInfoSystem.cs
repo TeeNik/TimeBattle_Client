@@ -19,6 +19,19 @@ public class OperativeInfoSystem : ISystem
         
     }
 
+    public List<int> GetEntitiesByOwner(PlayerType owner)
+    {
+        var list = new List<int>();
+        foreach (var info in _components)
+        {
+            if (info.Value.Owner == owner)
+            {
+                list.Add(info.Key);
+            }
+        }
+        return list;
+    }
+
     public void RemoveComponent(int entityId)
     {
         _components.Remove(entityId);

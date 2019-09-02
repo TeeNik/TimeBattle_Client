@@ -32,7 +32,8 @@ public abstract class Entity : MonoBehaviour
 
     public void ClearComponents()
     {
-        foreach(var comp in Components)
+        var toDelete = Components.ToArray();
+        foreach(var comp in toDelete)
         {
             RemoveComponent(comp);
         }

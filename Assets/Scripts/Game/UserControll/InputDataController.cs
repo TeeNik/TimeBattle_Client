@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public enum ActionType
@@ -15,8 +16,24 @@ public class InputDataController : MonoBehaviour
 
     public CharacterActionController ActionController;
 
+    private List<OperativeInfoCmponent> 
     private Character _selectedChar;
     private readonly List<ActionDto> _storedInputs = new List<ActionDto>();
+    private readonly EventListener _eventListener = new EventListener();
+
+    public void Init()
+    {
+        _eventListener.Add(Game.I.Messages.Subscribe<NextTurnMsg>(OnNextTurn));
+    }
+
+    private void OnNextTurn(NextTurnMsg msg)
+    {
+        var player = Game.I.PlayerType;
+
+        var chars = Game.I.SystemController.GetSystem<OperativeInfoSystem>().GetEntitiesByOwner(player);
+
+        
+    }
 
     public void SelectCharacter(Character ch)
     {
@@ -67,5 +84,10 @@ public class InputDataController : MonoBehaviour
         ActionController.ClearPrediction();
         Game.I.OnTurnData(_storedInputs);
         _storedInputs.Clear();
+    }
+
+    void OnDestroy()
+    {
+        _eventListener.Clear();
     }
 }

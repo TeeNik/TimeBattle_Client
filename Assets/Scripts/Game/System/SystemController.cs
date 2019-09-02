@@ -2,19 +2,26 @@
 using System.Collections.Generic;
 using System.Linq;
 
-public class SystemController
+public class SystemController : IDisposable
 {
 
     public Dictionary<Type, ISystem> Systems { get; private set; }
 
     public SystemController()
     {
-        Systems = new Dictionary<Type, ISystem>();
+        Systems = new Dictionary<Type, ISystem>
+        {
+            {typeof(ShootComponent), new ShootingSystem()},
+            {typeof(MovementComponent), new MovementSystem()},
+            {typeof(OperativeInfoCmponent), new OperativeInfoSystem()},
+            {typeof(HealthComponent), new HealthSystem()},
+            {typeof(CharacterActionComponent), new CharacterActionSystem()}
+        };
+    }
 
-        Systems.Add(typeof(MovementComponent), new MovementSystem());
-        Systems.Add(typeof(ShootComponent), new ShootingSystem());
-        Systems.Add(typeof(OperativeInfoCmponent), new OperativeInfoSystem());
-        Systems.Add(typeof(HealthComponent), new HealthSystem());
+    public T GetSystem<T>()
+    {
+        return (T)Systems.Values.First(s => s is T);
     }
 
     public void UpdateSystems()
@@ -35,5 +42,14 @@ public class SystemController
     public bool IsProcessing()
     {
         return Systems.Values.Any(s=>s.IsProcessing());
+    }
+
+
+    public void Dispose()
+    {
+        foreach (var system in Systems.Values.Where(s=>s is IDisposable).Cast<IDisposable>())
+        {
+            system.Dispose();
+        }
     }
 }
