@@ -4,7 +4,7 @@ using System.Linq;
 public enum WeaponType
 {
     Pistol,
-    Rifle
+    Rifle,
 }
 
 public abstract class Weapon
