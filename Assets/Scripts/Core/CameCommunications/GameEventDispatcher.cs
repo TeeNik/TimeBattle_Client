@@ -6,16 +6,31 @@ using UnityEngine;
 public class GameEventDispatcher : IDisposable
 {
 
-    private Dictionary<Type, List<Delegate>> _subscribers;
+    private readonly Dictionary<string, List<Delegate>> _subscribers;
 
     public GameEventDispatcher()
     {
-        _subscribers = new Dictionary<Type, List<Delegate>>();
+        _subscribers = new Dictionary<string, List<Delegate>>();
     }
 
-    public Action<T> Subscribe<T>(Action<T> handler)
+    public KeyValuePair<string, Delegate> Subscribe(string key, Action handler)
     {
-        var type = typeof(T);
+        if (_subscribers.ContainsKey(key))
+        {
+            _subscribers[key].Add(handler);
+        }
+        else
+        {
+            var handlers = new List<Delegate>();
+            handlers.Add(handler);
+            _subscribers.Add(key, handlers);
+        }
+        return new KeyValuePair<string, Delegate>(key, handler);
+    }
+
+    public KeyValuePair<string, Delegate> Subscribe<T>(Action<T> handler)
+    {
+        var type = typeof(T).ToString();
         if (_subscribers.ContainsKey(type))
         {
             _subscribers[type].Add(handler);
@@ -26,12 +41,12 @@ public class GameEventDispatcher : IDisposable
             handlers.Add(handler);
             _subscribers.Add(type, handlers);
         }
-        return handler;
+        return new KeyValuePair<string, Delegate>(type, handler);
     }
 
     public void SendEvent<T>(T obj)
     {
-        var type = typeof(T);
+        var type = typeof(T).ToString();
         if (_subscribers.ContainsKey(type))
         {
             foreach(var handler in _subscribers[type])
@@ -41,7 +56,27 @@ public class GameEventDispatcher : IDisposable
         }
     }
 
+    public void SendEvent(string key)
+    {
+        if (_subscribers.ContainsKey(key))
+        {
+            foreach (var handler in _subscribers[key])
+            {
+                handler.DynamicInvoke();
+            }
+        }
+    }
+
     public void Unsubscribe(Type type, Delegate handler)
+    {
+        var key = type.ToString();
+        if (_subscribers.ContainsKey(key))
+        {
+            _subscribers[key].Remove(handler);
+        }
+    }
+
+    public void Unsubscribe(string type, Delegate handler)
     {
         if (_subscribers.ContainsKey(type))
         {

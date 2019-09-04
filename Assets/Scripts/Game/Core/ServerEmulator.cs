@@ -11,6 +11,8 @@
         var spawn2 = CreateSpawnDto(PlayerType.Player2, new Point(9, 4));
         Game.I.EntityManager.CreatePlayer(spawn1);
         Game.I.EntityManager.CreatePlayer(spawn2);
+
+        Game.I.Messages.SendEvent(EventStrings.OnGameInitialized);
     }
 
     private SpawnEntityDto CreateSpawnDto(PlayerType owner, Point point)
@@ -23,5 +25,10 @@
         spawn.InitialComponents.Add(new HealthComponent(maxHealth));
         spawn.InitialComponents.Add(new CharacterActionComponent());
         return spawn;
+    }
+
+    public void SendNextTurn()
+    {
+
     }
 }

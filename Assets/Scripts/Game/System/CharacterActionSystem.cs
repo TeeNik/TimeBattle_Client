@@ -2,14 +2,14 @@
 
 public class CharacterActionSystem : ISystem
 {
-
+    private const int MaxEnergy = 2;
     protected Dictionary<int, CharacterActionComponent> Components = new Dictionary<int, CharacterActionComponent>();
 
     public void AddComponent(Entity entity, ComponentBase component)
     {
         var cc = (CharacterActionComponent) component;
-        Components.Add(entity.Id, cc);
         CreateReusableActions(cc);
+        Components.Add(entity.Id, cc);
     }
 
     public void RemoveComponent(int entityId)
@@ -21,6 +21,7 @@ public class CharacterActionSystem : ISystem
     {
         comp.ReusableActions.Clear();
         comp.ReusableActions.AddRange(new[] {ActionType.Move, ActionType.Move, ActionType.Shoot});
+        comp.Energy = MaxEnergy;
     }
 
     private void CreateDisposableActions(CharacterActionComponent comp)

@@ -4,24 +4,24 @@ using UnityEngine;
 public class EntityManager
 {
 
-    public Dictionary<int, Entity> Entities;
+    private readonly Dictionary<int, Entity> _entities;
     private static int _idCounter = 0;
 
     public EntityManager()
     {
-        Entities = new Dictionary<int, Entity>();
+        _entities = new Dictionary<int, Entity>();
     }
 
     public Entity GetEntity(int id)
     {
-        return Entities[id];
+        return _entities[id];
     }
 
     public void DestroyEntity(int entityId)
     {
-        var entity = Entities[entityId];
+        var entity = _entities[entityId];
         entity.ClearComponents();
-        Entities.Remove(entityId);
+        _entities.Remove(entityId);
         GameObject.Destroy(entity.gameObject);
     }
 
@@ -29,7 +29,7 @@ public class EntityManager
     {
         var playerPrefab = ResourceManager.Instance.CharacterPrefab;
         var character = GameObject.Instantiate(playerPrefab);
-        Entities.Add(_idCounter, character);
+        _entities.Add(_idCounter, character);
         character.Init(_idCounter);
         foreach (var comp in dto.InitialComponents)
         {

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public enum ActionType
@@ -16,27 +17,48 @@ public class InputDataController : MonoBehaviour
 
     public CharacterActionController ActionController;
 
-    private List<OperativeInfoCmponent> 
+    private readonly List<Entity> _currentChars = new List<Entity>();
     private Character _selectedChar;
+
     private readonly List<ActionDto> _storedInputs = new List<ActionDto>();
     private readonly EventListener _eventListener = new EventListener();
+    private OperativeInfoSystem _infoSystem;
 
     public void Init()
     {
         _eventListener.Add(Game.I.Messages.Subscribe<NextTurnMsg>(OnNextTurn));
+        _eventListener.Add(Game.I.Messages.Subscribe(EventStrings.OnGameInitialized, OnGameStarted));
+        _infoSystem = Game.I.SystemController.GetSystem<OperativeInfoSystem>();
     }
 
-    private void OnNextTurn(NextTurnMsg msg)
+    private void OnGameStarted()
+    {
+        SelectPlayerCharacters();
+    }
+
+    private void OnNextTurn(NextTurnMsg obj)
+    {
+        throw new NotImplementedException();
+    }
+
+    private void SelectPlayerCharacters()
     {
         var player = Game.I.PlayerType;
 
-        var chars = Game.I.SystemController.GetSystem<OperativeInfoSystem>().GetEntitiesByOwner(player);
-
-        
+        var entities = Game.I.EntityManager;
+        foreach (var id in _infoSystem.GetEntitiesByOwner(player))
+        {
+            _currentChars.Add(entities.GetEntity(id));
+        }
     }
 
     public void SelectCharacter(Character ch)
     {
+        if (!_currentChars.Contains(ch) || ch.GetEcsComponent<CharacterActionComponent>().Energy <= 0)
+        {
+            return;
+        }
+
         if(_selectedChar == ch)
         {
             _selectedChar = null;
@@ -62,8 +84,32 @@ public class InputDataController : MonoBehaviour
             _storedInputs.Add(action);
         }
         action.phases.Add(new ActionPhase{type = compType, component = comp});
+        
+        //TODO
+        var ac = _selectedChar.GetEcsComponent<CharacterActionComponent>();
+        ac.RemoveAction(compType);
 
         SelectCharacter(_selectedChar);
+
+        CheckEndTurn();
+    }
+
+
+    //TODO this function will be changed
+    private void CheckEndTurn()
+    {
+        var isEnd = _currentChars.All(c => c.GetEcsComponent<CharacterActionComponent>().Energy <= 0);
+        if (isEnd)
+        {
+            var prev = Game.I.PlayerType;
+            Game.I.PlayerType = Utils.GetOppositePlayer(Game.I.PlayerType);
+            Debug.Log($"{prev.ToString()} ended. {Game.I.PlayerType} is started.");
+            SelectPlayerCharacters();
+            if (prev == PlayerType.Player2)
+            {
+                ProduceSystemUpdate();
+            }
+        }
     }
 
     public void LogStoredActions()
@@ -81,6 +127,7 @@ public class InputDataController : MonoBehaviour
 
     public void ProduceSystemUpdate()
     {
+        Debug.Log("ProduceSystemUpdate");
         ActionController.ClearPrediction();
         Game.I.OnTurnData(_storedInputs);
         _storedInputs.Clear();

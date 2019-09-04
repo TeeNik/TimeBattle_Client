@@ -6,16 +6,21 @@ using UnityEngine;
 public class EventListener
 {
 
-    private readonly List<KeyValuePair<Type, Delegate>> _subscriptions;
+    private readonly List<KeyValuePair<string, Delegate>> _subscriptions;
 
     public EventListener()
     {
-        _subscriptions = new List<KeyValuePair<Type, Delegate>>();
+        _subscriptions = new List<KeyValuePair<string, Delegate>>();
     }
 
-    public void Add<T>(Action<T> a)
+    public void Add<T>(KeyValuePair<string, Delegate> a)
     {
-        _subscriptions.Add(new KeyValuePair<Type, Delegate>(typeof(T), a));
+        _subscriptions.Add(a);
+    }
+
+    public void Add(KeyValuePair<string, Delegate> a)
+    {
+        _subscriptions.Add(a);
     }
 
     public void Clear()

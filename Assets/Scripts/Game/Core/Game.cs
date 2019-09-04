@@ -38,7 +38,7 @@ public class Game : MonoBehaviour
         SystemController = new SystemController();
         EntityManager = new EntityManager();
         MapController.Init();
-
+        InputController.Init();
 
         //TODO make optional
         _serverEmulator.Start();
