@@ -43,8 +43,8 @@ public class InputDataController : MonoBehaviour
 
     private void SelectPlayerCharacters()
     {
+        _currentChars.Clear();
         var player = Game.I.PlayerType;
-
         var entities = Game.I.EntityManager;
         foreach (var id in _infoSystem.GetEntitiesByOwner(player))
         {
@@ -105,6 +105,7 @@ public class InputDataController : MonoBehaviour
             Game.I.PlayerType = Utils.GetOppositePlayer(Game.I.PlayerType);
             Debug.Log($"{prev.ToString()} ended. {Game.I.PlayerType} is started.");
             SelectPlayerCharacters();
+            Game.I.Messages.SendEvent(EventStrings.OnPlayerChanged);
             if (prev == PlayerType.Player2)
             {
                 ProduceSystemUpdate();

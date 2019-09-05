@@ -1,18 +1,38 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using TMPro;
 using UnityEngine;
 
 public class GameUI : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] private GameObject Window;
+    [SerializeField] private TMP_Text StateText;
+
+    private readonly EventListener _eventListener = new EventListener();
+
+    public void Init()
     {
-        
+        _eventListener.Add(Game.I.Messages.Subscribe(EventStrings.OnPlayerChanged, OnPlayerChanged));
+        _eventListener.Add(Game.I.Messages.Subscribe(EventStrings.OnGameStateChanged, OnGameStateChanged));
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnGameStateChanged()
     {
-        
+        var isInput = Game.I.GameState == GameState.UserInput;
+        SetVisibility(isInput);
     }
+
+    private void OnPlayerChanged()
+    {
+        StateText.text = Game.I.PlayerType.ToString();
+    }
+
+    private void SetVisibility(bool isShow)
+    {
+        Window.SetActive(isShow);
+    }
+
+    void OnDestroy()
+    {
+        _eventListener.Clear();
+    }
+
 }

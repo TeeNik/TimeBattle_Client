@@ -13,7 +13,10 @@ public class Game : MonoBehaviour
     public GameEventDispatcher Messages { get; private set; }
     public MapController MapController;
     public InputDataController InputController;
+    public GameUI GameUI;
+
     public PlayerType PlayerType = PlayerType.Player1;
+    public GameState GameState = GameState.UserInput;
 
     private List<ActionDto> _turnData;
 
@@ -39,6 +42,7 @@ public class Game : MonoBehaviour
         EntityManager = new EntityManager();
         MapController.Init();
         InputController.Init();
+        GameUI.Init();
 
         //TODO make optional
         _serverEmulator.Start();
