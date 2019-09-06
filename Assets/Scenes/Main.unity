@@ -993,7 +993,7 @@ MonoBehaviour:
   CharacterPrefabs:
   - {fileID: 6299787003037800029, guid: 5af2d50ece50b6648b3b1a7121572d7e, type: 3}
   - {fileID: 6299787003037800029, guid: d082fd54bcc575142b7375bbdb0597ad, type: 3}
-  CharacterPrediction: {fileID: 7298365584693076154, guid: 783f0ef64461d254eb966b2dbddac456,
+  CharacterPrediction: {fileID: 7412160270274367409, guid: 783f0ef64461d254eb966b2dbddac456,
     type: 3}
 --- !u!114 &586783190
 MonoBehaviour:
