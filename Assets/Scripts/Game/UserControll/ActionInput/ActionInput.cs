@@ -1,7 +1,8 @@
 ﻿public interface ActionInput
 {
     ActionType GetActionType();
-    void Update(Character ch);
+    void Update();
     void ProduceInput();
+    void Start(Character ch);
 
 }

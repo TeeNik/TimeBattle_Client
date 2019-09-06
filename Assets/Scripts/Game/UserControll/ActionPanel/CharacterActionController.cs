@@ -54,6 +54,7 @@ public class CharacterActionController : MonoBehaviour
     private void SelectAction(ActionType type)
     {
         _selectedInput = _actionInputs[type];
+        _selectedInput.Start(_selectedChar);
     }
 
     private void Update()
@@ -68,7 +69,7 @@ public class CharacterActionController : MonoBehaviour
             }
             else
             {
-                _selectedInput.Update(_selectedChar);
+                _selectedInput.Update();
             }
         }
     }

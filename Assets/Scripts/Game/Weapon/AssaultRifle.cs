@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 
-public class Rifle : Weapon
+public class AssaultRifle : Weapon
 {
-    public Rifle()
+    public AssaultRifle()
     {
-        Type = WeaponType.Rifle;
+        Type = WeaponType.Assault;
     }
 
     protected override List<Point> Distance { get; } = new List<Point>

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -8,16 +9,18 @@ public class PredictionMap : MonoBehaviour
     private Tilemap _predictionTilemap;
 
     [SerializeField]
-    private List<GameObject> _objectsPrediction;
+    private List<CharacterPrediction> _objectsPrediction;
 
     [SerializeField] private Transform _parent;
 
-    public void DrawCharacter()
+    public void DrawCharacter(Character reference)
     {
         var map = Game.I.MapController;
         var position = map.GetTilePositionByMouse();
         var ch = Instantiate(ResourceManager.Instance.CharacterPrediction, _parent);
-        ch.transform.position = position;
+        ch.transform.position = reference.transform.position;
+        reference.transform.position = position;
+        ch.Init(reference);
         _objectsPrediction.Add(ch);
     }
 
@@ -34,6 +37,7 @@ public class PredictionMap : MonoBehaviour
     public void ClearPrediction()
     {
         ClearTiles();
+        _objectsPrediction.Reverse();
         foreach (var o in _objectsPrediction)
         {
             Destroy(o.gameObject);

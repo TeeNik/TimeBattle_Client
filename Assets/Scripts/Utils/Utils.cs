@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using UnityEngine;
 
 public static class Utils
 {
@@ -30,6 +31,12 @@ public static class Utils
                 return typeof(ShootComponent);
         }
         throw new ArgumentException();
+    }
+
+    public static List<T> ParseConfig<T>(string fileName)
+    {
+        var asset = Resources.Load(fileName) as TextAsset;
+        return JsonUtility.FromJson<List<T>>(asset.text);
     }
 
 }

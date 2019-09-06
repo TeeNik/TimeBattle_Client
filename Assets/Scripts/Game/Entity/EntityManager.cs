@@ -27,7 +27,8 @@ public class EntityManager
 
     public void CreatePlayer(SpawnEntityDto dto)
     {
-        var playerPrefab = ResourceManager.Instance.CharacterPrefab;
+        var info = (OperativeInfoCmponent)dto.InitialComponents.Find(c => c.GetType() == typeof(OperativeInfoCmponent));
+        var playerPrefab = ResourceManager.GetCharacter(info.Owner, info.OperativeType);
         var character = GameObject.Instantiate(playerPrefab);
         _entities.Add(_idCounter, character);
         character.Init(_idCounter);

@@ -3,19 +3,22 @@ using UnityEngine;
 
 public class MoveInput : ActionInput
 {
-    private PredictionMap _prediction;
+    private readonly PredictionMap _prediction;
     private Point _lastPoint;
     private readonly MapController _map;
+    private Vector3 _pos;
+    private Character _char;
     private List<Point> _path;
 
     public MoveInput(PredictionMap prediction)
     {
         _prediction = prediction;
+        _map = Game.I.MapController;
     }
 
     public void ProduceInput()
     {
-        _prediction.DrawCharacter();
+        _prediction.DrawCharacter(_char);
         MovementComponent mc = new MovementComponent(_path);
         Game.I.InputController.ProduceInput(GetActionType(), mc);
 
@@ -23,17 +26,23 @@ public class MoveInput : ActionInput
         _path = null;
     }
 
-    public void Update(Character ch)
+    public void Start(Character ch)
     {
-        var tile = Game.I.MapController.GetTileByMouse();
+        _char = ch;
+        _pos = ch.transform.position;
+    }
+
+    public void Update()
+    {
+        var tile = _map.GetTileByMouse();
         if (Game.I.MapController.IsWalkable(tile) )
         {
             if (_lastPoint == null || _lastPoint.X != tile.x || _lastPoint.Y != tile.y)
             {
                 _lastPoint = new Point(tile.x, tile.y);
-                var start = Game.I.MapController.GetTileByVector3(ch.transform.position);
+                var start = _map.GetTileByVector3(_pos);
                 var startPoint = new Point(start.x, start.y);
-                var path = Game.I.MapController.PathFinder.FindPath(startPoint, _lastPoint, false);
+                var path = _map.PathFinder.FindPath(startPoint, _lastPoint, false);
                 _path = path;
                 _prediction.DrawPath(path);
             }

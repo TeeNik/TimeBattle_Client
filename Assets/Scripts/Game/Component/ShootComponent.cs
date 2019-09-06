@@ -3,10 +3,12 @@
 public class ShootComponent : ComponentBase
 {
     public List<Point> Range;
+    public Weapon Weapon;
 
     public ShootComponent(List<Point> range)
     {
         Range = range;
+        Weapon = new Pistol();
     }
 
     public void Update(ComponentBase newData)

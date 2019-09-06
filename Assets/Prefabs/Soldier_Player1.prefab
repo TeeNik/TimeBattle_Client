@@ -262,7 +262,7 @@ GameObject:
   - component: {fileID: 2737082677607726534}
   - component: {fileID: 1503521223}
   m_Layer: 0
-  m_Name: Character
+  m_Name: Soldier_Player1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -320,7 +320,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 5
-  m_Sprite: {fileID: 21300000, guid: 3462ab3335aea5445a4ebdd28529c782, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 5c0e18967764b9f46805d01cba2d2ff3, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

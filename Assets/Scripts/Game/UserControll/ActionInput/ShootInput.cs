@@ -1,11 +1,13 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using System.Collections.Generic;
 
 public class ShootInput : ActionInput
 {
-    private PredictionMap _prediction;
+    private readonly PredictionMap _prediction;
     private List<Point> _range;
+
+    private Character _char;
+    private Point _position;
+    private Weapon _weapon;
 
     public ActionType GetActionType()
     {
@@ -19,42 +21,47 @@ public class ShootInput : ActionInput
 
     public void ProduceInput()
     {
-        _prediction.DrawCharacter();
+        _prediction.DrawCharacter(_char);
         ShootComponent sc = new ShootComponent(_range);
         Game.I.InputController.ProduceInput(GetActionType(), sc);
 
         _range = null;
     }
 
-    public void Update(Character ch)
+    public void Start(Character ch)
+    {
+        _char = ch;
+        _weapon = ch.GetEcsComponent<ShootComponent>().Weapon;
+        _position = ch.GetEcsComponent<MovementComponent>().Position;
+    }
+
+    public void Update()
     {
         var map = Game.I.MapController;
-        var position = ch.GetEcsComponent<MovementComponent>().Position;
         var tile = map.GetTileByMouse();
-        Weapon weapon = ch.Weapon;
 
         List<Point> range;
-        if (tile.y < position.Y)
+        if (tile.y < _position.Y)
         {
-            range = weapon.Left;
+            range = _weapon.Left;
         }
-        else if (tile.y > position.Y)
+        else if (tile.y > _position.Y)
         {
-            range = weapon.Right;
+            range = _weapon.Right;
         }
-        else if (tile.x > position.X)
+        else if (tile.x > _position.X)
         {
-            range = weapon.Down;
+            range = _weapon.Down;
         }
         else
         {
-            range = weapon.Up;
+            range = _weapon.Up;
         }
 
         List<Point> toDraw = new List<Point>();
         foreach(var point in range)
         {
-            toDraw.Add(position.Sum(point));
+            toDraw.Add(_position.Sum(point));
         }
         _range = toDraw;
         _prediction.DrawPath(toDraw);
