@@ -18,12 +18,15 @@ public class MoveInput : ActionInput
 
     public void ProduceInput()
     {
-        _prediction.DrawCharacter(_char);
-        MovementComponent mc = new MovementComponent(_path);
-        Game.I.InputController.ProduceInput(GetActionType(), mc);
+        if(_path != null)
+        {
+            _prediction.DrawCharacter(_char);
+            MovementComponent mc = new MovementComponent(_path);
+            Game.I.InputController.ProduceInput(GetActionType(), mc);
 
-        _lastPoint = null;
-        _path = null;
+            _lastPoint = null;
+            _path = null;
+        }
     }
 
     public void Start(Character ch)
@@ -51,6 +54,7 @@ public class MoveInput : ActionInput
         else
         {
             _lastPoint = null;
+            _path = null;
             _prediction.ClearTiles();
         }
 

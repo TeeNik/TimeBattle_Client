@@ -31,6 +31,8 @@ public class SystemController : IDisposable
         {
             system.Update();
         }
+
+        GetSystem<ShootingSystem>().OnUpdateEnd();
     }
 
     public void ProcessData(int entityId, ActionPhase phase)
@@ -42,12 +44,7 @@ public class SystemController : IDisposable
 
     public bool IsProcessing()
     {
-        foreach(var s in Systems.Values)
-        {
-            Debug.Log(s.GetType().ToString() + " " + s.IsProcessing());
-        }
-
-        return Systems.Values.Any(s=>s.IsProcessing());
+         return Systems.Values.Any(s=>s.IsProcessing());
     }
 
 

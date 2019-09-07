@@ -51,6 +51,14 @@ public class ShootingSystem : ISystem
         _components.Add(entity.Id, (ShootComponent)component);
     }
 
+    public void OnUpdateEnd()
+    {
+        foreach(var comp in _components)
+        {
+            comp.Value.Range.Clear();
+        }
+    }
+
     public bool IsProcessing()
     {
         return false;

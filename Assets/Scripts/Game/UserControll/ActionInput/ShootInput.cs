@@ -21,7 +21,7 @@ public class ShootInput : ActionInput
 
     public void ProduceInput()
     {
-        _prediction.DrawCharacter(_char);
+        _prediction.DrawPath(_range);
         ShootComponent sc = new ShootComponent(_range);
         Game.I.InputController.ProduceInput(GetActionType(), sc);
 
@@ -32,7 +32,8 @@ public class ShootInput : ActionInput
     {
         _char = ch;
         _weapon = ch.GetEcsComponent<ShootComponent>().Weapon;
-        _position = ch.GetEcsComponent<MovementComponent>().Position;
+        var tile = Game.I.MapController.GetTileByVector3(ch.transform.position);
+        _position = new Point(tile.x, tile.y);
     }
 
     public void Update()
