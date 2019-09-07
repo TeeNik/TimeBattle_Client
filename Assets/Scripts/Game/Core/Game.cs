@@ -57,6 +57,12 @@ public class Game : MonoBehaviour
 
     public void ProducePhase()
     {
+        if(_currentPhase > _turnData.Max(t => t.phases.Count))
+        {
+            _currentPhase = 0;
+            return;
+        }
+
         foreach (var dto in _turnData)
         {
             if (dto.phases.Count > _currentPhase)
@@ -75,6 +81,10 @@ public class Game : MonoBehaviour
         {
             SystemController.UpdateSystems();
             _currentPhaseAction++;
+        }
+        else
+        {
+            ProducePhase();
         }
     }
 

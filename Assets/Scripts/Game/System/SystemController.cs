@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 
 public class SystemController : IDisposable
 {
@@ -41,6 +42,11 @@ public class SystemController : IDisposable
 
     public bool IsProcessing()
     {
+        foreach(var s in Systems.Values)
+        {
+            Debug.Log(s.GetType().ToString() + " " + s.IsProcessing());
+        }
+
         return Systems.Values.Any(s=>s.IsProcessing());
     }
 

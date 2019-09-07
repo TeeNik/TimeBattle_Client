@@ -69,7 +69,7 @@ public class MovementSystem : ISystem
 
     public bool IsProcessing()
     {
-        return _components.Any(c=>c.Value.Path != null);
+        return _components.Any(c => c.Value.Path != null && c.Value.Path.Count > 0);
     }
 
     public void RemoveComponent(int entityId)
