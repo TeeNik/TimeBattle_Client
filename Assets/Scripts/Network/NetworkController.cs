@@ -53,6 +53,12 @@ public class NetworkController
     private void OnMessage(object sender, MessageEventArgs args)
     {
         //Debug.Log(args.Data);
+
+        string header = "";
+        if(_eventAgregator.)
+
+
+
     }
 
     public class LoginMsg

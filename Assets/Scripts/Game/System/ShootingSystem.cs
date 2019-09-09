@@ -31,8 +31,11 @@ public class ShootingSystem : ISystem
 
                     if (hasEnemy)
                     {
-                        var enemyId = map.GetEntityByPoint(point).Value;
-                        Game.I.Messages.SendEvent<TakeDamageMsg>(new TakeDamageMsg(enemyId, 1));
+                        var target = map.CheckCover(range, point);
+                        if(target.HasValue)
+                        {
+                            Game.I.Messages.SendEvent(new TakeDamageMsg(target.Value, 1));
+                        }
                         break;
                     }
                 }

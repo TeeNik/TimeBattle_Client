@@ -1,5 +1,13 @@
-﻿public class ServerEmulator
+﻿using System.Collections.Generic;
+
+public class ServerEmulator
 {
+
+    public void Login()
+    {
+
+    }
+
     public void Start()
     {
         SendInitialEvent();
@@ -7,19 +15,25 @@
 
     private void SendInitialEvent()
     {
-        var spawn1 = CreateSpawnDto(PlayerType.Player1, new Point(8, 8));
-        var spawn2 = CreateSpawnDto(PlayerType.Player2, new Point(9, 4));
-        Game.I.EntityManager.CreatePlayer(spawn1);
-        Game.I.EntityManager.CreatePlayer(spawn2);
+        var list = new List<SpawnEntityDto>() {
+            CreateCharacterSpawn(PlayerType.Player1, OperativeType.Assault, new Point(8, 8)),
+            CreateCharacterSpawn(PlayerType.Player2, OperativeType.Assault, new Point(9, 4)),
+
+        };
+        foreach(var spawn in list)
+        {
+            Game.I.EntityManager.CreateEntity(spawn);
+        }
 
         Game.I.Messages.SendEvent(EventStrings.OnGameInitialized);
     }
 
-    private SpawnEntityDto CreateSpawnDto(PlayerType owner, Point point)
+    private SpawnEntityDto CreateCharacterSpawn(PlayerType owner, OperativeType operative, Point point)
     {
         var spawn = new SpawnEntityDto();
         var maxHealth = 1;
-        spawn.InitialComponents.Add(new OperativeInfoCmponent(owner, OperativeType.Soldier));
+        spawn.PrefabName = $"{operative}_{owner}";
+        spawn.InitialComponents.Add(new OperativeInfoCmponent(owner, operative));
         spawn.InitialComponents.Add(new MovementComponent(point));
         spawn.InitialComponents.Add(new ShootComponent(null));
         spawn.InitialComponents.Add(new HealthComponent(maxHealth));

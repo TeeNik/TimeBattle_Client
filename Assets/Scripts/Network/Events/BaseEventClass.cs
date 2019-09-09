@@ -6,6 +6,8 @@
     protected BaseEventClass(string name)
     {
         Header = name;
-    } 
+    }
+
+    protected abstract void HandleResponse();
 
 }

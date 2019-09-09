@@ -2,14 +2,13 @@
 
 public enum OperativeType
 {
-    Soldier
+    Assault,
+    Ranger,
+    Sniper,
 }
 
 public class SpawnEntityDto
 {
-    public int entityId;
+    public string PrefabName;
     public List<ComponentBase> InitialComponents = new List<ComponentBase>();
-
-    //public OperativeInfoCmponent operativeInfo;
-    //public MovementComponent spawnPosition;
 }

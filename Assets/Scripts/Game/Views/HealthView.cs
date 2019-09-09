@@ -5,7 +5,7 @@ public class HealthView : MonoBehaviour
 {
     [SerializeField] private Image HealthBar;
 
-    public void SetHealth(float health)
+    public virtual void SetHealth(float health)
     {
         HealthBar.fillAmount = health;
     }

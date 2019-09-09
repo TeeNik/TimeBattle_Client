@@ -20,6 +20,14 @@ public class EventAgregator
         }
     }
 
+    public void ProcessEvent(string header, BaseEventClass evt)
+    {
+        if (_events.ContainsKey(header))
+        {
+            var 
+        }
+    }
+
     public BaseEventClass GetEvent(string header)
     {
         return _events[header];

@@ -4,6 +4,7 @@ public class MovementComponent : ComponentBase
 {
     public List<Point> Path;
     public Point Position;
+    public int MoveLimit = 7;
 
     public MovementComponent(List<Point> path)
     {

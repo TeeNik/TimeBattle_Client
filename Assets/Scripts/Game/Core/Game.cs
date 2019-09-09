@@ -9,7 +9,7 @@ public class Game : MonoBehaviour
     public static Game I { get; private set; }
 
     public SystemController SystemController { get; private set; }
-    public EntityManager EntityManager { get; private set; }
+    public EntityController EntityManager { get; private set; }
     public GameEventDispatcher Messages { get; private set; }
     public MapController MapController;
     public InputDataController InputController;
@@ -39,7 +39,7 @@ public class Game : MonoBehaviour
 
         Messages = new GameEventDispatcher();
         SystemController = new SystemController();
-        EntityManager = new EntityManager();
+        EntityManager = new EntityController();
         MapController.Init();
         InputController.Init();
         GameUI.Init();

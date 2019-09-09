@@ -9,6 +9,7 @@ public class ResourceManager : MonoBehaviour
     public TileBase[] TileBases;
 
     public Character[] CharacterPrefabs;
+    public Entity[] Entities;
 
     public CharacterPrediction CharacterPrediction;
 
@@ -16,13 +17,18 @@ public class ResourceManager : MonoBehaviour
     {
         Instance = this;
 
-        GetCharacter(PlayerType.Player1, OperativeType.Soldier);
+        GetCharacter(PlayerType.Player1, OperativeType.Assault);
     }
 
     public static Character GetCharacter(PlayerType player, OperativeType operative)
     {
         var name = $"{operative}_{player}";
         return Get($"{name} (Character)", Instance.CharacterPrefabs);
+    }
+
+    public static Entity GetEntity(string name)
+    {
+        return Get(name, Instance.Entities);
     }
 
     private static T Get<T>(string name, T[] array)

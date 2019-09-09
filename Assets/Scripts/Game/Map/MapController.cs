@@ -99,6 +99,23 @@ public class MapController : MonoBehaviour
         return IsInBounds(p) && _mapDatas[p.X][p.Y].Type == enemy;
     }
 
+    public int? CheckCover(List<Point> range, Point target)
+    {
+        foreach(var p in range)
+        {
+            var type = _mapDatas[p.X][p.Y].Type;
+            if (target.Equals(p) || type == OnMapType.Cover)
+            {
+                return GetEntityByPoint(p);
+            }
+            else if(type == OnMapType.Wall)
+            {
+                return null;
+            }
+        }
+        return null;
+    }
+
     public int? GetEntityByPoint(Point p)
     {
         return _mapDatas[p.X][p.Y].EntityId;

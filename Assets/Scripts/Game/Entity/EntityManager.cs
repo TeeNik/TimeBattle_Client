@@ -1,13 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
-public class EntityManager
+public class EntityController
 {
 
     private readonly Dictionary<int, Entity> _entities;
     private static int _idCounter = 0;
 
-    public EntityManager()
+    public EntityController()
     {
         _entities = new Dictionary<int, Entity>();
     }
@@ -25,6 +26,7 @@ public class EntityManager
         GameObject.Destroy(entity.gameObject);
     }
 
+    [Obsolete]
     public void CreatePlayer(SpawnEntityDto dto)
     {
         var info = (OperativeInfoCmponent)dto.InitialComponents.Find(c => c.GetType() == typeof(OperativeInfoCmponent));
@@ -35,6 +37,19 @@ public class EntityManager
         foreach (var comp in dto.InitialComponents)
         {
             character.AddComponent(comp);
+        }
+        ++_idCounter;
+    }
+
+    public void CreateEntity(SpawnEntityDto dto)
+    {
+        var playerPrefab = ResourceManager.GetEntity(dto.PrefabName);
+        var entity = GameObject.Instantiate(playerPrefab);
+        _entities.Add(_idCounter, entity);
+        entity.Init(_idCounter);
+        foreach (var comp in dto.InitialComponents)
+        {
+            entity.AddComponent(comp);
         }
         ++_idCounter;
     }

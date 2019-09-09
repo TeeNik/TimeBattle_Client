@@ -8,6 +8,7 @@ public class MoveInput : ActionInput
     private readonly MapController _map;
     private Vector3 _pos;
     private Character _char;
+    private int _moveLimit;
     private List<Point> _path;
 
     public MoveInput(PredictionMap prediction)
@@ -33,6 +34,7 @@ public class MoveInput : ActionInput
     {
         _char = ch;
         _pos = ch.transform.position;
+        _moveLimit = ch.GetEcsComponent<MovementComponent>().MoveLimit;
     }
 
     public void Update()
@@ -46,6 +48,10 @@ public class MoveInput : ActionInput
                 var start = _map.GetTileByVector3(_pos);
                 var startPoint = new Point(start.x, start.y);
                 var path = _map.PathFinder.FindPath(startPoint, _lastPoint, false);
+                if(path.Count > _moveLimit)
+                {
+                    path.RemoveRange(_moveLimit, path.Count - _moveLimit - 1);
+                }
                 _path = path;
                 _prediction.DrawPath(path);
             }
