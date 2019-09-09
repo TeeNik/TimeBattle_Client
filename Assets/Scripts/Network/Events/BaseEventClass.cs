@@ -1,4 +1,6 @@
-﻿public abstract class BaseEventClass
+﻿using SimpleJSON;
+
+public abstract class BaseEventClass
 {
 
     public readonly string Header;
@@ -8,6 +10,11 @@
         Header = name;
     }
 
-    protected abstract void HandleResponse();
+    public void HandleResponse(JSONObject json)
+    {
+        HandleResponseImpl(json);
+    }
+
+    protected abstract void HandleResponseImpl(JSONObject json);
 
 }

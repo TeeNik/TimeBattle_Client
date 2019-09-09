@@ -1,4 +1,5 @@
-﻿using System;
+using SimpleJSON;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -52,13 +53,7 @@ public class NetworkController
 
     private void OnMessage(object sender, MessageEventArgs args)
     {
-        //Debug.Log(args.Data);
-
-        string header = "";
-        if(_eventAgregator.)
-
-
-
+        _eventAgregator.ProcessEvent(JSON.Parse(args.Data).AsObject);
     }
 
     public class LoginMsg
