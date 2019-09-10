@@ -2,7 +2,7 @@
 using System.Collections;
 using UnityEngine.SceneManagement;
 
-class SceneController
+public class SceneController
 {
     public void LoadScene(string sceneName, bool additive, Action<string> onLoaded)
     {
@@ -17,6 +17,6 @@ class SceneController
         {
             yield return null;
         }
-        onLoaded(sceneName);
+        onLoaded?.Invoke(sceneName);
     }
 }

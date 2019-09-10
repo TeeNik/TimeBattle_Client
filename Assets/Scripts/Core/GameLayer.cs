@@ -6,7 +6,10 @@ using WebSocketSharp;
 public class GameLayer : MonoBehaviour
 {
     public static GameLayer I;
+    public bool EmulateServer;
 
+    public SceneController SceneController { get; private set; }
+    public ServerEmulator ServerEmulator { get; private set; }
     public NetworkController Net { get; private set; }
 
     public struct Data
@@ -18,8 +21,15 @@ public class GameLayer : MonoBehaviour
     {
         I = this;
 
+        SceneController = new SceneController();
+        ServerEmulator = new ServerEmulator();
         Net = new NetworkController();
         Net.Auth();
+
+        if (EmulateServer)
+        {
+            ServerEmulator.Login();
+        }
     }
 
     private void Update()

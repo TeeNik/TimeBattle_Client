@@ -26,21 +26,6 @@ public class EntityController
         GameObject.Destroy(entity.gameObject);
     }
 
-    [Obsolete]
-    public void CreatePlayer(SpawnEntityDto dto)
-    {
-        var info = (OperativeInfoCmponent)dto.InitialComponents.Find(c => c.GetType() == typeof(OperativeInfoCmponent));
-        var playerPrefab = ResourceManager.GetCharacter(info.Owner, info.OperativeType);
-        var character = GameObject.Instantiate(playerPrefab);
-        _entities.Add(_idCounter, character);
-        character.Init(_idCounter);
-        foreach (var comp in dto.InitialComponents)
-        {
-            character.AddComponent(comp);
-        }
-        ++_idCounter;
-    }
-
     public void CreateEntity(SpawnEntityDto dto)
     {
         var playerPrefab = ResourceManager.GetEntity(dto.PrefabName);

@@ -22,7 +22,10 @@ public class NetworkController
         _ws.OnClose += OnConnectionClose;
         _ws.OnError += OnConnectionError;
 
-        _ws.Connect();
+        if (!GameLayer.I.EmulateServer)
+        {
+            _ws.Connect();
+        }
     }
 
     public void Disconnect()
@@ -32,7 +35,7 @@ public class NetworkController
 
     private void OnConnectionError(object sender, ErrorEventArgs args)
     {
-        Debug.Log(args);
+        Debug.Log(args.Exception);
     }
 
     private void OnConnectionClose(object sender, CloseEventArgs args)
@@ -53,7 +56,12 @@ public class NetworkController
 
     private void OnMessage(object sender, MessageEventArgs args)
     {
-        _eventAgregator.ProcessEvent(JSON.Parse(args.Data).AsObject);
+        ProcessEvent(JSON.Parse(args.Data).AsObject);
+    }
+
+    public void ProcessEvent(JSONObject json)
+    {
+        _eventAgregator.ProcessEvent(json);
     }
 
     public class LoginMsg

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class MoveInput : ActionInput
@@ -21,7 +22,7 @@ public class MoveInput : ActionInput
     {
         if(_path != null)
         {
-            _prediction.DrawCharacter(_char);
+            _prediction.DrawCharacter(_char, _path.Last());
             MovementComponent mc = new MovementComponent(_path);
             Game.I.InputController.ProduceInput(GetActionType(), mc);
 

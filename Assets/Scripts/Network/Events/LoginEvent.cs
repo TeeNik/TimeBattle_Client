@@ -8,6 +8,6 @@ public class LoginEvent : BaseEventClass
 
     protected override void HandleResponseImpl(JSONObject json)
     {
-        throw new System.NotImplementedException();
+        GameLayer.I.SceneController.LoadScene("Lobby", true, null);
     }
 }

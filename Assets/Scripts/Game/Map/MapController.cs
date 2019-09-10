@@ -24,6 +24,7 @@ public class MapController : MonoBehaviour
         _isInited = true;
     }
 
+    //TODO Remove to UI
     void Update()
     {
         if (_isInited)
@@ -68,6 +69,11 @@ public class MapController : MonoBehaviour
     {
         var mouse = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         return grid.WorldToCell(mouse);
+    }
+
+    public Vector3 GetTileWorldPosition(Point point)
+    {
+        return tileMap.GetCellCenterWorld(new Vector3Int(point.X, point.Y, 0));
     }
 
     public Vector3Int GetTileByVector3(Vector3 pos)

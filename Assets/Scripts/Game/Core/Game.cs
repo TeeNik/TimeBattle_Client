@@ -18,13 +18,11 @@ public class Game : MonoBehaviour
     public PlayerType PlayerType = PlayerType.Player1;
     public GameState GameState = GameState.UserInput;
 
-    private List<ActionDto> _turnData;
+    private List<ComponentDto> _turnData;
 
     private int _currentPhase;
-    private int _currentPhaseAction;
 
     private readonly EventListener _eventListener = new EventListener();
-    private readonly ServerEmulator _serverEmulator = new ServerEmulator();
 
     private void Start()
     {
@@ -43,12 +41,9 @@ public class Game : MonoBehaviour
         MapController.Init();
         InputController.Init();
         GameUI.Init();
-
-        //TODO make optional
-        _serverEmulator.Start();
     }
 
-    public void OnTurnData(List<ActionDto> data)
+    public void OnTurnData(List<ComponentDto> data)
     {
         _turnData = data.ToList();
         _currentPhase = 0;
@@ -80,7 +75,6 @@ public class Game : MonoBehaviour
         if (SystemController.IsProcessing())
         {
             SystemController.UpdateSystems();
-            _currentPhaseAction++;
         }
         else
         {

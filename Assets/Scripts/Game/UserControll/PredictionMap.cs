@@ -13,10 +13,10 @@ public class PredictionMap : MonoBehaviour
 
     [SerializeField] private Transform _parent;
 
-    public void DrawCharacter(Character reference)
+    public void DrawCharacter(Character reference, Point point)
     {
         var map = Game.I.MapController;
-        var position = map.GetTilePositionByMouse();
+        var position = map.GetTileWorldPosition(point);
         var ch = Instantiate(ResourceManager.Instance.CharacterPrediction, _parent);
         ch.transform.position = reference.transform.position;
         reference.transform.position = position;

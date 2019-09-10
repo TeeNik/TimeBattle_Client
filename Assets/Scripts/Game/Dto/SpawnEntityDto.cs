@@ -10,5 +10,5 @@ public enum OperativeType
 public class SpawnEntityDto
 {
     public string PrefabName;
-    public List<ComponentBase> InitialComponents = new List<ComponentBase>();
+    public List<ComponentDto> InitialComponents = new List<ComponentDto>();
 }

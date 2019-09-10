@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-public class ActionDto
+public class ComponentDto
 {
     public int entityId;
     public List<ActionPhase> phases;

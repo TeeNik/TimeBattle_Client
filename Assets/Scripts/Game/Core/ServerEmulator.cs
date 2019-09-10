@@ -1,11 +1,14 @@
 ﻿using System.Collections.Generic;
+using SimpleJSON;
 
 public class ServerEmulator
 {
 
     public void Login()
     {
-
+        JSONObject json = new JSONObject();
+        json["cmd"] = "login";
+        GameLayer.I.Net.ProcessEvent(json);
     }
 
     public void Start()
@@ -28,12 +31,30 @@ public class ServerEmulator
         Game.I.Messages.SendEvent(EventStrings.OnGameInitialized);
     }
 
+    public void PlayGame()
+    {
+        JSONObject json = new JSONObject();
+        json["cmd"] = "playGame";
+        GameLayer.I.Net.ProcessEvent(json);
+    }
+
+    private JSONObject CreatePlayGameData()
+    {
+
+    }
+
+    private JSONObject CreateCharacterSpawn(PlayerType owner, OperativeType operative, Point point)
+    {
+        var spawn = new SpawnEntityDto();
+
+    }
+
     private SpawnEntityDto CreateCharacterSpawn(PlayerType owner, OperativeType operative, Point point)
     {
         var spawn = new SpawnEntityDto();
         var maxHealth = 1;
         spawn.PrefabName = $"{operative}_{owner}";
-        spawn.InitialComponents.Add(new OperativeInfoCmponent(owner, operative));
+        spawn.InitialComponents.Add(new ComponentDto());new OperativeInfoCmponent(owner, operative));
         spawn.InitialComponents.Add(new MovementComponent(point));
         spawn.InitialComponents.Add(new ShootComponent(null));
         spawn.InitialComponents.Add(new HealthComponent(maxHealth));
