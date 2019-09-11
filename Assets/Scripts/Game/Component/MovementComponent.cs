@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 
+[Component(ComponentType.Movement)]
 public class MovementComponent : ComponentBase
 {
     public List<Point> Path;
@@ -16,7 +17,7 @@ public class MovementComponent : ComponentBase
         Position = point;
     }
 
-    public void Update(ComponentBase data)
+    public override void Update(ComponentBase data)
     {
         var mc = (MovementComponent)data;
         if (mc.Position != null)

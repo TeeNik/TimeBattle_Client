@@ -39,7 +39,7 @@ public abstract class Entity : MonoBehaviour
         }
     }
 
-    public T GetEcsComponent<T>()
+    public T GetEcsComponent<T>() where T : ComponentBase
     {
         var component = (T)Components.Find(c => c.GetType() == typeof(T));
         return component;

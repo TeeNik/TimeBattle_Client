@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 
+[Component(ComponentType.Shoot)]
 public class ShootComponent : ComponentBase
 {
     public List<Point> Range;
@@ -11,7 +12,7 @@ public class ShootComponent : ComponentBase
         Weapon = new Pistol();
     }
 
-    public void Update(ComponentBase newData)
+    public override void Update(ComponentBase newData)
     {
         var sc = (ShootComponent)newData;
         if(sc.Range != null)

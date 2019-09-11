@@ -79,11 +79,11 @@ public class InputDataController : MonoBehaviour
             action = new ComponentDto
             {
                 entityId = _selectedChar.Id,
-                phases = new List<ActionPhase>()
+                phases = new List<ComponentBase>()
             };
             _storedInputs.Add(action);
         }
-        action.phases.Add(new ActionPhase{type = compType, component = comp});
+        action.phases.Add(comp);
         
         //TODO
         var ac = _selectedChar.GetEcsComponent<CharacterActionComponent>();
@@ -120,8 +120,8 @@ public class InputDataController : MonoBehaviour
             Debug.Log($"<color=blue>{input.entityId}</color> ");
             foreach (var phase in input.phases)
             {
-                var json = JsonUtility.ToJson(phase.component);
-                Debug.Log($"{phase.type.ToString()} -- {json.ToString()}");
+                var json = JsonUtility.ToJson(phase);
+                Debug.Log(json);
             }
         }
     }

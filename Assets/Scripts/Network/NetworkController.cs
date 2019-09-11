@@ -1,7 +1,5 @@
-using SimpleJSON;
 using System;
-using System.Collections;
-using System.Collections.Generic;
+using Newtonsoft.Json.Linq;
 using UnityEngine;
 using WebSocketSharp;
 
@@ -56,10 +54,10 @@ public class NetworkController
 
     private void OnMessage(object sender, MessageEventArgs args)
     {
-        ProcessEvent(JSON.Parse(args.Data).AsObject);
+        ProcessEvent(new JObject(args.Data));
     }
 
-    public void ProcessEvent(JSONObject json)
+    public void ProcessEvent(JObject json)
     {
         _eventAgregator.ProcessEvent(json);
     }

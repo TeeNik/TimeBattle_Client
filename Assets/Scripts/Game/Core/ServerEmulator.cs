@@ -1,14 +1,17 @@
-﻿using System.Collections.Generic;
-using SimpleJSON;
+﻿using System;
+using System.Collections.Generic;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using UnityEngine;
 
 public class ServerEmulator
 {
 
+    private int _entityCounter = 0;
+
     public void Login()
     {
-        JSONObject json = new JSONObject();
-        json["cmd"] = "login";
-        GameLayer.I.Net.ProcessEvent(json);
+        GameLayer.I.Net.ProcessEvent(CreateEventMessage("login", null));
     }
 
     public void Start()
@@ -16,50 +19,52 @@ public class ServerEmulator
         SendInitialEvent();
     }
 
+    private JObject CreateEventMessage(string cmd, object param)
+    {
+        var json = new JObject
+        {
+            ["cmd"] = cmd,
+            ["params"] = JsonUtility.ToJson(param)
+        };
+        return json;
+    }
+
     private void SendInitialEvent()
     {
-        var list = new List<SpawnEntityDto>() {
+        var param = new List<string>() {
             CreateCharacterSpawn(PlayerType.Player1, OperativeType.Assault, new Point(8, 8)),
             CreateCharacterSpawn(PlayerType.Player2, OperativeType.Assault, new Point(9, 4)),
-
         };
-        foreach(var spawn in list)
+
+        JObject startGame = CreateEventMessage("startGame", param);
+        GameLayer.I.Net.ProcessEvent(startGame);
+
+        /*foreach (var spawn in list)
         {
             Game.I.EntityManager.CreateEntity(spawn);
         }
 
-        Game.I.Messages.SendEvent(EventStrings.OnGameInitialized);
+        Game.I.Messages.SendEvent(EventStrings.OnGameInitialized);*/
     }
 
     public void PlayGame()
     {
-        JSONObject json = new JSONObject();
-        json["cmd"] = "playGame";
-        GameLayer.I.Net.ProcessEvent(json);
+        GameLayer.I.Net.ProcessEvent(CreateEventMessage("playGame", null));
     }
 
-    private JSONObject CreatePlayGameData()
-    {
-
-    }
-
-    private JSONObject CreateCharacterSpawn(PlayerType owner, OperativeType operative, Point point)
+    private string CreateCharacterSpawn(PlayerType owner, OperativeType operative, Point point)
     {
         var spawn = new SpawnEntityDto();
-
-    }
-
-    private SpawnEntityDto CreateCharacterSpawn(PlayerType owner, OperativeType operative, Point point)
-    {
-        var spawn = new SpawnEntityDto();
+        spawn.Id = _entityCounter;
+        ++_entityCounter;
         var maxHealth = 1;
         spawn.PrefabName = $"{operative}_{owner}";
-        spawn.InitialComponents.Add(new ComponentDto());new OperativeInfoCmponent(owner, operative));
+        spawn.InitialComponents.Add(new OperativeInfoCmponent(owner, operative));
         spawn.InitialComponents.Add(new MovementComponent(point));
         spawn.InitialComponents.Add(new ShootComponent(null));
         spawn.InitialComponents.Add(new HealthComponent(maxHealth));
         spawn.InitialComponents.Add(new CharacterActionComponent());
-        return spawn;
+        return JsonConvert.SerializeObject(spawn);
     }
 
     public void SendNextTurn()

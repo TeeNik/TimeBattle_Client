@@ -18,6 +18,8 @@ public class SystemController : IDisposable
             {typeof(HealthComponent), new HealthSystem()},
             {typeof(CharacterActionComponent), new CharacterActionSystem()}
         };
+
+        ComponentBase.GetComponentType(ComponentType.Movement);
     }
 
     public T GetSystem<T>()
@@ -35,11 +37,11 @@ public class SystemController : IDisposable
         GetSystem<ShootingSystem>().OnUpdateEnd();
     }
 
-    public void ProcessData(int entityId, ActionPhase phase)
+    public void ProcessData(int entityId, ComponentBase comp)
     {
-        var entity = Game.I.EntityManager.GetEntity(entityId);
-        var comp = Utils.ActionTypeToComponent(phase.type);
-        entity.GetEcsComponent(comp).Update(phase.component);
+        /*var entity = Game.I.EntityManager.GetEntity(entityId);
+        var comp = Utils.ActionTypeToComponent(T);
+        entity.GetEcsComponent(comp).Update(phase.component);*/
     }
 
     public bool IsProcessing()

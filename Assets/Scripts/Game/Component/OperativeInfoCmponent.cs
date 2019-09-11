@@ -5,6 +5,7 @@ public enum PlayerType
     Player2
 }
 
+[Component(ComponentType.OperativeInfo)]
 public class OperativeInfoCmponent : ComponentBase
 {
     public PlayerType Owner;
@@ -16,7 +17,7 @@ public class OperativeInfoCmponent : ComponentBase
         OperativeType = operativeType;
     }
 
-    public void Update(ComponentBase newData)
+    public override void Update(ComponentBase newData)
     {
     }
 }

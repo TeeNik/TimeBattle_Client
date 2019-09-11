@@ -1,4 +1,4 @@
-﻿using SimpleJSON;
+﻿using Newtonsoft.Json.Linq;
 
 public class LoginEvent : BaseEventClass
 {
@@ -6,7 +6,7 @@ public class LoginEvent : BaseEventClass
     {
     }
 
-    protected override void HandleResponseImpl(JSONObject json)
+    protected override void HandleResponseImpl(JObject json)
     {
         GameLayer.I.SceneController.LoadScene("Lobby", true, null);
     }

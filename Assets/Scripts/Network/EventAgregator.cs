@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using SimpleJSON;
+using Newtonsoft.Json.Linq;
 
 public class EventAgregator
 {
@@ -19,14 +19,19 @@ public class EventAgregator
         }
     }
 
-    public void ProcessEvent(JSONObject json)
+    public void ProcessEvent(JObject json)
     {
-        var cmd = json["cmd"].Value;
+        var cmd = json["cmd"].ToString();
         if (_events.ContainsKey(cmd))
         {
             var evnt = _events[cmd];
-            var data = json["params"].AsObject;
 
+            var param = json["params"];
+            JObject data = null;
+            if (param.HasValues)
+            {
+                data = new JObject(param.ToString());
+            }
             evnt.HandleResponse(data);
         }
     }

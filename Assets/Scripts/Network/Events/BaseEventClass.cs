@@ -1,4 +1,4 @@
-﻿using SimpleJSON;
+﻿using Newtonsoft.Json.Linq;
 
 public abstract class BaseEventClass
 {
@@ -10,11 +10,11 @@ public abstract class BaseEventClass
         Header = name;
     }
 
-    public void HandleResponse(JSONObject json)
+    public void HandleResponse(JObject json)
     {
         HandleResponseImpl(json);
     }
 
-    protected abstract void HandleResponseImpl(JSONObject json);
+    protected abstract void HandleResponseImpl(JObject json);
 
 }
