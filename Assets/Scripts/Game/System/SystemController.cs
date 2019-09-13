@@ -14,7 +14,7 @@ public class SystemController : IDisposable
         {
             {typeof(ShootComponent), new ShootingSystem()},
             {typeof(MovementComponent), new MovementSystem()},
-            {typeof(OperativeInfoCmponent), new OperativeInfoSystem()},
+            {typeof(OperativeInfoComponent), new OperativeInfoSystem()},
             {typeof(HealthComponent), new HealthSystem()},
             {typeof(CharacterActionComponent), new CharacterActionSystem()}
         };
@@ -33,15 +33,17 @@ public class SystemController : IDisposable
         {
             system.Update();
         }
+    }
 
+    public void OnUpdateEnd()
+    {
         GetSystem<ShootingSystem>().OnUpdateEnd();
     }
 
     public void ProcessData(int entityId, ComponentBase comp)
     {
-        /*var entity = Game.I.EntityManager.GetEntity(entityId);
-        var comp = Utils.ActionTypeToComponent(T);
-        entity.GetEcsComponent(comp).Update(phase.component);*/
+        var entity = Game.I.EntityManager.GetEntity(entityId);
+        entity.GetEcsComponent(comp.GetType()).Update(comp);
     }
 
     public bool IsProcessing()

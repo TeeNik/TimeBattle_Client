@@ -31,20 +31,20 @@ public class ServerEmulator
 
     private void SendInitialEvent()
     {
-        var param = new List<string>() {
+        var param = new List<SpawnEntityDto>() {
             CreateCharacterSpawn(PlayerType.Player1, OperativeType.Assault, new Point(8, 8)),
             CreateCharacterSpawn(PlayerType.Player2, OperativeType.Assault, new Point(9, 4)),
         };
 
-        JObject startGame = CreateEventMessage("startGame", param);
-        GameLayer.I.Net.ProcessEvent(startGame);
+        //JObject startGame = CreateEventMessage("startGame", param);
+        //GameLayer.I.Net.ProcessEvent(startGame);
 
-        /*foreach (var spawn in list)
+        foreach (var spawn in param)
         {
             Game.I.EntityManager.CreateEntity(spawn);
         }
 
-        Game.I.Messages.SendEvent(EventStrings.OnGameInitialized);*/
+        Game.I.Messages.SendEvent(EventStrings.OnGameInitialized);
     }
 
     public void PlayGame()
@@ -52,19 +52,19 @@ public class ServerEmulator
         GameLayer.I.Net.ProcessEvent(CreateEventMessage("playGame", null));
     }
 
-    private string CreateCharacterSpawn(PlayerType owner, OperativeType operative, Point point)
+    private SpawnEntityDto CreateCharacterSpawn(PlayerType owner, OperativeType operative, Point point)
     {
         var spawn = new SpawnEntityDto();
         spawn.Id = _entityCounter;
         ++_entityCounter;
         var maxHealth = 1;
         spawn.PrefabName = $"{operative}_{owner}";
-        spawn.InitialComponents.Add(new OperativeInfoCmponent(owner, operative));
+        spawn.InitialComponents.Add(new OperativeInfoComponent(owner, operative));
         spawn.InitialComponents.Add(new MovementComponent(point));
         spawn.InitialComponents.Add(new ShootComponent(null));
         spawn.InitialComponents.Add(new HealthComponent(maxHealth));
         spawn.InitialComponents.Add(new CharacterActionComponent());
-        return JsonConvert.SerializeObject(spawn);
+        return spawn;
     }
 
     public void SendNextTurn()

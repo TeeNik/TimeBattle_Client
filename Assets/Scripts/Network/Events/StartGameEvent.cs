@@ -2,7 +2,7 @@
 
 public class StartGameEvent : BaseEventClass
 {
-    public StartGameEvent(string name) : base(name)
+    public StartGameEvent() : base("startGame")
     {
     }
 

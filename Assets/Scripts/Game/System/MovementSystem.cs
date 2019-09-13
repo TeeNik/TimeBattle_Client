@@ -14,7 +14,7 @@ public class MovementSystem : ISystem
         var mc = (MovementComponent)component;
         _components.Add(entity.Id, mc);
 
-        var info = entity.GetEcsComponent<OperativeInfoCmponent>();
+        var info = entity.GetEcsComponent<OperativeInfoComponent>();
         var mapType = info.Owner == PlayerType.Player1 ? OnMapType.Player1 : OnMapType.Player2;
         var pos = Game.I.MapController.SetToPosition(entity.Id, mapType, mc.Position);
         entity.transform.position = pos;
@@ -40,7 +40,7 @@ public class MovementSystem : ISystem
                 data.Path.Remove(nextPosition);
 
                 var position = component.Value.Position;
-                var info = entity.GetEcsComponent<OperativeInfoCmponent>();
+                var info = entity.GetEcsComponent<OperativeInfoComponent>();
                 var mapData = info.Owner == PlayerType.Player1 ? OnMapType.Player1 : OnMapType.Player2;
                 var pos = map.MoveToPosition(component.Key ,mapData, position, nextPosition);
                 component.Value.Position = nextPosition;

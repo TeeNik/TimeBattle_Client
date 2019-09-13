@@ -40,6 +40,7 @@ public class PredictionMap : MonoBehaviour
         _objectsPrediction.Reverse();
         foreach (var o in _objectsPrediction)
         {
+            o.MoveReferance();
             Destroy(o.gameObject);
         }
         _objectsPrediction.Clear();

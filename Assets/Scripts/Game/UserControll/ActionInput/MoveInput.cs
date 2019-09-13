@@ -51,7 +51,7 @@ public class MoveInput : ActionInput
                 var path = _map.PathFinder.FindPath(startPoint, _lastPoint, false);
                 if(path.Count > _moveLimit)
                 {
-                    path.RemoveRange(_moveLimit, path.Count - _moveLimit - 1);
+                    path.RemoveRange(_moveLimit, path.Count - _moveLimit);
                 }
                 _path = path;
                 _prediction.DrawPath(path);

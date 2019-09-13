@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 public class ShootingSystem : ISystem
 {
@@ -23,7 +24,7 @@ public class ShootingSystem : ISystem
             if (range != null)
             {
                 var entity = Game.I.EntityManager.GetEntity(component.Key);
-                var info = entity.GetEcsComponent<OperativeInfoCmponent>();
+                var info = entity.GetEcsComponent<OperativeInfoComponent>();
                 var enemy = Utils.PlayerTypeToMap(Utils.GetOppositePlayer(info.Owner));
                 foreach (var point in range)
                 {
@@ -56,9 +57,9 @@ public class ShootingSystem : ISystem
 
     public void OnUpdateEnd()
     {
-        foreach(var comp in _components)
+        foreach(var comp in _components.Values.Where(c=>c.Range != null && c.Range.Count > 0))
         {
-            comp.Value.Range.Clear();
+            comp.Range.Clear();
         }
     }
 

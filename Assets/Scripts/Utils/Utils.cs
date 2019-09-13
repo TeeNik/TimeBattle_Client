@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using Newtonsoft.Json;
 using UnityEngine;
 
 public static class Utils
@@ -25,6 +26,12 @@ public static class Utils
     {
         var asset = Resources.Load(fileName) as TextAsset;
         return JsonUtility.FromJson<List<T>>(asset.text);
+    }
+
+    public static ComponentBase GetComponentFromJson(ComponentType type, string json)
+    {
+        var tp = ComponentBase.GetComponentType(type);
+        return (ComponentBase)JsonConvert.DeserializeObject(json, tp);
     }
 
 }

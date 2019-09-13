@@ -18,7 +18,7 @@ public class Game : MonoBehaviour
     public PlayerType PlayerType = PlayerType.Player1;
     public GameState GameState = GameState.UserInput;
 
-    private List<ComponentDto> _turnData;
+    private List<ActionPhase> _turnData;
 
     private int _currentPhase;
 
@@ -41,9 +41,12 @@ public class Game : MonoBehaviour
         MapController.Init();
         InputController.Init();
         GameUI.Init();
+
+        //TODO Remove later
+        GameLayer.I.ServerEmulator.Start();
     }
 
-    public void OnTurnData(List<ComponentDto> data)
+    public void OnTurnData(List<ActionPhase> data)
     {
         _turnData = data.ToList();
         _currentPhase = 0;
@@ -55,6 +58,7 @@ public class Game : MonoBehaviour
         if(_currentPhase > _turnData.Max(t => t.phases.Count))
         {
             _currentPhase = 0;
+            SystemController.OnUpdateEnd();
             return;
         }
 

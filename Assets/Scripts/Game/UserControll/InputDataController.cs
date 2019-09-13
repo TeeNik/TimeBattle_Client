@@ -20,7 +20,7 @@ public class InputDataController : MonoBehaviour
     private readonly List<Entity> _currentChars = new List<Entity>();
     private Character _selectedChar;
 
-    private readonly List<ComponentDto> _storedInputs = new List<ComponentDto>();
+    private readonly List<ActionPhase> _storedInputs = new List<ActionPhase>();
     private readonly EventListener _eventListener = new EventListener();
     private OperativeInfoSystem _infoSystem;
 
@@ -76,7 +76,7 @@ public class InputDataController : MonoBehaviour
         var action = _storedInputs.Find(a => a.entityId == _selectedChar.Id);
         if (action == null)
         {
-            action = new ComponentDto
+            action = new ActionPhase()
             {
                 entityId = _selectedChar.Id,
                 phases = new List<ComponentBase>()
