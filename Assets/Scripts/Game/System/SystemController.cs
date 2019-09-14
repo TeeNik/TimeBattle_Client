@@ -12,8 +12,8 @@ public class SystemController : IDisposable
     {
         Systems = new Dictionary<Type, ISystem>
         {
-            {typeof(ShootComponent), new ShootingSystem()},
             {typeof(MovementComponent), new MovementSystem()},
+            {typeof(ShootComponent), new ShootingSystem()},
             {typeof(OperativeInfoComponent), new OperativeInfoSystem()},
             {typeof(HealthComponent), new HealthSystem()},
             {typeof(CharacterActionComponent), new CharacterActionSystem()}

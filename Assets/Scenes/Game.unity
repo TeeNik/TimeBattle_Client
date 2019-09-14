@@ -989,9 +989,11 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 52178b989faa4ee4eac4450f8df4efaf, type: 2}
   - {fileID: 11400000, guid: e45aa0dcedead6646aa9e1bc71fe264b, type: 2}
   - {fileID: 11400000, guid: eb5ea385902bbcf4b90b890214f7c66a, type: 2}
-  Entities:
-  - {fileID: 6299787003037800029, guid: 5af2d50ece50b6648b3b1a7121572d7e, type: 3}
-  - {fileID: 6299787003037800029, guid: 423c405cb6c8075418d5943ed3634b4f, type: 3}
+  Sprites: []
+  CharacterBase: {fileID: 6299787003037800029, guid: 5af2d50ece50b6648b3b1a7121572d7e,
+    type: 3}
+  CoverBase: {fileID: 2817395487777404867, guid: 31c7410524b20c04f8df6bf105dffb44,
+    type: 3}
   CharacterPrediction: {fileID: 7412160270274367409, guid: 783f0ef64461d254eb966b2dbddac456,
     type: 3}
 --- !u!4 &586783191

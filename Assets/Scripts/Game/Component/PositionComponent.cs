@@ -3,7 +3,7 @@ public class PositionComponent : ComponentBase
 {
     public Point Position;
 
-    public PositionComponent(Point p)
+    public PositionComponent(Point p, OnMapType type)
     {
         Position = p;
     }

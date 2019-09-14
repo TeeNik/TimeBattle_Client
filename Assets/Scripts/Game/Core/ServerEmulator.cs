@@ -29,11 +29,19 @@ public class ServerEmulator
         return json;
     }
 
+    private int GetID()
+    {
+        return _entityCounter++;
+    }
+
     private void SendInitialEvent()
     {
         var param = new List<SpawnEntityDto>() {
-            CreateCharacterSpawn(PlayerType.Player1, OperativeType.Assault, new Point(8, 8)),
-            CreateCharacterSpawn(PlayerType.Player2, OperativeType.Assault, new Point(9, 4)),
+            CreateCharacter(PlayerType.Player1, OperativeType.Assault, new Point(8, 8)),
+            CreateCharacter(PlayerType.Player2, OperativeType.Assault, new Point(9, 4)),
+            CreateCover(new Point(5, 7)),
+            CreateCover(new Point(5, 8)),
+            CreateCover(new Point(5, 9)),
         };
 
         //JObject startGame = CreateEventMessage("startGame", param);
@@ -52,18 +60,25 @@ public class ServerEmulator
         GameLayer.I.Net.ProcessEvent(CreateEventMessage("playGame", null));
     }
 
-    private SpawnEntityDto CreateCharacterSpawn(PlayerType owner, OperativeType operative, Point point)
+    private SpawnEntityDto CreateCharacter(PlayerType owner, OperativeType operative, Point point)
     {
-        var spawn = new SpawnEntityDto();
-        spawn.Id = _entityCounter;
-        ++_entityCounter;
+        var spawn = new SpawnEntityDto {Id = GetID()};
         var maxHealth = 1;
+        var mapType = owner == PlayerType.Player1 ? OnMapType.Player1 : OnMapType.Player2;
         spawn.PrefabName = $"{operative}_{owner}";
         spawn.InitialComponents.Add(new OperativeInfoComponent(owner, operative));
-        spawn.InitialComponents.Add(new MovementComponent(point));
+        spawn.InitialComponents.Add(new MovementComponent(point, mapType));
         spawn.InitialComponents.Add(new ShootComponent(null));
         spawn.InitialComponents.Add(new HealthComponent(maxHealth));
         spawn.InitialComponents.Add(new CharacterActionComponent());
+        return spawn;
+    }
+
+    private SpawnEntityDto CreateCover(Point point)
+    {
+        var spawn = new SpawnEntityDto{ Id = GetID() };
+        spawn.PrefabName = "Cover";
+        spawn.InitialComponents.Add(new MovementComponent(point, OnMapType.Cover));
         return spawn;
     }
 

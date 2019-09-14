@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.Object;
 
 public class EntityController
 {
@@ -28,8 +29,8 @@ public class EntityController
 
     public void CreateEntity(SpawnEntityDto dto)
     {
-        var playerPrefab = ResourceManager.GetEntity(dto.PrefabName);
-        var entity = GameObject.Instantiate(playerPrefab);
+        var playerPrefab = ResourceManager.Instance.CharacterBase;
+        var entity = Instantiate(playerPrefab);
         _entities.Add(_idCounter, entity);
         entity.Init(_idCounter);
         foreach (var comp in dto.InitialComponents)

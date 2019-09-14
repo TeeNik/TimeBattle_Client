@@ -114,7 +114,7 @@ public class MapController : MonoBehaviour
             {
                 return GetEntityByPoint(p);
             }
-            else if(type == OnMapType.Wall)
+            if(type == OnMapType.Wall)
             {
                 return null;
             }

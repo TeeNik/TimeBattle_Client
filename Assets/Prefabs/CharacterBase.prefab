@@ -421,7 +421,7 @@ GameObject:
   - component: {fileID: 1503521223}
   - component: {fileID: 1455083875026480117}
   m_Layer: 0
-  m_Name: Assault_Player1
+  m_Name: CharacterBase
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -553,4 +553,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 822a6c540aeceba499f4a347117cb5aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Title: {fileID: 2287598451054093492}
+  _title: {fileID: 2287598451054093492}
+  _spriteRenderer: {fileID: 6299787003037800028}

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
 
-public abstract class Entity : MonoBehaviour
+public class Entity : MonoBehaviour
 {
 
     public int Id { get; private set; }

@@ -1,16 +1,17 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using TMPro;
+﻿using TMPro;
 using UnityEngine;
 
 public class InfoView : MonoBehaviour
 {
 
-    [SerializeField] private TMP_Text Title;
+    [SerializeField] private TMP_Text _title;
+    [SerializeField] private SpriteRenderer _spriteRenderer; 
 
     public void SetInfo(OperativeInfoComponent info)
     {
-        Title.text = info.OperativeType.ToString();
+        _title.text = info.OperativeType.ToString();
+        var sprite = $"{info.OperativeType}_{info.Owner}";
+        _spriteRenderer.sprite = ResourceManager.Instance.GetSprite(sprite);
     }
 
 }

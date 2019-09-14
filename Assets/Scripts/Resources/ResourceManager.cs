@@ -7,19 +7,15 @@ public class ResourceManager : MonoBehaviour
     public static ResourceManager Instance;
 
     public TileBase[] TileBases;
+    public Sprite[] Sprites;
 
-    public Entity[] Entities;
-
+    public Entity CharacterBase;
+    public Entity CoverBase;
     public CharacterPrediction CharacterPrediction;
 
     public void Start()
     {
         Instance = this;
-    }
-
-    public static Entity GetEntity(string name)
-    {
-        return Get($"{name} (Character)", Instance.Entities);
     }
 
     private static T Get<T>(string name, T[] array)
@@ -34,4 +30,8 @@ public class ResourceManager : MonoBehaviour
         return default(T);
     }
 
+    public Sprite GetSprite(string sprite)
+    {
+        return Get(sprite, Sprites);
+    }
 }
