@@ -65,7 +65,7 @@ public class ServerEmulator
         var spawn = new SpawnEntityDto {Id = GetID()};
         var maxHealth = 1;
         var mapType = owner == PlayerType.Player1 ? OnMapType.Player1 : OnMapType.Player2;
-        spawn.PrefabName = $"{operative}_{owner}";
+        spawn.PrefabName = "CharacterBase";
         spawn.InitialComponents.Add(new OperativeInfoComponent(owner, operative));
         spawn.InitialComponents.Add(new MovementComponent(point, mapType));
         spawn.InitialComponents.Add(new ShootComponent(null));

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.Tilemaps;
 
 public class ResourceManager : MonoBehaviour
@@ -8,9 +9,8 @@ public class ResourceManager : MonoBehaviour
 
     public TileBase[] TileBases;
     public Sprite[] Sprites;
+    public Entity[] Entities;
 
-    public Entity CharacterBase;
-    public Entity CoverBase;
     public CharacterPrediction CharacterPrediction;
 
     public void Start()
@@ -22,12 +22,17 @@ public class ResourceManager : MonoBehaviour
     {
         for (int i = 0; i < array.Length; i++)
         {
-            if (array[i].ToString() == name)
+            if (array[i].ToString().Split(' ')[0] == name)
             {
                 return array[i];
             }
         }
         return default(T);
+    }
+
+    public Entity GetEntity(String name)
+    {
+        return Get(name, Entities);
     }
 
     public Sprite GetSprite(string sprite)

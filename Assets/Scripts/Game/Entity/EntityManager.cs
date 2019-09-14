@@ -29,7 +29,7 @@ public class EntityController
 
     public void CreateEntity(SpawnEntityDto dto)
     {
-        var playerPrefab = ResourceManager.Instance.CharacterBase;
+        var playerPrefab = ResourceManager.Instance.GetEntity(dto.PrefabName);
         var entity = Instantiate(playerPrefab);
         _entities.Add(_idCounter, entity);
         entity.Init(_idCounter);
