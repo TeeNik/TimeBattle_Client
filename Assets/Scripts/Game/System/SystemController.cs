@@ -51,6 +51,11 @@ public class SystemController : IDisposable
          return Systems.Values.Any(s=>s.IsProcessing());
     }
 
+    public int GetPhaseLength()
+    {
+        return Systems.Values.Max(s => s.GetPhaseLegth());
+    }
+
 
     public void Dispose()
     {

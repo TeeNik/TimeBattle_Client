@@ -22,6 +22,9 @@ public class Game : MonoBehaviour
 
     private int _currentPhase;
 
+    private int _phaseLength;
+    private int _updatesCount;
+
     private readonly EventListener _eventListener = new EventListener();
 
     private void Start()
@@ -53,9 +56,12 @@ public class Game : MonoBehaviour
         ProducePhase();
     }
 
+
+    //TODO make this function cleaner
     public void ProducePhase()
     {
-        if(_currentPhase > _turnData.Max(t => t.phases.Count))
+
+        if (_currentPhase > _turnData.Max(t => t.phases.Count))
         {
             _currentPhase = 0;
             SystemController.OnUpdateEnd();
@@ -63,11 +69,18 @@ public class Game : MonoBehaviour
             return;
         }
 
+        if (_currentPhase != 0)
+        {
+            SystemController.OnUpdateEnd();
+        }
+
         foreach (var dto in _turnData)
         {
             if (dto.phases.Count > _currentPhase)
             {
                 SystemController.ProcessData(dto.entityId, dto.phases[_currentPhase]);
+                _phaseLength = SystemController.GetPhaseLength();
+                _updatesCount = 0;
             }
         }
 
@@ -77,8 +90,17 @@ public class Game : MonoBehaviour
 
     public void IterateOverPhase()
     {
-        if (SystemController.IsProcessing())
+        /*if (SystemController.IsProcessing())
         {
+            SystemController.UpdateSystems();
+        }
+        else
+        {
+            ProducePhase();
+        }*/
+        if (_updatesCount < _phaseLength)
+        {
+            ++_updatesCount;
             SystemController.UpdateSystems();
         }
         else

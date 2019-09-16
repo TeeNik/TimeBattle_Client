@@ -37,6 +37,7 @@ public class ShootingSystem : ISystem
                         {
                             Game.I.Messages.SendEvent(new TakeDamageMsg(target.Value, 1));
                         }
+                        range.Clear();
                         break;
                     }
                 }
@@ -71,5 +72,10 @@ public class ShootingSystem : ISystem
     public void RemoveComponent(int entityId)
     {
         ToDelete.Add(entityId);
+    }
+
+    public int GetPhaseLegth()
+    {
+        return 1;
     }
 }

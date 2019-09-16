@@ -34,6 +34,11 @@ public class CharacterActionSystem : ISystem
         return false;
     }
 
+    public int GetPhaseLegth()
+    {
+        return 0;
+    }
+
     public void Update()
     {
         foreach (var component in Components)

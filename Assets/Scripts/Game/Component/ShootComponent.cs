@@ -9,7 +9,7 @@ public class ShootComponent : ComponentBase
     public ShootComponent(List<Point> range)
     {
         Range = range;
-        Weapon = new SniperRifle();
+        Weapon = new Pistol();
     }
 
     public override void Update(ComponentBase newData)

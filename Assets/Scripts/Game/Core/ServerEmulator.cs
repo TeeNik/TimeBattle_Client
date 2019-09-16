@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Newtonsoft.Json;
+﻿using System.Collections.Generic;
 using Newtonsoft.Json.Linq;
 using UnityEngine;
 
@@ -38,9 +36,9 @@ public class ServerEmulator
     {
         var param = new List<SpawnEntityDto>() {
             CreateCharacter(PlayerType.Player1, OperativeType.Assault, new Point(8, 8)),
-            CreateCharacter(PlayerType.Player1, OperativeType.Assault, new Point(2, 2)),
+            //CreateCharacter(PlayerType.Player1, OperativeType.Assault, new Point(2, 2)),
             //CreateCharacter(PlayerType.Player1, OperativeType.Assault, new Point(4, 2)),
-            CreateCharacter(PlayerType.Player2, OperativeType.Assault, new Point(1, 9)),
+            //CreateCharacter(PlayerType.Player2, OperativeType.Assault, new Point(1, 9)),
             CreateCharacter(PlayerType.Player2, OperativeType.Assault, new Point(4, 9)),
             //CreateCharacter(PlayerType.Player2, OperativeType.Assault, new Point(9, 4)),
             CreateCover(new Point(5, 7)),
