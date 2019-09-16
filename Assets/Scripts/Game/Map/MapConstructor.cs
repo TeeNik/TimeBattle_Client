@@ -8,7 +8,7 @@ public enum TileType
     Path
 }
 
-public class MapContructor
+public class MapConstructor
 {
     private const int Width = 17;
     private const int Height = 11;

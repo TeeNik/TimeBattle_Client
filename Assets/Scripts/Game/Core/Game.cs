@@ -59,6 +59,7 @@ public class Game : MonoBehaviour
         {
             _currentPhase = 0;
             SystemController.OnUpdateEnd();
+            CheckEndGame();
             return;
         }
 
@@ -83,6 +84,20 @@ public class Game : MonoBehaviour
         else
         {
             ProducePhase();
+        }
+    }
+
+    private void CheckEndGame()
+    {
+        var player1 = SystemController.GetSystem<OperativeInfoSystem>().GetEntitiesByOwner(PlayerType.Player1);
+        var player2 = SystemController.GetSystem<OperativeInfoSystem>().GetEntitiesByOwner(PlayerType.Player2);
+        if (player1.Count == 0)
+        {
+            Debug.Log("player2 wins!");
+        }
+        else if (player2.Count == 0)
+        {
+            Debug.Log("player1 wins!");
         }
     }
 

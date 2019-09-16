@@ -29,7 +29,7 @@ public class ServerEmulator
         return json;
     }
 
-    private int GetID()
+    private int GetId()
     {
         return _entityCounter++;
     }
@@ -38,7 +38,11 @@ public class ServerEmulator
     {
         var param = new List<SpawnEntityDto>() {
             CreateCharacter(PlayerType.Player1, OperativeType.Assault, new Point(8, 8)),
-            CreateCharacter(PlayerType.Player2, OperativeType.Assault, new Point(9, 4)),
+            CreateCharacter(PlayerType.Player1, OperativeType.Assault, new Point(2, 2)),
+            //CreateCharacter(PlayerType.Player1, OperativeType.Assault, new Point(4, 2)),
+            CreateCharacter(PlayerType.Player2, OperativeType.Assault, new Point(1, 9)),
+            CreateCharacter(PlayerType.Player2, OperativeType.Assault, new Point(4, 9)),
+            //CreateCharacter(PlayerType.Player2, OperativeType.Assault, new Point(9, 4)),
             CreateCover(new Point(5, 7)),
             CreateCover(new Point(5, 8)),
             CreateCover(new Point(5, 9)),
@@ -62,7 +66,7 @@ public class ServerEmulator
 
     private SpawnEntityDto CreateCharacter(PlayerType owner, OperativeType operative, Point point)
     {
-        var spawn = new SpawnEntityDto {Id = GetID()};
+        var spawn = new SpawnEntityDto {Id = GetId()};
         var maxHealth = 1;
         var mapType = owner == PlayerType.Player1 ? OnMapType.Player1 : OnMapType.Player2;
         spawn.PrefabName = "CharacterBase";
@@ -76,8 +80,11 @@ public class ServerEmulator
 
     private SpawnEntityDto CreateCover(Point point)
     {
-        var spawn = new SpawnEntityDto{ Id = GetID() };
-        spawn.PrefabName = "Cover";
+        var spawn = new SpawnEntityDto
+        {
+            Id = GetId(),
+            PrefabName = "Cover"
+        };
         spawn.InitialComponents.Add(new MovementComponent(point, OnMapType.Cover));
         return spawn;
     }

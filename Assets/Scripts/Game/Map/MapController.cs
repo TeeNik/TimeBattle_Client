@@ -18,8 +18,8 @@ public class MapController : MonoBehaviour
 
     public void Init()
     {
-        MapContructor contructor = new MapContructor();
-        _mapDatas = contructor.GenerateMap(tileMap);
+        MapConstructor constructor = new MapConstructor();
+        _mapDatas = constructor.GenerateMap(tileMap);
         PathFinder = new PathFinder(_mapDatas);
         _isInited = true;
     }
