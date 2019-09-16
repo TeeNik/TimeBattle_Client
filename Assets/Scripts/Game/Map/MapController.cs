@@ -107,18 +107,22 @@ public class MapController : MonoBehaviour
 
     public int? CheckCover(List<Point> range, Point target)
     {
-        foreach(var p in range)
+        for (var i = 0; i < range.Count; i++)
         {
-            var type = _mapDatas[p.X][p.Y].Type;
-            if (target.Equals(p) || type == OnMapType.Cover)
+            var p = range[i];
+            var current = _mapDatas[p.X][p.Y].Type;
+
+            if (target.Equals(p) || (current == OnMapType.Cover && i < range.Count - 1 && range[i+1].Equals(target)))
             {
                 return GetEntityByPoint(p);
             }
-            if(type == OnMapType.Wall)
+
+            if (current == OnMapType.Wall)
             {
                 return null;
             }
         }
+
         return null;
     }
 

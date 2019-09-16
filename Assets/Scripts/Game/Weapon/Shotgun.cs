@@ -2,9 +2,9 @@
 
 class Shotgun : Weapon
 {
-    public Shotgun()
+    public Shotgun() : base(WeaponType.Shotgun)
     {
-        Type = WeaponType.Shotgun;
+        GenerateBasicDirections();
     }
 
     protected override List<Point> Distance { get; } = new List<Point>

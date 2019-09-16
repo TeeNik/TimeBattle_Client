@@ -11,19 +11,24 @@ public enum WeaponType
 
 public abstract class Weapon
 {
-    public WeaponType Type;
+    public readonly WeaponType Type;
 
     protected abstract List<Point> Distance { get; }
-    public List<Point> Left {get; private set;}
-    public List<Point> Right {get; private set;}
-    public List<Point> Up  {get; private set;}
-    public List<Point> Down  {get; private set;}
+    public virtual List<Point> Left {get; protected set;}
+    public virtual List<Point> Right {get; protected set;}
+    public virtual List<Point> Up  {get; protected set;}
+    public virtual List<Point> Down  { get; protected set; }
 
-    public Weapon()
+    protected Weapon(WeaponType type)
+    {
+        Type = type;
+    }
+
+    protected void GenerateBasicDirections()
     {
         Down = Distance;
 
-        Up = new List<Point>(Distance.Select(c=>c.Clone()));
+        Up = new List<Point>(Distance.Select(c => c.Clone()));
         Up.ForEach(p => p.X *= -1);
 
         Right = new List<Point>(Distance.Select(c => c.Clone()));
@@ -31,10 +36,5 @@ public abstract class Weapon
 
         Left = new List<Point>(Right.Select(c => c.Clone()));
         Left.ForEach(p => p.Y *= -1);
-    }
-
-    public List<Point> GetLeftDirection()
-    {
-        return Distance;
     }
 }

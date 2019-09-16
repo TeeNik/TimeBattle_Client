@@ -2,9 +2,9 @@
 
 public class AssaultRifle : Weapon
 {
-    public AssaultRifle()
+    public AssaultRifle() : base(WeaponType.Assault)
     {
-        Type = WeaponType.Assault;
+        GenerateBasicDirections();
     }
 
     protected override List<Point> Distance { get; } = new List<Point>
