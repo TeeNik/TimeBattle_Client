@@ -55,19 +55,17 @@ public class MovementSystem : ISystem
     private void StopMoving()
     {
         --_moving;
-        if(_moving == 0)
-        {
-            Game.I.IterateOverPhase();
-        }
     }
 
     public bool IsProcessing()
     {
-        return _components.Any(c => c.Value.Path != null && c.Value.Path.Count > 0);
+        return _moving > 0;
     }
 
     public void RemoveComponent(int entityId)
     {
+        Game.I.MapController.SetMapData(_components[entityId].Position, OnMapType.Empty);
+
         _toDelete.Add(entityId);
     }
 

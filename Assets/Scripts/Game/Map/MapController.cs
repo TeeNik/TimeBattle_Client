@@ -39,6 +39,12 @@ public class MapController : MonoBehaviour
         }
     }
 
+    public void SetMapData(Point point, OnMapType type)
+    {
+        _mapDatas[point.X][point.Y].Type = type;
+        _mapDatas[point.X][point.Y].EntityId = null;
+    }
+
     public Vector3 SetToPosition(int id, OnMapType objectToMove, Point position)
     {
         var tile = new Vector3Int(position.X, position.Y, 0);
@@ -112,18 +118,16 @@ public class MapController : MonoBehaviour
         {
             var p = range[i];
             var current = _mapDatas[p.X][p.Y].Type;
-
-            if (i > 0)
-            {
-                var prev = range[i - 1];
-                if (_mapDatas[prev.X][prev.Y].Type == OnMapType.Cover)
-                {
-                    return GetEntityByPoint(prev);
-                }
-            }
-
             if (target.Equals(p))
             {
+                if (i > 0)
+                {
+                    var prev = range[i - 1];
+                    if (_mapDatas[prev.X][prev.Y].Type == OnMapType.Cover)
+                    {
+                        return GetEntityByPoint(prev);
+                    }
+                }
                 return GetEntityByPoint(p);
             }
             if (current == OnMapType.Wall)

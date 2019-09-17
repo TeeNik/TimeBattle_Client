@@ -26,7 +26,7 @@ public class InputDataController : MonoBehaviour
 
     public void Init()
     {
-        _eventListener.Add(Game.I.Messages.Subscribe<NextTurnMsg>(OnNextTurn));
+        _eventListener.Add(Game.I.Messages.Subscribe(EventStrings.OnNextTurn, OnNextTurn));
         _eventListener.Add(Game.I.Messages.Subscribe(EventStrings.OnGameInitialized, OnGameStarted));
         _infoSystem = Game.I.SystemController.GetSystem<OperativeInfoSystem>();
     }
@@ -36,9 +36,9 @@ public class InputDataController : MonoBehaviour
         SelectPlayerCharacters();
     }
 
-    private void OnNextTurn(NextTurnMsg obj)
+    private void OnNextTurn()
     {
-        throw new NotImplementedException();
+        SelectPlayerCharacters();
     }
 
     private void SelectPlayerCharacters()
@@ -104,11 +104,14 @@ public class InputDataController : MonoBehaviour
             var prev = Game.I.PlayerType;
             Game.I.PlayerType = Utils.GetOppositePlayer(Game.I.PlayerType);
             Debug.Log($"{prev.ToString()} ended. {Game.I.PlayerType} is started.");
-            SelectPlayerCharacters();
             Game.I.Messages.SendEvent(EventStrings.OnPlayerChanged);
             if (prev == PlayerType.Player2)
             {
                 ProduceSystemUpdate();
+            }
+            else
+            {
+                SelectPlayerCharacters();
             }
         }
     }

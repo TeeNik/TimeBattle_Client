@@ -40,7 +40,7 @@ public class ServerEmulator
             //CreateCharacter(PlayerType.Player1, OperativeType.Assault, new Point(4, 2)),
             //CreateCharacter(PlayerType.Player2, OperativeType.Assault, new Point(1, 9)),
             CreateCharacter(PlayerType.Player2, OperativeType.Assault, new Point(4, 9)),
-            //CreateCharacter(PlayerType.Player2, OperativeType.Assault, new Point(9, 4)),
+            ///CreateCharacter(PlayerType.Player2, OperativeType.Assault, new Point(9, 4)),
             CreateCover(new Point(5, 7)),
             CreateCover(new Point(5, 8)),
             CreateCover(new Point(5, 9)),
@@ -84,6 +84,7 @@ public class ServerEmulator
             PrefabName = "Cover"
         };
         spawn.InitialComponents.Add(new MovementComponent(point, OnMapType.Cover));
+        spawn.InitialComponents.Add(new HealthComponent(1));
         return spawn;
     }
 

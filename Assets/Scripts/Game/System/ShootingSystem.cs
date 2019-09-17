@@ -6,7 +6,7 @@ public class ShootingSystem : ISystem
     private Dictionary<int, ShootComponent> _components = new Dictionary<int, ShootComponent>();
 
     //TODO may be another way
-    private List<int> ToDelete = new List<int>();
+    private readonly List<int> _toDelete = new List<int>();
 
     public void Update()
     {
@@ -14,7 +14,7 @@ public class ShootingSystem : ISystem
 
         foreach (var component in _components)
         {
-            if (ToDelete.Contains(component.Key))
+            if (_toDelete.Contains(component.Key))
             {
                 continue;
             }
@@ -44,11 +44,11 @@ public class ShootingSystem : ISystem
             }
         }
 
-        foreach(var comp in ToDelete)
+        foreach(var comp in _toDelete)
         {
             _components.Remove(comp);
         }
-        ToDelete.Clear();
+        _toDelete.Clear();
     }
 
     public void AddComponent(Entity entity, ComponentBase component)
@@ -71,7 +71,7 @@ public class ShootingSystem : ISystem
 
     public void RemoveComponent(int entityId)
     {
-        ToDelete.Add(entityId);
+        _toDelete.Add(entityId);
     }
 
     public int GetPhaseLegth()

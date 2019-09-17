@@ -36,7 +36,7 @@ public class Game : MonoBehaviour
 
     IEnumerator DelayedStart()
     {
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(.5f);
 
         Messages = new GameEventDispatcher();
         SystemController = new SystemController();
@@ -66,6 +66,7 @@ public class Game : MonoBehaviour
             _currentPhase = 0;
             SystemController.OnUpdateEnd();
             CheckEndGame();
+            Messages.SendEvent(EventStrings.OnNextTurn);
             return;
         }
 
@@ -88,20 +89,23 @@ public class Game : MonoBehaviour
         IterateOverPhase();
     }
 
+    private IEnumerator WaitForNextIteration()
+    {
+        do
+        {
+            yield return new WaitForSeconds(.01f);
+        } while (SystemController.IsProcessing());
+
+        IterateOverPhase();
+    }
+
     public void IterateOverPhase()
     {
-        /*if (SystemController.IsProcessing())
-        {
-            SystemController.UpdateSystems();
-        }
-        else
-        {
-            ProducePhase();
-        }*/
         if (_updatesCount < _phaseLength)
         {
             ++_updatesCount;
             SystemController.UpdateSystems();
+            StartCoroutine(WaitForNextIteration());
         }
         else
         {

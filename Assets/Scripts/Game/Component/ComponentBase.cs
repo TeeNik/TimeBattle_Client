@@ -9,7 +9,8 @@ public enum ComponentType
     OperativeInfo,
     Health,
     Position,
-    CharacterAction
+    CharacterAction,
+    FlagCarry,
 }
 
 public class ComponentAttribute : Attribute
