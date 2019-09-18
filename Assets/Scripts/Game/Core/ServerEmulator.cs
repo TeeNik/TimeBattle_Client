@@ -35,12 +35,12 @@ public class ServerEmulator
     private void SendInitialEvent()
     {
         var param = new List<SpawnEntityDto>() {
-            CreateCharacter(PlayerType.Player1, OperativeType.Assault, new Point(8, 8)),
-            CreateCharacter(PlayerType.Player1, OperativeType.Assault, new Point(2, 2)),
+            //CreateCharacter(PlayerType.Player1, OperativeType.Assault, new Point(8, 8)),
+            //CreateCharacter(PlayerType.Player1, OperativeType.Assault, new Point(2, 2)),
             CreateCharacter(PlayerType.Player1, OperativeType.Assault, new Point(4, 2)),
-            CreateCharacter(PlayerType.Player2, OperativeType.Assault, new Point(1, 9)),
+            //CreateCharacter(PlayerType.Player2, OperativeType.Assault, new Point(1, 9)),
             CreateCharacter(PlayerType.Player2, OperativeType.Assault, new Point(4, 9)),
-            CreateCharacter(PlayerType.Player2, OperativeType.Assault, new Point(9, 4)),
+            //CreateCharacter(PlayerType.Player2, OperativeType.Assault, new Point(9, 4)),
             CreateCover(new Point(5, 7)),
             CreateCover(new Point(5, 8)),
             CreateCover(new Point(5, 9)),

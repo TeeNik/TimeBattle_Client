@@ -105,6 +105,7 @@ public class Game : MonoBehaviour
         {
             ++_updatesCount;
             SystemController.UpdateSystems();
+            EntityManager.Update();
             StartCoroutine(WaitForNextIteration());
         }
         else

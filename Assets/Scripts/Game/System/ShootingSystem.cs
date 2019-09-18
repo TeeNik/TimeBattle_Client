@@ -12,12 +12,14 @@ public class ShootingSystem : ISystem
     {
         var map = Game.I.MapController;
 
+        var msgs = new List<TakeDamageMsg>();
+
         foreach (var component in _components)
         {
-            if (_toDelete.Contains(component.Key))
+            /*if (_toDelete.Contains(component.Key))
             {
                 continue;
-            }
+            }*/
 
             var range = component.Value.Range;
 
@@ -35,7 +37,7 @@ public class ShootingSystem : ISystem
                         var target = map.CheckCover(range, point);
                         if(target.HasValue)
                         {
-                            Game.I.Messages.SendEvent(new TakeDamageMsg(target.Value, 1));
+                            msgs.Add(new TakeDamageMsg(target.Value, 1));
                         }
                         range.Clear();
                         break;
@@ -44,7 +46,12 @@ public class ShootingSystem : ISystem
             }
         }
 
-        foreach(var comp in _toDelete)
+        foreach (var msg in msgs)
+        {
+            Game.I.Messages.SendEvent(msg);
+        }
+
+        foreach (var comp in _toDelete)
         {
             _components.Remove(comp);
         }
