@@ -8,7 +8,6 @@ public class EntityController
 
     private readonly Dictionary<int, Entity> _entities;
     private static int _idCounter = 0;
-    private readonly List<int> _toDelete = new List<int>();
 
     public EntityController()
     {
@@ -17,14 +16,15 @@ public class EntityController
 
     public Entity GetEntity(int id)
     {
-        return _entities[id];
+        return _entities.ContainsKey(id) ?_entities[id] : null;
     }
 
     public void DestroyEntity(int entityId)
     {
-        _toDelete.Add(entityId);
         var entity = _entities[entityId];
         entity.ClearComponents();
+        _entities.Remove(entityId);
+        GameObject.Destroy(entity.gameObject);
     }
 
     public void CreateEntity(SpawnEntityDto dto)
@@ -38,16 +38,5 @@ public class EntityController
             entity.AddComponent(comp);
         }
         ++_idCounter;
-    }
-
-    public void Update()
-    {
-        foreach (var id in _toDelete)
-        {
-            var entity = _entities[id];
-            _entities.Remove(id);
-            GameObject.Destroy(entity.gameObject);
-        }
-        _toDelete.Clear();
     }
 }

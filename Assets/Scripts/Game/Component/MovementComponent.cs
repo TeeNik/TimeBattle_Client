@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 [Component(ComponentType.Movement)]
 public class MovementComponent : ComponentBase
@@ -7,6 +8,9 @@ public class MovementComponent : ComponentBase
     public List<Point> Path;
     public Point Position;
     public int MoveLimit = 7;
+
+    public bool IsMoving;
+    public Action OnEndMoving;
 
     public MovementComponent(List<Point> path)
     {

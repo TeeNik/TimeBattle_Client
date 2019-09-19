@@ -12,8 +12,8 @@ public class SystemController : IDisposable
     {
         Systems = new Dictionary<Type, ISystem>
         {
-            {typeof(ShootComponent), new ShootingSystem()},
             {typeof(MovementComponent), new MovementSystem()},
+            {typeof(ShootComponent), new ShootingSystem()},
             {typeof(OperativeInfoComponent), new OperativeInfoSystem()},
             {typeof(HealthComponent), new HealthSystem()},
             {typeof(CharacterActionComponent), new CharacterActionSystem()}
@@ -43,7 +43,10 @@ public class SystemController : IDisposable
     public void ProcessData(int entityId, ComponentBase comp)
     {
         var entity = Game.I.EntityManager.GetEntity(entityId);
-        entity.GetEcsComponent(comp.GetType()).Update(comp);
+        if (entity != null)
+        {
+            entity.GetEcsComponent(comp.GetType()).Update(comp);
+        }
     }
 
     public bool IsProcessing()

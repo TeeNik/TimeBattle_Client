@@ -35,12 +35,12 @@ public class ServerEmulator
     private void SendInitialEvent()
     {
         var param = new List<SpawnEntityDto>() {
-            //CreateCharacter(PlayerType.Player1, OperativeType.Assault, new Point(8, 8)),
-            //CreateCharacter(PlayerType.Player1, OperativeType.Assault, new Point(2, 2)),
-            CreateCharacter(PlayerType.Player1, OperativeType.Assault, new Point(4, 2)),
-            //CreateCharacter(PlayerType.Player2, OperativeType.Assault, new Point(1, 9)),
-            CreateCharacter(PlayerType.Player2, OperativeType.Assault, new Point(4, 9)),
-            //CreateCharacter(PlayerType.Player2, OperativeType.Assault, new Point(9, 4)),
+            //CreateCharacter(PlayerType.Player1, OperativeType.Assault, new Pistol(), new Point(8, 8)),
+            //CreateCharacter(PlayerType.Player1, OperativeType.Assault, new Pistol(), new Point(2, 2)),
+            CreateCharacter(PlayerType.Player1, OperativeType.Assault, new Pistol(), new Point(4, 2)),
+            //CreateCharacter(PlayerType.Player2, OperativeType.Assault, new Pistol(), new Point(1, 9)),
+            CreateCharacter(PlayerType.Player2, OperativeType.Assault, new Pistol(), new Point(4, 9)),
+            //CreateCharacter(PlayerType.Player2, OperativeType.Assault, new Pistol(), new Point(9, 4)),
             CreateCover(new Point(5, 7)),
             CreateCover(new Point(5, 8)),
             CreateCover(new Point(5, 9)),
@@ -62,7 +62,7 @@ public class ServerEmulator
         GameLayer.I.Net.ProcessEvent(CreateEventMessage("playGame", null));
     }
 
-    private SpawnEntityDto CreateCharacter(PlayerType owner, OperativeType operative, Point point)
+    private SpawnEntityDto CreateCharacter(PlayerType owner, OperativeType operative, Weapon weapon, Point point)
     {
         var spawn = new SpawnEntityDto {Id = GetId()};
         var maxHealth = 1;
@@ -70,7 +70,7 @@ public class ServerEmulator
         spawn.PrefabName = "CharacterBase";
         spawn.InitialComponents.Add(new OperativeInfoComponent(owner, operative));
         spawn.InitialComponents.Add(new MovementComponent(point, mapType));
-        spawn.InitialComponents.Add(new ShootComponent(null));
+        spawn.InitialComponents.Add(new ShootComponent(weapon));
         spawn.InitialComponents.Add(new HealthComponent(maxHealth));
         spawn.InitialComponents.Add(new CharacterActionComponent());
         return spawn;

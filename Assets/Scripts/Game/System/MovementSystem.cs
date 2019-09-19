@@ -41,7 +41,8 @@ public class MovementSystem : ISystem
                 keyValuePair.Value.Position = nextPosition;
 
                 ++_moving;
-                entity.transform.DOMove(pos, 1f).SetSpeedBased().SetEase(Ease.Linear).OnComplete(StopMoving);
+                component.IsMoving = true;
+                entity.transform.DOMove(pos, 1f).SetSpeedBased().SetEase(Ease.Linear).OnComplete(()=>StopMoving(component));
             }
         }
 
@@ -52,8 +53,10 @@ public class MovementSystem : ISystem
         _toDelete.Clear();
     }
 
-    private void StopMoving()
+    private void StopMoving(MovementComponent mc)
     {
+        mc.IsMoving = false;
+        mc.OnEndMoving?.Invoke();
         --_moving;
     }
 

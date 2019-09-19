@@ -16,10 +16,10 @@ public class ShootingSystem : ISystem
 
         foreach (var component in _components)
         {
-            /*if (_toDelete.Contains(component.Key))
+            if (_toDelete.Contains(component.Key))
             {
                 continue;
-            }*/
+            }
 
             var range = component.Value.Range;
 
@@ -48,7 +48,7 @@ public class ShootingSystem : ISystem
 
         foreach (var msg in msgs)
         {
-            Game.I.Messages.SendEvent(msg);
+            MakeShoot(msg);
         }
 
         foreach (var comp in _toDelete)
@@ -56,6 +56,20 @@ public class ShootingSystem : ISystem
             _components.Remove(comp);
         }
         _toDelete.Clear();
+    }
+
+    private void MakeShoot(TakeDamageMsg msg)
+    {
+        var target = Game.I.EntityManager.GetEntity(msg.EntityId);
+        var mc = target.GetEcsComponent<MovementComponent>();
+        if (mc.IsMoving)
+        {
+            mc.OnEndMoving += ()=> Game.I.Messages.SendEvent(msg);
+        }
+        else
+        {
+            Game.I.Messages.SendEvent(msg);
+        }
     }
 
     public void AddComponent(Entity entity, ComponentBase component)
