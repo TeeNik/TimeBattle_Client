@@ -10,6 +10,7 @@ public class ResourceManager : MonoBehaviour
     public TileBase[] TileBases;
     public Sprite[] Sprites;
     public Entity[] Entities;
+    public GameObject Outline;
 
     public CharacterPrediction CharacterPrediction;
 

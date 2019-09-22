@@ -36,6 +36,35 @@ public class MoveInput : ActionInput
         _char = ch;
         _pos = ch.transform.position;
         _moveLimit = ch.GetEcsComponent<MovementComponent>().MoveLimit;
+        DrawArea();
+    }
+
+    public void DrawArea()
+    {
+        var map = Game.I.MapController;
+        var data = map.MapDatas;
+        var pos = map.GetTileByVector3(_pos);
+        var x = pos.x;
+        var y = pos.y;
+        var r = _char.GetEcsComponent<MovementComponent>().MoveLimit;
+        for (int i = 0; i < data.Length; i++)
+        {
+            for (int j = 0; j < data[i].Length; j++)
+            {
+                var value = Mathf.Abs(i - x) + Mathf.Abs(j - y);
+                if (value <= r && map.IsWalkable(pos))
+                {
+                    var point = new Point(i, j);
+                    var start = new Point(pos.x,pos.y);
+                    var path = map.PathFinder.FindPath(start, point, false);
+                    if (path != null && path.Count <= r)
+                    {
+                        var o = map.OutlinePool.GetFromPool();
+                        o.transform.position = Game.I.MapController.GetTileWorldPosition(new Point(i, j));
+                    }
+                }
+            }
+        }
     }
 
     public void Update()
