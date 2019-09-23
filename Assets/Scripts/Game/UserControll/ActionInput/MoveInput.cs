@@ -29,6 +29,7 @@ public class MoveInput : ActionInput
             _lastPoint = null;
             _path = null;
         }
+        Game.I.MapController.OutlinePool.ReturnAll();
     }
 
     public void Start(Character ch)
@@ -52,7 +53,7 @@ public class MoveInput : ActionInput
             for (int j = 0; j < data[i].Length; j++)
             {
                 var value = Mathf.Abs(i - x) + Mathf.Abs(j - y);
-                if (value <= r && map.IsWalkable(pos))
+                if (value <= r && map.IsWalkable(new Vector3Int(i, j, 0)))
                 {
                     var point = new Point(i, j);
                     var start = new Point(pos.x,pos.y);
@@ -85,7 +86,6 @@ public class MoveInput : ActionInput
                 _path = path;
                 _prediction.DrawPath(path);
             }
-
         }
         else
         {

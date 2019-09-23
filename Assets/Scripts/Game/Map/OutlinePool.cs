@@ -33,6 +33,7 @@ public class OutlinePool
         var obj = _pool.Find(g => !g.activeSelf);
         if (obj != null)
         {
+            obj.SetActive(true);
             return obj;
         }
         Generate(Capacity/2);
