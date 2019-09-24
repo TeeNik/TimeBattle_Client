@@ -37,4 +37,9 @@ public abstract class Weapon
         Left = new List<Point>(Right.Select(c => c.Clone()));
         Left.ForEach(p => p.Y *= -1);
     }
+
+    public List<Point> GetFullRange()
+    {
+        return Left.Union(Right).Union(Up).Union(Down).ToList();
+    }
 }

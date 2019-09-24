@@ -26,6 +26,7 @@ public class ShootInput : ActionInput
         Game.I.InputController.ProduceInput(GetActionType(), sc);
 
         _range = null;
+        Game.I.MapController.OutlinePool.ReturnAll();
     }
 
     public void Start(Character ch)
@@ -34,6 +35,22 @@ public class ShootInput : ActionInput
         _weapon = ch.GetEcsComponent<ShootComponent>().Weapon;
         var tile = Game.I.MapController.GetTileByVector3(ch.transform.position);
         _position = new Point(tile.x, tile.y);
+        DrawRanges();
+    }
+
+    private void DrawRanges()
+    {
+        var pool = Game.I.MapController.OutlinePool;
+        List<Point> toDraw = new List<Point>();
+        foreach (var point in _weapon.GetFullRange())
+        {
+            toDraw.Add(_position.Sum(point));
+        }
+        foreach (var point in toDraw)
+        {
+            var obj = pool.GetFromPool();
+            obj.transform.position = Game.I.MapController.GetTileWorldPosition(point);
+        }
     }
 
     public void Update()
