@@ -24,7 +24,7 @@ public class MoveInput : ActionInput
         {
             _prediction.DrawCharacter(_char, _path.Last());
             var mc = new MovementComponent(_path);
-            Game.I.InputController.ProduceInput(GetActionType(), mc);
+            Game.I.UserInputController.ProduceInput(GetActionType(), mc);
 
             _lastPoint = null;
             _path = null;

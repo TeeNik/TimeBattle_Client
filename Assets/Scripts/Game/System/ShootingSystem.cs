@@ -61,14 +61,17 @@ public class ShootingSystem : ISystem
     private void MakeShoot(TakeDamageMsg msg)
     {
         var target = Game.I.EntityManager.GetEntity(msg.EntityId);
-        var mc = target.GetEcsComponent<MovementComponent>();
-        if (mc.IsMoving)
+        if (target != null)
         {
-            mc.OnEndMoving += ()=> Game.I.Messages.SendEvent(msg);
-        }
-        else
-        {
-            Game.I.Messages.SendEvent(msg);
+            var mc = target.GetEcsComponent<MovementComponent>();
+            if (mc.IsMoving)
+            {
+                mc.OnEndMoving += () => Game.I.Messages.SendEvent(msg);
+            }
+            else
+            {
+                Game.I.Messages.SendEvent(msg);
+            }
         }
     }
 

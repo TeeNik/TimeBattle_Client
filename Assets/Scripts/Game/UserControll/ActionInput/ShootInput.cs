@@ -23,7 +23,7 @@ public class ShootInput : ActionInput
     {
         _prediction.DrawPath(_range);
         ShootComponent sc = new ShootComponent(_range);
-        Game.I.InputController.ProduceInput(GetActionType(), sc);
+        Game.I.UserInputController.ProduceInput(GetActionType(), sc);
 
         _range = null;
         Game.I.MapController.OutlinePool.ReturnAll();

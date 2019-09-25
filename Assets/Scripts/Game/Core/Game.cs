@@ -12,11 +12,13 @@ public class Game : MonoBehaviour
     public EntityController EntityManager { get; private set; }
     public GameEventDispatcher Messages { get; private set; }
     public MapController MapController;
-    public InputDataController InputController;
+    public UserInputController UserInputController;
     public GameUI GameUI;
 
     public PlayerType PlayerType = PlayerType.Player1;
     public GameState GameState = GameState.UserInput;
+
+    public FlagController flagController;
 
     private List<ActionPhase> _turnData;
 
@@ -42,8 +44,10 @@ public class Game : MonoBehaviour
         SystemController = new SystemController();
         EntityManager = new EntityController();
         MapController.Init();
-        InputController.Init();
+        UserInputController.Init();
         GameUI.Init();
+
+        flagController = new FlagController();
 
         //TODO Remove later
         GameLayer.I.ServerEmulator.Start();
@@ -55,8 +59,7 @@ public class Game : MonoBehaviour
         _currentPhase = 0;
         ProducePhase();
     }
-
-
+    
     //TODO make this function cleaner
     public void ProducePhase()
     {

@@ -11,6 +11,7 @@ public class ResourceManager : MonoBehaviour
     public Sprite[] Sprites;
     public Entity[] Entities;
     public GameObject Outline;
+    public GameObject Flag;
 
     public CharacterPrediction CharacterPrediction;
 

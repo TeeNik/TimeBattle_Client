@@ -37,7 +37,21 @@ public class MovementSystem : ISystem
                 var nextPosition = component.Path.First();
                 component.Path.Remove(nextPosition);
                 var position = keyValuePair.Value.Position;
-                var pos = map.MoveToPosition(key, component.MapType, position, nextPosition);
+                var mapData = map.MapDatas[nextPosition.X][nextPosition.Y];
+                var onMapType = component.MapType;
+                if (mapData.Type != OnMapType.Empty)
+                {
+                    if (component.Path.Count == 0)
+                    {
+                        continue;
+                    }
+                    else
+                    {
+                        onMapType = mapData.Type;
+                    }
+                }
+
+                var pos = map.MoveToPosition(key, onMapType, position, nextPosition);
                 keyValuePair.Value.Position = nextPosition;
 
                 ++_moving;

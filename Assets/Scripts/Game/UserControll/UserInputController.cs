@@ -10,7 +10,7 @@ public enum ActionType
     Shoot,
 }
 
-public class InputDataController : MonoBehaviour
+public class UserInputController : MonoBehaviour
 {
 
     public Dictionary<int, List<ActionType>> CurrentActions;

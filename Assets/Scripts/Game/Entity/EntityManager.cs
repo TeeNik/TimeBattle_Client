@@ -22,7 +22,7 @@ public class EntityController
     public void DestroyEntity(int entityId)
     {
         var entity = _entities[entityId];
-        entity.ClearComponents();
+        entity.Destroy();
         _entities.Remove(entityId);
         GameObject.Destroy(entity.gameObject);
     }
