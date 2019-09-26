@@ -24,7 +24,7 @@ public class EntityController
         var entity = _entities[entityId];
         entity.Destroy();
         _entities.Remove(entityId);
-        GameObject.Destroy(entity.gameObject);
+        //GameObject.Destroy(entity.gameObject);
     }
 
     public void CreateEntity(SpawnEntityDto dto)

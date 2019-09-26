@@ -31,4 +31,9 @@
         return new Point(X + p.X, Y + p.Y);
     }
 
+    public Point Substract(Point p)
+    {
+        return new Point(X - p.X, Y - p.Y);
+    }
+
 }

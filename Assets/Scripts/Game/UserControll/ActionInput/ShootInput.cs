@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 public class ShootInput : ActionInput
 {
@@ -21,11 +22,15 @@ public class ShootInput : ActionInput
 
     public void ProduceInput()
     {
-        _prediction.DrawPath(_range);
-        ShootComponent sc = new ShootComponent(_range);
-        Game.I.UserInputController.ProduceInput(GetActionType(), sc);
+        if (_range != null)
+        {
+            _prediction.DrawPath(_range);
+            ShootComponent sc = new ShootComponent(_range);
+            Game.I.UserInputController.ProduceInput(GetActionType(), sc);
 
-        _range = null;
+            _range = null;
+        }
+
         Game.I.MapController.OutlinePool.ReturnAll();
     }
 
@@ -38,15 +43,18 @@ public class ShootInput : ActionInput
         DrawRanges();
     }
 
+    private List<Point> fullRange;
+
     private void DrawRanges()
     {
         var pool = Game.I.MapController.OutlinePool;
-        List<Point> toDraw = new List<Point>();
+        fullRange = new List<Point>();
+
         foreach (var point in _weapon.GetFullRange())
         {
-            toDraw.Add(_position.Sum(point));
+            fullRange.Add(_position.Sum(point));
         }
-        foreach (var point in toDraw)
+        foreach (var point in fullRange)
         {
             var obj = pool.GetFromPool();
             obj.transform.position = Game.I.MapController.GetTileWorldPosition(point);
@@ -57,31 +65,42 @@ public class ShootInput : ActionInput
     {
         var map = Game.I.MapController;
         var tile = map.GetTileByMouse();
+        var point = new Point(tile.x, tile.y).Substract(_position);
 
-        List<Point> range;
-        if (tile.y < _position.Y)
+
+        List<Point> range = null;
+        if (_weapon.Left.Any(t=> point.Equals(t)))
         {
             range = _weapon.Left;
         }
-        else if (tile.y > _position.Y)
+        else if (_weapon.Right.Any(t => point.Equals(t)))
         {
             range = _weapon.Right;
         }
-        else if (tile.x > _position.X)
+        else if (_weapon.Down.Any(t => point.Equals(t)))
         {
             range = _weapon.Down;
         }
-        else
+        else if(_weapon.Up.Any(t => point.Equals(t)))
         {
             range = _weapon.Up;
         }
 
-        List<Point> toDraw = new List<Point>();
-        foreach(var point in range)
+        if (range != null)
         {
-            toDraw.Add(_position.Sum(point));
+            List<Point> toDraw = new List<Point>();
+            foreach (var p in range)
+            {
+                toDraw.Add(_position.Sum(p));
+            }
+            _range = toDraw;
+            _prediction.DrawPath(toDraw);
         }
-        _range = toDraw;
-        _prediction.DrawPath(toDraw);
+        else
+        {
+            _range = null;
+            _prediction.ClearTiles();
+        }
+
     }
 }

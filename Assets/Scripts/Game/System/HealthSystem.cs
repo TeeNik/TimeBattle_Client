@@ -21,6 +21,7 @@ public class HealthSystem : ISystem, IDisposable
 
         if(hc.CurrentHealth <= 0)
         {
+            _views[id].PlayDeath();
             Game.I.EntityManager.DestroyEntity(id);
         }
         else
@@ -58,6 +59,7 @@ public class HealthSystem : ISystem, IDisposable
     public void RemoveComponent(int entityId)
     {
         _components.Remove(entityId);
+        _views.Remove(entityId);
     }
 
     public void Dispose()

@@ -22,10 +22,10 @@ public static class Utils
         return type == PlayerType.Player1 ? PlayerType.Player2 : PlayerType.Player1;
     }
 
-    public static List<T> ParseConfig<T>(string fileName)
+    public static T ParseConfig<T>(string fileName)
     {
-        var asset = Resources.Load(fileName) as TextAsset;
-        return JsonUtility.FromJson<List<T>>(asset.text);
+        var asset = Resources.Load("Configs/" + fileName) as TextAsset;
+        return JsonConvert.DeserializeObject<T>(asset.text);
     }
 
     public static ComponentBase GetComponentFromJson(ComponentType type, string json)

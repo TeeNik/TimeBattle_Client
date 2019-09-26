@@ -51,7 +51,7 @@ public class SystemController : IDisposable
 
     public bool IsProcessing()
     {
-         return Systems.Values.Any(s=>s.IsProcessing());
+        return Systems.Values.Any(s=>s.IsProcessing());
     }
 
     public int GetPhaseLength()

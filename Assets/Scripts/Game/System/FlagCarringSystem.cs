@@ -7,13 +7,26 @@ public class FlagCarringSystem : ISystem
     private readonly EventListener _eventListener = new EventListener();
     private Point _flagPosition;
     private GameObject _flag;
-    
+
+    private FlagQuestConfig _flagConfig;
+
     public FlagCarringSystem()
     {
         _eventListener.Add(Game.I.Messages.Subscribe<TakeFlagMsg>(OnTakeFlagMsg));
 
-        _flagPosition = new Point(5,5);
+        _flagConfig = Utils.ParseConfig<FlagQuestConfig>("flag_area");
+        _flagPosition = _flagConfig.FlagSpawn;
         PlaceFlag(_flagPosition);
+
+
+        /*foreach (var areaData in _flagConfig.AreaData)
+        {
+            foreach (var point in areaData.Area)
+            {
+                var tile = Game.I.MapController.OutlinePool.GetFromPool();
+                tile.transform.position = Game.I.MapController.GetTileWorldPosition(point);
+            }
+        }*/
     }
 
     public void PlaceFlag(Point point)
@@ -38,6 +51,16 @@ public class FlagCarringSystem : ISystem
             var entity = Game.I.EntityManager.GetEntity(component.Key);
             var mc = entity.GetEcsComponent<MovementComponent>();
             _flagPosition = mc.Position;
+
+            var playerType = entity.GetEcsComponent<OperativeInfoComponent>().Owner;
+            var area = _flagConfig.AreaData.Find(a => a.Player == playerType);
+            foreach (var point in area.Area)
+            {
+                if (point.Equals(_flagPosition))
+                {
+                    Debug.Log($"{playerType} wins!");
+                }
+            }
         }
 
         if (_components.Count == 0)

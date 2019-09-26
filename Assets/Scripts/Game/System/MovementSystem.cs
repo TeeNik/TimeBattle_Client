@@ -71,6 +71,7 @@ public class MovementSystem : ISystem
     {
         mc.IsMoving = false;
         mc.OnEndMoving?.Invoke();
+        mc.OnEndMoving = null;
         --_moving;
     }
 

@@ -121,6 +121,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   HealthBar: {fileID: 0}
+  BaseSprite: {fileID: 2913980928687624922}
 --- !u!114 &2817395487777404867
 MonoBehaviour:
   m_ObjectHideFlags: 0

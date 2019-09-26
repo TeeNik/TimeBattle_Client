@@ -10,7 +10,8 @@ public class InfoView : MonoBehaviour
     public void SetInfo(OperativeInfoComponent info)
     {
         _title.text = info.OperativeType.ToString();
-        var sprite = $"{info.OperativeType}_{info.Owner}";
+        //var sprite = $"{info.OperativeType}_{info.Owner}";
+        var sprite = $"Assault_{info.Owner}";
         _spriteRenderer.sprite = ResourceManager.Instance.GetSprite(sprite);
     }
 
