@@ -19,6 +19,8 @@ public class GameLayer : MonoBehaviour
 
     public void Start()
     {
+        DontDestroyOnLoad(this);
+
         I = this;
 
         SceneController = new SceneController();

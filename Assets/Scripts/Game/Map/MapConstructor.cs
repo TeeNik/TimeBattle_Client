@@ -5,7 +5,8 @@ public enum TileType
 {
     Wall,
     Floor,
-    Path
+    Path,
+    Shoot,
 }
 
 public class MapConstructor
