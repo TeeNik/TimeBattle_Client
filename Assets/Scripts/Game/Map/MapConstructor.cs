@@ -32,6 +32,7 @@ public class MapConstructor
     {
         MapData[][] mapData = new MapData[Height][];
         TileBase[] bases = ResourceManager.Instance.TileBases;
+        TileBase[] floor = ResourceManager.Instance.FloorTile;
 
         for (int i = 0; i < Height; i++)
         {
@@ -41,7 +42,16 @@ public class MapConstructor
                 var value = (OnMapType) _map[i][j];
                 mapData[i][j].Type = value;
                 var tileType = value == OnMapType.Wall ? TileType.Wall : TileType.Floor;
-                tilemap.SetTile(new Vector3Int(i, j, 0), bases[(int)tileType]);
+                if (value == OnMapType.Wall)
+                {
+                    tilemap.SetTile(new Vector3Int(i, j, 0), bases[(int)tileType]);
+                }
+                else
+                {
+                    var num = Random.Range(0, 10);
+                    var tile = floor[num >= floor.Length ? 3 : num];
+                    tilemap.SetTile(new Vector3Int(i, j, 0), tile);
+                }
             }
         }
 

@@ -12,8 +12,7 @@ public class CharacterActionController : MonoBehaviour
     [SerializeField]
     private Transform SelectionTarget;
 
-    [SerializeField]
-    private PredictionMap PredictionMap;
+    public PredictionMap PredictionMap;
 
     [SerializeField]
     private ActionButton ActionButtonPrefab;

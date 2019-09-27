@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using UnityEngine;
-using WebSocketSharp;
+﻿using UnityEngine;
 
 public class GameLayer : MonoBehaviour
 {

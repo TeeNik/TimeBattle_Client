@@ -25,6 +25,7 @@ public class ShootingSystem : ISystem
 
             if (range != null)
             {
+                Game.I.UserInputController.ActionController.PredictionMap.DrawShootingRange(range);
                 var entity = Game.I.EntityManager.GetEntity(component.Key);
                 var info = entity.GetEcsComponent<OperativeInfoComponent>();
                 var enemy = Utils.PlayerTypeToMap(Utils.GetOppositePlayer(info.Owner));
@@ -86,6 +87,7 @@ public class ShootingSystem : ISystem
         {
             comp.Range.Clear();
         }
+        Game.I.UserInputController.ActionController.PredictionMap.ClearShootingLayer();
     }
 
     public bool IsProcessing()

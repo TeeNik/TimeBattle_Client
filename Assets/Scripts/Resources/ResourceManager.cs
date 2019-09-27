@@ -8,6 +8,7 @@ public class ResourceManager : MonoBehaviour
     public static ResourceManager Instance;
 
     public TileBase[] TileBases;
+    public TileBase[] FloorTile;
     public Sprite[] Sprites;
     public Entity[] Entities;
     public GameObject Outline;

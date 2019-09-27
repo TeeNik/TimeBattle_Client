@@ -19,14 +19,14 @@ public class FlagCarringSystem : ISystem
         PlaceFlag(_flagPosition);
 
 
-        /*foreach (var areaData in _flagConfig.AreaData)
+        foreach (var areaData in _flagConfig.AreaData)
         {
             foreach (var point in areaData.Area)
             {
                 var tile = Game.I.MapController.OutlinePool.GetFromPool();
                 tile.transform.position = Game.I.MapController.GetTileWorldPosition(point);
             }
-        }*/
+        }
     }
 
     public void PlaceFlag(Point point)
