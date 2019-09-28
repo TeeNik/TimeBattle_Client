@@ -38,8 +38,8 @@ public abstract class Weapon
         Left.ForEach(p => p.Y *= -1);
     }
 
-    public List<Point> GetFullRange()
+    public IEnumerable<List<Point>> GetFullRange()
     {
-        return Left.Union(Right).Union(Up).Union(Down).ToList();
+        return new []{Left, Down, Right, Up};
     }
 }

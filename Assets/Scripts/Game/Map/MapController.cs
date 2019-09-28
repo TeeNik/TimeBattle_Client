@@ -94,14 +94,14 @@ public class MapController : MonoBehaviour
         return IsInBounds(tile) && MapDatas[tile.x][tile.y].Type == OnMapType.Empty;
     }
 
-    private bool IsInBounds(Vector3Int tile)
+    public bool IsInBounds(Vector3Int tile)
     {
         var i = tile.x;
         var j = tile.y;
         return i > 0 && i < MapDatas.Length && j > 0 && j < MapDatas[0].Length;
     }
 
-    private bool IsInBounds(Point p)
+    public bool IsInBounds(Point p)
     {
         var i = p.X;
         var j = p.Y;

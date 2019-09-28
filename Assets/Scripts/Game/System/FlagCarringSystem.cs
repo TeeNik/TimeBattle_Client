@@ -18,15 +18,7 @@ public class FlagCarringSystem : ISystem
         _flagPosition = _flagConfig.FlagSpawn;
         PlaceFlag(_flagPosition);
 
-
-        foreach (var areaData in _flagConfig.AreaData)
-        {
-            foreach (var point in areaData.Area)
-            {
-                var tile = Game.I.MapController.OutlinePool.GetFromPool();
-                tile.transform.position = Game.I.MapController.GetTileWorldPosition(point);
-            }
-        }
+        //DrawReachArea();
     }
 
     public void PlaceFlag(Point point)
@@ -35,6 +27,18 @@ public class FlagCarringSystem : ISystem
         var pos = Game.I.MapController.GetTileWorldPosition(point);
         _flag = GameObject.Instantiate(flagBase);
         _flag.transform.position = pos;
+    }
+
+    private void DrawReachArea()
+    {
+        foreach (var areaData in _flagConfig.AreaData)
+        {
+            foreach (var point in areaData.Area)
+            {
+                var tile = Game.I.MapController.OutlinePool.GetFromPool();
+                tile.transform.position = Game.I.MapController.GetTileWorldPosition(point);
+            }
+        }
     }
 
     private void OnTakeFlagMsg(TakeFlagMsg msg)

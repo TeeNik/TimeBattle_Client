@@ -49,11 +49,22 @@ public class ShootInput : ActionInput
     {
         var pool = Game.I.MapController.OutlinePool;
         fullRange = new List<Point>();
+        var map = Game.I.MapController;
+        var mapData = map.MapDatas;
 
-        foreach (var point in _weapon.GetFullRange())
+        foreach (var range in _weapon.GetFullRange())
         {
-            fullRange.Add(_position.Sum(point));
+            foreach (var point in range)
+            {
+                var p = _position.Sum(point);
+                if (!map.IsInBounds(p) || mapData[p.X][p.Y].Type == OnMapType.Wall)
+                {
+                    break;
+                }
+                fullRange.Add(p);
+            }
         }
+
         foreach (var point in fullRange)
         {
             var obj = pool.GetFromPool();
