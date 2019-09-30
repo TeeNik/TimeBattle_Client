@@ -5,7 +5,8 @@ using WebSocketSharp;
 
 public class NetworkController
 {
-    private readonly string Address = "ws://116.203.77.112:8080/multiplayer/rand";
+    //private readonly string Address = "ws://116.203.77.112:8080/multiplayer/rand";
+    private readonly string Address = "ws://localhost:8080/multiplayer/rand";
 
     private WebSocket _ws;
     private EventAgregator _eventAgregator;
@@ -20,7 +21,7 @@ public class NetworkController
         _ws.OnClose += OnConnectionClose;
         _ws.OnError += OnConnectionError;
 
-        if (!GameLayer.I.EmulateServer)
+        //if (!GameLayer.I.EmulateServer)
         {
             _ws.Connect();
         }

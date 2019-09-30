@@ -25,8 +25,8 @@ public class ShootInput : ActionInput
         if (_range != null)
         {
             _prediction.DrawPath(_range);
-            ShootComponent sc = new ShootComponent(_range);
-            Game.I.UserInputController.ProduceInput(GetActionType(), sc);
+            var list = new List<ShootComponent>{ new ShootComponent(_range), new ShootComponent(_range.ToList()) };
+            Game.I.UserInputController.ProduceInput(GetActionType(), list);
 
             _range = null;
         }

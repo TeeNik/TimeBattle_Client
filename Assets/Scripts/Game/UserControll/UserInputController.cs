@@ -59,7 +59,7 @@ public class UserInputController : MonoBehaviour
             return;
         }
 
-        if(_selectedChar == ch)
+        if (_selectedChar == ch)
         {
             _selectedChar = null;
             ActionController.HideActionPanel();
@@ -71,7 +71,34 @@ public class UserInputController : MonoBehaviour
         }
     }
 
-    public void ProduceInput(ActionType compType, ComponentBase comp)
+    public void ProduceInput(ActionType compType, IEnumerable<ComponentBase> components)
+    {
+        foreach (var comp in components)
+        {
+            AddComponentToInput(comp);
+        }
+
+        //TODO
+        RemoveActionFromCharacter(compType);
+    }
+
+    public void ProduceInput(ActionType compType, ComponentBase component)
+    {
+        AddComponentToInput(component);
+
+        //TODO
+        RemoveActionFromCharacter(compType);
+    }
+
+    private void RemoveActionFromCharacter(ActionType compType)
+    {
+        var ac = _selectedChar.GetEcsComponent<CharacterActionComponent>();
+        ac.RemoveAction(compType);
+        SelectCharacter(_selectedChar);
+        CheckEndTurn();
+    }
+
+    private void AddComponentToInput(ComponentBase comp)
     {
         var action = _storedInputs.Find(a => a.entityId == _selectedChar.Id);
         if (action == null)
@@ -84,16 +111,7 @@ public class UserInputController : MonoBehaviour
             _storedInputs.Add(action);
         }
         action.phases.Add(comp);
-        
-        //TODO
-        var ac = _selectedChar.GetEcsComponent<CharacterActionComponent>();
-        ac.RemoveAction(compType);
-
-        SelectCharacter(_selectedChar);
-
-        CheckEndTurn();
     }
-
 
     //TODO this function will be changed
     private void CheckEndTurn()
