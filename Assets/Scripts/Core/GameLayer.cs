@@ -7,7 +7,7 @@ public class GameLayer : MonoBehaviour
 
     public SceneController SceneController { get; private set; }
     public ServerEmulator ServerEmulator { get; private set; }
-    public NetworkController Net { get; private set; }
+    public NetworkController Net;
     public GameBalance GameBalance { get; private set; }
 
     public void Start()
@@ -19,7 +19,6 @@ public class GameLayer : MonoBehaviour
         GameBalance = new GameBalance();
         SceneController = new SceneController();
         ServerEmulator = new ServerEmulator();
-        Net = new NetworkController();
         Net.Auth();
 
         if (EmulateServer)

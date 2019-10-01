@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using Newtonsoft.Json.Linq;
+using UnityEngine;
 
 public class EventAgregator
 {
@@ -24,16 +26,24 @@ public class EventAgregator
         var cmd = json["cmd"].ToString();
         if (_events.ContainsKey(cmd))
         {
+            Debug.Log(json.ToString());
+
             var evnt = _events[cmd];
 
-            var param = json["params"];
             JObject data = null;
-            if (param.HasValues)
+            var param = json["params"];
+            if (param != null && param.HasValues)
             {
                 data = new JObject(param.ToString());
             }
+
             evnt.HandleResponse(data);
         }
+    }
+
+    public T GetEvent<T>() where T : BaseEventClass
+    {
+        return (T)_events.Values.First(c => c.GetType() == typeof(T));
     }
 
     public BaseEventClass GetEvent(string header)

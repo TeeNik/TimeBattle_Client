@@ -119,18 +119,26 @@ public class UserInputController : MonoBehaviour
         var isEnd = _currentChars.All(c => c.GetEcsComponent<CharacterActionComponent>().Energy <= 0);
         if (isEnd)
         {
-            var prev = Game.I.PlayerType;
-            Game.I.PlayerType = Utils.GetOppositePlayer(Game.I.PlayerType);
-            Debug.Log($"{prev.ToString()} ended. {Game.I.PlayerType} is started.");
-            Game.I.Messages.SendEvent(EventStrings.OnPlayerChanged);
-            if (prev == PlayerType.Player2)
+            if (GameLayer.I.EmulateServer)
             {
-                ProduceSystemUpdate();
+                var prev = Game.I.PlayerType;
+                Game.I.PlayerType = Utils.GetOppositePlayer(Game.I.PlayerType);
+                Debug.Log($"{prev.ToString()} ended. {Game.I.PlayerType} is started.");
+                Game.I.Messages.SendEvent(EventStrings.OnPlayerChanged);
+                if (prev == PlayerType.Player2)
+                {
+                    ProduceSystemUpdate();
+                }
+                else
+                {
+                    SelectPlayerCharacters();
+                }
             }
             else
             {
-                SelectPlayerCharacters();
+                //SendToServer
             }
+
         }
     }
 
