@@ -11,38 +11,25 @@ public enum TileType
 
 public class MapConstructor
 {
-    private const int Width = 17;
-    private const int Height = 11;
-
-    private readonly int[][] _map = {
-        new[] {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-        new[] {0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0},
-        new[] {0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 0},
-        new[] {0, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 0},
-        new[] {0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0},
-        new[] {0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 1, 0},
-        new[] {0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 1, 0},
-        new[] {0, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0},
-        new[] {0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 0},
-        new[] {0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0},
-        new[] {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
-    };
-
     public MapData[][] GenerateMap(Tilemap tilemap)
     {
-        MapData[][] mapData = new MapData[Height][];
+        var map = GameLayer.I.GameBalance.Map;
+
+        MapData[][] mapData = new MapData[map.Length][];
         TileBase[] bases = ResourceManager.Instance.TileBases;
         TileBase[] floor = ResourceManager.Instance.FloorTile;
 
-        for (int i = 0; i < Height; i++)
+        for (int i = 0; i < map.Length; i++)
         {
-            mapData[i] = new MapData[Width];
-            for (int j = 0; j < Width; j++)
+            mapData[i] = new MapData[map[i].Length];
+            for (int j = 0; j < map[i].Length; j++)
             {
-                var value = (OnMapType) _map[i][j];
-                mapData[i][j].Type = value;
-                var tileType = value == OnMapType.Wall ? TileType.Wall : TileType.Floor;
-                if (value == OnMapType.Wall)
+                //TODO refactor
+                var isWall = (OnMapType) map[i][j] == OnMapType.Wall;
+                var tileType = isWall ? TileType.Wall : TileType.Floor;
+                mapData[i][j].Type = isWall ? OnMapType.Wall : OnMapType.Empty;
+
+                if (isWall)
                 {
                     tilemap.SetTile(new Vector3Int(i, j, 0), bases[(int)tileType]);
                 }

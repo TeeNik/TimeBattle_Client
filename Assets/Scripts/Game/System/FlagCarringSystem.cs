@@ -14,7 +14,7 @@ public class FlagCarringSystem : ISystem
     {
         _eventListener.Add(Game.I.Messages.Subscribe<TakeFlagMsg>(OnTakeFlagMsg));
 
-        _flagConfig = Utils.ParseConfig<FlagQuestConfig>("flag_area");
+        _flagConfig = GameLayer.I.GameBalance.GetFlagQuestConfig();
         _flagPosition = _flagConfig.FlagSpawn;
         PlaceFlag(_flagPosition);
 
