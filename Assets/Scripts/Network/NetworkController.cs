@@ -6,7 +6,7 @@ using Newtonsoft.Json.Linq;
 using UnityEngine;
 using WebSocketSharp;
 
-public class NetworkController : MonoBehaviour
+public partial class NetworkController : MonoBehaviour
 {
     //private readonly string Address = "ws://116.203.77.112:8080/multiplayer/rand";
     private readonly string Address = "ws://localhost:8080/multiplayer/rand";
@@ -26,7 +26,7 @@ public class NetworkController : MonoBehaviour
         _ws.OnClose += OnConnectionClose;
         _ws.OnError += OnConnectionError;
 
-        //if (!GameLayer.I.EmulateServer)uni
+        if (!GameLayer.I.EmulateServer)
         {
             _ws.Connect();
         }
@@ -49,15 +49,8 @@ public class NetworkController : MonoBehaviour
 
     private void OnConnectionOpen(object sender, EventArgs args)
     {
-        Debug.Log(args);
-        /*var login = new LoginMsg{ header = "login", IMEI = "123"};
-        var join = new JoinMsg { header = "joingame"};
-
-        Debug.Log(JsonUtility.ToJson(login));
-        _ws.Send(JsonUtility.ToJson(login));
-        _ws.Send(JsonUtility.ToJson(join));*/
-
-        Send(_eventAgregator.GetEvent<LoginEvent>().Send());
+        Debug.Log("Coonection Open");
+        Login();
     }
 
     private void OnMessage(object sender, MessageEventArgs args)
@@ -82,16 +75,5 @@ public class NetworkController : MonoBehaviour
     public void ProcessEvent(JObject json)
     {
         _eventAgregator.ProcessEvent(json);
-    }
-
-    public class LoginMsg
-    {
-        public string IMEI;
-        public string header;
-    }
-
-    public class JoinMsg
-    {
-        public string header;
     }
 }

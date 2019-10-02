@@ -7,9 +7,14 @@ public class PlayGameEvent : BaseEventClass
     {
     }
 
+    public string Send()
+    {
+        return Json.ToString();
+    }
+
     protected override void HandleResponseImpl(JObject json)
     {
-        SceneManager.UnloadSceneAsync("Lobby");
-        GameLayer.I.SceneController.LoadScene("Game", true, null);
+        //SceneManager.UnloadSceneAsync("Lobby");
+        //GameLayer.I.SceneController.LoadScene("Game", true, null);
     }
 }

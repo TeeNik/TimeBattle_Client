@@ -9,10 +9,8 @@ public class LoginEvent : BaseEventClass
 
     public string Send()
     {
-        var json = new JObject();
-        json["cmd"] = EventNames.Login;
-        json["deviceId"] = SystemInfo.deviceUniqueIdentifier;
-        return json.ToString();
+        Json["deviceId"] = Random.Range(10000,100000);
+        return Json.ToString();
     }
 
     protected override void HandleResponseImpl(JObject json)
