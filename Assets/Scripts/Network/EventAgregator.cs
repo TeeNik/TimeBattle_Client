@@ -26,7 +26,7 @@ public class EventAgregator
         var cmd = json["cmd"].ToString();
         if (_events.ContainsKey(cmd))
         {
-            Debug.Log(json.ToString());
+            Debug.Log(json.ToString().Replace('\n', ' '));
 
             var evnt = _events[cmd];
 
