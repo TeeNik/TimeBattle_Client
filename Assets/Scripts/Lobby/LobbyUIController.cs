@@ -14,7 +14,7 @@ public class LobbyUIController : MonoBehaviour
 
     void Play()
     {
-        if (!GameLayer.I.EmulateServer)
+        if (GameLayer.I.EmulateServer)
         {
             GameLayer.I.ServerEmulator.PlayGame();
         }
