@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
+[Component(ComponentType.CharacterAction)]
 public class CharacterActionComponent : ComponentBase
 {
 
@@ -10,7 +11,7 @@ public class CharacterActionComponent : ComponentBase
 
     public List<ActionType> AllActions => ReusableActions.Union(DisposableActions).ToList();
 
-    public void Update(ComponentBase newData)
+    public override void Update(ComponentBase newData)
     {
         var cc = (CharacterActionComponent) newData;
         ReusableActions = cc.ReusableActions;

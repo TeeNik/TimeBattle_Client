@@ -2,16 +2,14 @@
 
 class SniperRifle : Weapon
 {
-    public SniperRifle()
+    public SniperRifle() : base(WeaponType.Sniper)
     {
-        Type = WeaponType.Sniper;
     }
 
-    protected override List<Point> Distance { get; } = new List<Point>
-    {
-        new Point(1, 1), new Point(2, 2), new Point(3, 3), new Point(4, 4), new Point(5, 5),
-        //new Point(-1, 1), new Point(-2, 2), new Point(-3, 3), new Point(-4, 4), new Point(-5, 5),
-        //new Point(1, -1), new Point(2, -2), new Point(3, -3), new Point(4, -4), new Point(5, -5),
-        //new Point(-1, -1), new Point(-2, -2), new Point(-3, -3), new Point(-4, -4), new Point(-5, -5),
-    };
+    public override List<Point> Up { get; protected set; } = new List<Point>{ new Point(-1, 1), new Point(-2, 2), new Point(-3, 3), new Point(-4, 4), new Point(-5, 5) };
+    public override List<Point> Right { get; protected set; } = new List<Point>{ new Point(1, 1), new Point(2, 2), new Point(3, 3), new Point(4, 4), new Point(5, 5) };
+    public override List<Point> Down { get; protected set; } = new List<Point>{ new Point(1, -1), new Point(2, -2), new Point(3, -3), new Point(4, -4), new Point(5, -5) };
+    public override List<Point> Left { get; protected set; } = new List<Point>{ new Point(-1, -1), new Point(-2, -2), new Point(-3, -3), new Point(-4, -4), new Point(-5, -5) };
+
+    protected override List<Point> Distance { get; }
 }

@@ -4,8 +4,8 @@ using System.Collections.Generic;
 public class HealthSystem : ISystem, IDisposable
 {
     private readonly EventListener _eventListener;
-    private Dictionary<int, HealthComponent> _components = new Dictionary<int, HealthComponent>();
-    private Dictionary<int, HealthView> _views = new Dictionary<int, HealthView>();
+    private readonly Dictionary<int, HealthComponent> _components = new Dictionary<int, HealthComponent>();
+    private readonly Dictionary<int, HealthView> _views = new Dictionary<int, HealthView>();
 
     public HealthSystem()
     {
@@ -16,12 +16,12 @@ public class HealthSystem : ISystem, IDisposable
     private void OnTakeDamageMsg(TakeDamageMsg msg)
     {
         var id = msg.EntityId;
-        var entity = (Character)Game.I.EntityManager.GetEntity(id);
         var hc = _components[id];
         --hc.CurrentHealth;
 
-        if(hc.CurrentHealth == 0)
+        if(hc.CurrentHealth <= 0)
         {
+            _views[id].PlayDeath();
             Game.I.EntityManager.DestroyEntity(id);
         }
         else
@@ -51,9 +51,15 @@ public class HealthSystem : ISystem, IDisposable
         return false;
     }
 
+    public int GetPhaseLegth()
+    {
+        return 0;
+    }
+
     public void RemoveComponent(int entityId)
     {
         _components.Remove(entityId);
+        _views.Remove(entityId);
     }
 
     public void Dispose()

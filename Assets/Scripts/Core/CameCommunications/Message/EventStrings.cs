@@ -6,4 +6,5 @@
     //TODO Remove later
     public const string OnPlayerChanged = "OnPlayerChanged";
     public const string OnGameStateChanged = "OnGameStateChanged";
+    public const string OnNextTurn = "OnNextTurn";
 }

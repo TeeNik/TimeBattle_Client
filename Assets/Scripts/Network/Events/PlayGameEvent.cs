@@ -1,4 +1,4 @@
-﻿using SimpleJSON;
+﻿using Newtonsoft.Json.Linq;
 using UnityEngine.SceneManagement;
 
 public class PlayGameEvent : BaseEventClass
@@ -7,9 +7,14 @@ public class PlayGameEvent : BaseEventClass
     {
     }
 
-    protected override void HandleResponseImpl(JSONObject json)
+    public string Send()
     {
-        SceneManager.UnloadSceneAsync("Lobby");
-        GameLayer.I.SceneController.LoadScene("Game", true, null);
+        return Json.ToString();
+    }
+
+    protected override void HandleResponseImpl(JObject json)
+    {
+        //SceneManager.UnloadSceneAsync("Lobby");
+        //GameLayer.I.SceneController.LoadScene("Game", true, null);
     }
 }

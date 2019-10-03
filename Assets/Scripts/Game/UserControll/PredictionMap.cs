@@ -5,6 +5,15 @@ using UnityEngine.Tilemaps;
 
 public class PredictionMap : MonoBehaviour
 {
+
+    private enum Layers
+    {
+        Base = 0,
+        Shooting = 1,
+    }
+
+    [SerializeField] private List<Tilemap> _layers;
+
     [SerializeField]
     private Tilemap _predictionTilemap;
 
@@ -34,12 +43,27 @@ public class PredictionMap : MonoBehaviour
         }
     }
 
+    public void DrawShootingRange(List<Point> range)
+    {
+        TileBase tile = ResourceManager.Instance.TileBases[(int)TileType.Shoot];
+        foreach (var point in range)
+        {
+            _layers[(int)Layers.Shooting].SetTile(new Vector3Int(point.X, point.Y, 0), tile);
+        }
+    }
+
+    public void ClearShootingLayer()
+    {
+        _layers[(int)Layers.Shooting].ClearAllTiles();
+    }
+
     public void ClearPrediction()
     {
         ClearTiles();
         _objectsPrediction.Reverse();
         foreach (var o in _objectsPrediction)
         {
+            o.MoveReferance();
             Destroy(o.gameObject);
         }
         _objectsPrediction.Clear();
@@ -49,5 +73,4 @@ public class PredictionMap : MonoBehaviour
     {
         _predictionTilemap.ClearAllTiles();
     }
-
 }

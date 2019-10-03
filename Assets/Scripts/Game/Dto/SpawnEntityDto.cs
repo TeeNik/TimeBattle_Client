@@ -9,6 +9,7 @@ public enum OperativeType
 
 public class SpawnEntityDto
 {
+    public int Id;
     public string PrefabName;
-    public List<ComponentDto> InitialComponents = new List<ComponentDto>();
+    public List<ComponentBase> InitialComponents = new List<ComponentBase>();
 }

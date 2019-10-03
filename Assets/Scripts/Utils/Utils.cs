@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using Newtonsoft.Json;
 using UnityEngine;
 
 public static class Utils
@@ -21,22 +22,16 @@ public static class Utils
         return type == PlayerType.Player1 ? PlayerType.Player2 : PlayerType.Player1;
     }
 
-    public static Type ActionTypeToComponent(ActionType type)
+    public static T ParseConfig<T>(string fileName)
     {
-        switch (type)
-        {
-            case ActionType.Move:
-                return typeof(MovementComponent);
-            case ActionType.Shoot:
-                return typeof(ShootComponent);
-        }
-        throw new ArgumentException();
+        var asset = Resources.Load("Configs/" + fileName) as TextAsset;
+        return JsonConvert.DeserializeObject<T>(asset.text);
     }
 
-    public static List<T> ParseConfig<T>(string fileName)
+    public static ComponentBase GetComponentFromJson(ComponentType type, string json)
     {
-        var asset = Resources.Load(fileName) as TextAsset;
-        return JsonUtility.FromJson<List<T>>(asset.text);
+        var tp = ComponentBase.GetComponentType(type);
+        return (ComponentBase)JsonConvert.DeserializeObject(json, tp);
     }
 
 }

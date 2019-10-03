@@ -2,13 +2,12 @@
 
 public class ComponentDto
 {
-    public int entityId;
-    public List<ActionPhase> phases;
-
+    public ComponentType Type;
+    public List<string> Components;
 }
 
 public class ActionPhase
 {
-    public ActionType type;
-    public ComponentBase component;
+    public int entityId;
+    public List<ComponentBase> phases;
 }

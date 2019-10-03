@@ -2,11 +2,14 @@
 
 public class OperativeInfoSystem : ISystem
 {
-    private Dictionary<int, OperativeInfoCmponent> _components = new Dictionary<int, OperativeInfoCmponent>();
+    private Dictionary<int, OperativeInfoComponent> _components = new Dictionary<int, OperativeInfoComponent>();
 
     public void AddComponent(Entity entity, ComponentBase component)
     {
-        _components.Add(entity.Id, (OperativeInfoCmponent)component);
+        var ic = (OperativeInfoComponent) component;
+        _components.Add(entity.Id, ic);
+
+        entity.GetComponent<InfoView>().SetInfo(ic);
     }
 
     public bool IsProcessing()
@@ -35,5 +38,10 @@ public class OperativeInfoSystem : ISystem
     public void RemoveComponent(int entityId)
     {
         _components.Remove(entityId);
+    }
+
+    public int GetPhaseLegth()
+    {
+        return 0;
     }
 }

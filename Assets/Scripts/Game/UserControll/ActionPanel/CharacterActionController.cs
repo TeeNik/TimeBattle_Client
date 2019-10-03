@@ -12,16 +12,19 @@ public class CharacterActionController : MonoBehaviour
     [SerializeField]
     private Transform SelectionTarget;
 
-    [SerializeField]
-    private PredictionMap PredictionMap;
+    public PredictionMap PredictionMap;
 
     [SerializeField]
     private ActionButton ActionButtonPrefab;
+
+    [SerializeField]
+    private GameObject ConfirmPanel;
 
     private ActionInput _selectedInput;
     private Dictionary<ActionType, ActionInput> _actionInputs;
     private List<ActionButton> _actionButtons;
     private Character _selectedChar;
+    private bool _isWaitForConfirm;
 
     void Start()
     {
@@ -59,7 +62,7 @@ public class CharacterActionController : MonoBehaviour
 
     private void Update()
     {
-        if (_selectedInput != null)
+        if (_selectedInput != null && !_isWaitForConfirm)
         {
             if (Input.GetMouseButton(0))
             {
@@ -72,6 +75,30 @@ public class CharacterActionController : MonoBehaviour
                 _selectedInput.Update();
             }
         }
+    }
+
+    public void ShowConfirmationPanel()
+    {
+        _isWaitForConfirm = true;
+        ConfirmPanel.SetActive(true);
+    }
+
+    private void CloseConfirm()
+    {
+        ConfirmPanel.SetActive(false);
+        _selectedInput = null;
+        HideActionPanel();
+    }
+
+    public void ConfirmAction()
+    {
+        _selectedInput.ProduceInput();
+        CloseConfirm();
+    }
+
+    public void CancelAction()
+    {
+        CloseConfirm();
     }
 
     private void CreateButtons()
