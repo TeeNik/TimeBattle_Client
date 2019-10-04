@@ -34,7 +34,7 @@ public class CharacterActionSystem : ISystem
         return false;
     }
 
-    public int GetPhaseLegth()
+    public int GetPhaseLength()
     {
         return 0;
     }

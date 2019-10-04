@@ -87,7 +87,7 @@ public class MovementSystem : ISystem
         _toDelete.Add(entityId);
     }
 
-    public int GetPhaseLegth()
+    public int GetPhaseLength()
     {
         var notNull = _components.Values.Where(c => c.Path != null).ToArray();
         return !notNull.Any() ? 0 : notNull.Max(c => c.Path.Count);

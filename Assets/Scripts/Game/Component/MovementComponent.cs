@@ -12,6 +12,11 @@ public class MovementComponent : ComponentBase
     public bool IsMoving;
     public Action OnEndMoving;
 
+    public MovementComponent()
+    {
+
+    }
+
     public MovementComponent(List<Point> path)
     {
         Path = path;

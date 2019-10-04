@@ -50,7 +50,7 @@ public partial class NetworkController : MonoBehaviour
     private void OnConnectionOpen(object sender, EventArgs args)
     {
         Debug.Log("Coonection Open");
-        Login();
+        SendLogin();
     }
 
     private void OnMessage(object sender, MessageEventArgs args)

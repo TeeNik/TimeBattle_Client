@@ -20,7 +20,7 @@ public class LobbyUIController : MonoBehaviour
         }
         else
         {
-            GameLayer.I.Net.PlayGame();
+            GameLayer.I.Net.SendPlayGame();
         }
     }
 }

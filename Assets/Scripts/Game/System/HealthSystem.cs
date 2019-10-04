@@ -51,7 +51,7 @@ public class HealthSystem : ISystem, IDisposable
         return false;
     }
 
-    public int GetPhaseLegth()
+    public int GetPhaseLength()
     {
         return 0;
     }

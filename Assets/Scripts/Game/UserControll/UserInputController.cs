@@ -21,6 +21,7 @@ public class UserInputController : MonoBehaviour
     private Character _selectedChar;
 
     private readonly List<ActionPhase> _storedInputs = new List<ActionPhase>();
+
     private readonly EventListener _eventListener = new EventListener();
     private OperativeInfoSystem _infoSystem;
 
@@ -106,11 +107,11 @@ public class UserInputController : MonoBehaviour
             action = new ActionPhase()
             {
                 entityId = _selectedChar.Id,
-                phases = new List<ComponentBase>()
+                phases = new List<ComponentDto>()
             };
             _storedInputs.Add(action);
         }
-        action.phases.Add(comp);
+        action.phases.Add(new ComponentDto(comp));
     }
 
     //TODO this function will be changed
@@ -136,6 +137,7 @@ public class UserInputController : MonoBehaviour
             }
             else
             {
+                GameLayer.I.Net.SendPlayerTurn(_storedInputs);
                 //SendToServer
             }
 

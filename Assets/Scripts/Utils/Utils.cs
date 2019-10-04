@@ -30,7 +30,7 @@ public static class Utils
 
     public static ComponentBase GetComponentFromJson(ComponentType type, string json)
     {
-        var tp = ComponentBase.GetComponentType(type);
+        var tp = ComponentBase.GetClassType(type);
         return (ComponentBase)JsonConvert.DeserializeObject(json, tp);
     }
 

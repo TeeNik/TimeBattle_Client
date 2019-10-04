@@ -57,7 +57,8 @@ public class ServerEmulator
 
     public void PlayGame()
     {
-        GameLayer.I.Net.ProcessEvent(CreateEventMessage("playGame", null));
+        //GameLayer.I.Net.ProcessEvent(CreateEventMessage("playGame", null));
+        GameLayer.I.Net.ProcessEvent(CreateEventMessage("startGame", null));
     }
 
     private SpawnEntityDto CreateCharacter(PlayerType owner, OperativeType operative, Weapon weapon, Point point)

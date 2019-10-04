@@ -82,7 +82,7 @@ public class Game : MonoBehaviour
         {
             if (dto.phases.Count > _currentPhase)
             {
-                SystemController.ProcessData(dto.entityId, dto.phases[_currentPhase]);
+                SystemController.ProcessData(dto.entityId, dto.phases[_currentPhase].ToComponentBase());
                 _phaseLength = SystemController.GetPhaseLength();
                 _updatesCount = 0;
             }

@@ -6,6 +6,11 @@ public class ShootComponent : ComponentBase
     public List<Point> Range;
     public Weapon Weapon;
 
+    public ShootComponent()
+    {
+
+    }
+
     public ShootComponent(Weapon weapon)
     {
         Weapon = weapon;
