@@ -37,7 +37,7 @@ public class EventAgregator
                 data = new JObject(param.ToString());
             }
 
-            evnt.HandleResponse(data);
+            evnt.HandleResponse(json);
         }
     }
 
