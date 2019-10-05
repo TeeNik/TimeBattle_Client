@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
+[Serializable]
 [Component(ComponentType.Movement)]
 public class MovementComponent : ComponentBase
 {

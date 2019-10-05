@@ -21,7 +21,7 @@ public class ComponentDto
     public ComponentDto(ComponentBase component)
     {
         Type = ComponentBase.GetComponentType(component.GetType());
-        Component = JsonUtility.ToJson(component);
+        Component = JsonConvert.SerializeObject(component);
     }
 
     public ComponentBase ToComponentBase()

@@ -12,7 +12,6 @@ public enum WeaponType
 public abstract class Weapon
 {
     public readonly WeaponType Type;
-
     protected abstract List<Point> Distance { get; }
     public virtual List<Point> Left {get; protected set;}
     public virtual List<Point> Right {get; protected set;}

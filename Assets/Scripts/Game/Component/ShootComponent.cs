@@ -1,9 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 [Component(ComponentType.Shoot)]
 public class ShootComponent : ComponentBase
 {
     public List<Point> Range;
+
+    [NonSerialized]
     public Weapon Weapon;
 
     public ShootComponent()
