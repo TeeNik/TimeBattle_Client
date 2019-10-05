@@ -10,7 +10,7 @@ public class PlayerTurnEvent : BaseEventClass
 
     public string SetData(List<ActionPhase> turnData)
     {
-        Json["turnData"] = JsonConvert.ToString(turnData);
+        Json["turnData"] = JsonConvert.SerializeObject(turnData);
         return Json.ToString();
     }
 

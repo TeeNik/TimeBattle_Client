@@ -138,7 +138,6 @@ public class UserInputController : MonoBehaviour
             else
             {
                 GameLayer.I.Net.SendPlayerTurn(_storedInputs);
-                //SendToServer
             }
 
         }
