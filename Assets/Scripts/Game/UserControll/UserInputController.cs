@@ -128,7 +128,7 @@ public class UserInputController : MonoBehaviour
                 Game.I.Messages.SendEvent(EventStrings.OnPlayerChanged);
                 if (prev == PlayerType.Player2)
                 {
-                    ProduceSystemUpdate();
+                    ProcessTurn(_storedInputs);
                 }
                 else
                 {
@@ -156,11 +156,11 @@ public class UserInputController : MonoBehaviour
         }
     }
 
-    public void ProduceSystemUpdate()
+    public void ProcessTurn(List<ActionPhase> turnData)
     {
-        Debug.Log("ProduceSystemUpdate");
+        Debug.Log("ProcessTurn");
         ActionController.ClearPrediction();
-        Game.I.OnTurnData(_storedInputs);
+        Game.I.OnTurnData(turnData);
         _storedInputs.Clear();
     }
 

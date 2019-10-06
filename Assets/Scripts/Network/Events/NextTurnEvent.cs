@@ -23,6 +23,6 @@ public class NextTurnEvent : BaseEventClass
         var list = new List<ActionPhase>();
         list.AddRange(JsonConvert.DeserializeObject<List<ActionPhase>>(data.turnData[0]));
         list.AddRange(JsonConvert.DeserializeObject<List<ActionPhase>>(data.turnData[1]));
-        Game.I.OnTurnData(list);
+        Game.I.UserInputController.ProcessTurn(list);
     }
 }
