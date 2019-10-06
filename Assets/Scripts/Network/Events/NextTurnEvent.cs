@@ -12,10 +12,17 @@ public class NextTurnEvent : BaseEventClass
     {
     }
 
+    public class NextTurnData
+    {
+        public List<string> turnData;
+    }
+
     protected override void HandleResponseImpl(JObject json)
     {
-        var data = JsonConvert.DeserializeObject<List<List<ActionPhase>>>(json["turnData"].ToString());
-        var union = data[0].Union(data[1]).ToList();
-        Game.I.OnTurnData(union);
+        var data = JsonConvert.DeserializeObject<NextTurnData>(json.ToString());
+        var list = new List<ActionPhase>();
+        list.AddRange(JsonConvert.DeserializeObject<List<ActionPhase>>(data.turnData[0]));
+        list.AddRange(JsonConvert.DeserializeObject<List<ActionPhase>>(data.turnData[1]));
+        Game.I.OnTurnData(list);
     }
 }
