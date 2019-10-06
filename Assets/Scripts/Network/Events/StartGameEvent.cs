@@ -13,8 +13,11 @@ public class StartGameEvent : BaseEventClass
         SceneManager.UnloadSceneAsync("Lobby");
         GameLayer.I.SceneController.LoadScene("Game", true, (_)=>
         {
-            var player = json["playerType"].ToObject<PlayerType>();
-            Game.I.PlayerType = player;
+            if (!GameLayer.I.EmulateServer)
+            {
+                var player = json["playerType"].ToObject<PlayerType>();
+                Game.I.PlayerType = player;
+            }
         });
     }
 }

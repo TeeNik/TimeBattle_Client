@@ -34,4 +34,9 @@ public static class Utils
         return (ComponentBase)JsonConvert.DeserializeObject(json, tp);
     }
 
+    public static Color CreateColor(float r, float g, float b, float a = 255)
+    {
+        return new Color(r / 255.0f, g / 255.0f, b / 255.0f, a / 255);
+    }
+
 }
