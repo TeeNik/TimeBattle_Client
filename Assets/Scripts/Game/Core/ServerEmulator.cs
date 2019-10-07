@@ -35,12 +35,12 @@ public class ServerEmulator
     private void SendInitialEvent()
     {
         var param = new List<SpawnEntityDto>() {
-            //CreateCharacter(PlayerType.Player1, OperativeType.Assault, new Pistol(), new Point(8, 8)),
-            //CreateCharacter(PlayerType.Player1, OperativeType.Sniper, new SniperRifle(), new Point(2, 2)),
-            CreateCharacter(PlayerType.Player1, OperativeType.Ranger, new Shotgun(), new Point(4, 2)),
+            CreateCharacter(PlayerType.Player1, OperativeType.Assault, new Pistol(), new Point(8, 14)),
+            CreateCharacter(PlayerType.Player1, OperativeType.Sniper, new SniperRifle(), new Point(2, 2)),
+            CreateCharacter(PlayerType.Player1, OperativeType.Ranger, new Shotgun(), new Point(9, 8)),
             CreateCharacter(PlayerType.Player2, OperativeType.Assault, new Pistol(), new Point(2, 15)),
-            //CreateCharacter(PlayerType.Player2, OperativeType.Sniper, new SniperRifle(), new Point(4, 9)),
-            //CreateCharacter(PlayerType.Player2, OperativeType.Ranger, new Shotgun(), new Point(9, 4)),
+            CreateCharacter(PlayerType.Player2, OperativeType.Sniper, new SniperRifle(), new Point(4, 9)),
+            CreateCharacter(PlayerType.Player2, OperativeType.Ranger, new Shotgun(), new Point(9, 4)),
         };
 
         foreach (var point in GameLayer.I.GameBalance.GetCoversPoint())
