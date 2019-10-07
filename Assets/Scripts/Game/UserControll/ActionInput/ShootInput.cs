@@ -102,7 +102,11 @@ public class ShootInput : ActionInput
             List<Point> toDraw = new List<Point>();
             foreach (var p in range)
             {
-                toDraw.Add(_position.Sum(p));
+                var resultPoint = _position.Sum(p);
+                if (fullRange.Any(r => r.Equals(resultPoint)))
+                {
+                    toDraw.Add(resultPoint);
+                }
             }
             _range = toDraw;
             _prediction.DrawPath(toDraw);
