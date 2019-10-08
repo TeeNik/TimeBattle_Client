@@ -87,7 +87,7 @@ public class ShootingSystem : ISystem
         {
             comp.Range.Clear();
         }
-        Game.I.UserInputController.ActionController.PredictionMap.ClearShootingLayer();
+        Game.I.UserInputController.ActionController.PredictionMap.ClearLayer(Layers.Shooting);
     }
 
     public bool IsProcessing()

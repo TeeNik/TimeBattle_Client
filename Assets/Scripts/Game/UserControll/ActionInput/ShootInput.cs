@@ -24,7 +24,7 @@ public class ShootInput : ActionInput
     {
         if (_range != null)
         {
-            _prediction.DrawPath(_range);
+            _prediction.DrawShootingRange(_range);
             var list = new List<ShootComponent>{ new ShootComponent(_range), new ShootComponent(_range.ToList()) };
             Game.I.UserInputController.ProduceInput(GetActionType(), list);
 
@@ -109,12 +109,12 @@ public class ShootInput : ActionInput
                 }
             }
             _range = toDraw;
-            _prediction.DrawPath(toDraw);
+            _prediction.DrawShootInput(toDraw);
         }
         else
         {
             _range = null;
-            _prediction.ClearTiles();
+            _prediction.ClearLayer(Layers.Temporary);
         }
 
     }

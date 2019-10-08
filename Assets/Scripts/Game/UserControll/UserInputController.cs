@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -143,23 +142,10 @@ public class UserInputController : MonoBehaviour
         }
     }
 
-    public void LogStoredActions()
-    {
-        foreach (var input in _storedInputs)
-        {
-            Debug.Log($"<color=blue>{input.entityId}</color> ");
-            foreach (var phase in input.phases)
-            {
-                var json = JsonUtility.ToJson(phase);
-                Debug.Log(json);
-            }
-        }
-    }
-
     public void ProcessTurn(List<ActionPhase> turnData)
     {
         Debug.Log("ProcessTurn");
-        ActionController.ClearPrediction();
+        ActionController.PredictionMap.ClearAll();
         Game.I.OnTurnData(turnData);
         _storedInputs.Clear();
     }

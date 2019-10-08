@@ -23,6 +23,7 @@ public class MoveInput : ActionInput
         if(_path != null)
         {
             _prediction.DrawCharacter(_char, _path.Last());
+            _prediction.DrawMovePath(_path);
             var mc = new MovementComponent(_path);
             Game.I.UserInputController.ProduceInput(GetActionType(), mc);
 
@@ -84,14 +85,14 @@ public class MoveInput : ActionInput
                     path.RemoveRange(_moveLimit, path.Count - _moveLimit);
                 }
                 _path = path;
-                _prediction.DrawPath(path);
+                _prediction.DrawMoveInput(path);
             }
         }
         else
         {
             _lastPoint = null;
             _path = null;
-            _prediction.ClearTiles();
+            _prediction.ClearLayer(Layers.Temporary);
         }
 
     }
