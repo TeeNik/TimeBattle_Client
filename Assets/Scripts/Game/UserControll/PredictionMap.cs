@@ -75,9 +75,11 @@ public class PredictionMap : MonoBehaviour
         {
             layer.ClearAllTiles();
         }
+
+        ReverseCharacterPrediction();
     }
 
-    public void ClearPrediction()
+    public void ReverseCharacterPrediction()
     {
         ClearLayer(Layers.Temporary);
         _objectsPrediction.Reverse();
