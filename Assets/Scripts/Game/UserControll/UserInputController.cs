@@ -71,22 +71,10 @@ public class UserInputController : MonoBehaviour
         }
     }
 
-    public void ProduceInput(ActionType compType, IEnumerable<ComponentBase> components)
-    {
-        foreach (var comp in components)
-        {
-            AddComponentToInput(comp);
-        }
-
-        //TODO
-        RemoveActionFromCharacter(compType);
-    }
 
     public void ProduceInput(ActionType compType, ComponentBase component)
     {
         AddComponentToInput(component);
-
-        //TODO
         RemoveActionFromCharacter(compType);
     }
 

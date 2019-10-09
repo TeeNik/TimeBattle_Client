@@ -73,10 +73,10 @@ public class Game : MonoBehaviour
             return;
         }
 
-        if (_currentPhase != 0)
+        /*if (_currentPhase != 0)
         {
             SystemController.OnUpdateEnd();
-        }
+        }*/
 
         foreach (var dto in _turnData)
         {

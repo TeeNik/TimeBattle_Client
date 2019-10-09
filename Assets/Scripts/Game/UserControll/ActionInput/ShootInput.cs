@@ -25,8 +25,8 @@ public class ShootInput : ActionInput
         if (_range != null)
         {
             _prediction.DrawShootingRange(_range);
-            var list = new List<ShootComponent>{ new ShootComponent(_range), new ShootComponent(_range.ToList()) };
-            Game.I.UserInputController.ProduceInput(GetActionType(), list);
+            var comp = new ShootComponent(_range);
+            Game.I.UserInputController.ProduceInput(GetActionType(), comp);
 
             _range = null;
         }
@@ -52,15 +52,15 @@ public class ShootInput : ActionInput
         var map = Game.I.MapController;
         var mapData = map.MapDatas;
 
-        foreach (var range in _weapon.GetFullRange())
+        foreach (var range in _weapon.GetRanges())
         {
             foreach (var point in range)
             {
                 var p = _position.Sum(point);
-                if (!map.IsInBounds(p) || mapData[p.X][p.Y].Type == OnMapType.Wall)
+                /*if (!map.IsInBounds(p) || mapData[p.X][p.Y].Type == OnMapType.Wall)
                 {
                     break;
-                }
+                }*/
                 fullRange.Add(p);
             }
         }
@@ -76,10 +76,10 @@ public class ShootInput : ActionInput
     {
         var map = Game.I.MapController;
         var tile = map.GetTileByMouse();
-        var point = new Point(tile.x, tile.y).Substract(_position);
+        var mousePoint = new Point(tile.x, tile.y).Substract(_position);
 
 
-        List<Point> range = null;
+        /*List<Point> range = null;
         if (_weapon.Left.Any(t=> point.Equals(t)))
         {
             range = _weapon.Left;
@@ -95,11 +95,29 @@ public class ShootInput : ActionInput
         else if(_weapon.Up.Any(t => point.Equals(t)))
         {
             range = _weapon.Up;
+        }*/
+
+
+        foreach (var range in _weapon.GetRanges())
+        {
+            if (range.Any(r => r./*Sum(r).*/Equals(mousePoint)))
+            {
+                List<Point> toDraw = new List<Point>();
+                foreach (var point in range)
+                {
+                    toDraw.Add(_position.Sum(point));    
+                }
+
+                _range = toDraw;
+                _prediction.DrawShootInput(toDraw);
+                break;
+            }
+            _range = null;
+            _prediction.ClearLayer(Layers.Temporary);
         }
 
-        if (range != null)
+        /*if (range != null)
         {
-            List<Point> toDraw = new List<Point>();
             foreach (var p in range)
             {
                 var resultPoint = _position.Sum(p);
@@ -115,7 +133,7 @@ public class ShootInput : ActionInput
         {
             _range = null;
             _prediction.ClearLayer(Layers.Temporary);
-        }
+        }*/
 
     }
 }

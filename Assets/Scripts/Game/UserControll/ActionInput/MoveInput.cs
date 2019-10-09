@@ -20,7 +20,7 @@ public class MoveInput : ActionInput
 
     public void ProduceInput()
     {
-        if(_path != null)
+        if(_path != null && _path.Count > 0)
         {
             _prediction.DrawCharacter(_char, _path.Last());
             _prediction.DrawMovePath(_path);

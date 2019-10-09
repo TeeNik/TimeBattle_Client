@@ -40,6 +40,7 @@ public class ShootingSystem : ISystem
                         {
                             msgs.Add(new TakeDamageMsg(target.Value, 1));
                         }
+
                         range.Clear();
                         break;
                     }

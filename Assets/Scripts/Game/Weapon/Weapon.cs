@@ -18,6 +18,8 @@ public abstract class Weapon
     public virtual List<Point> Up  {get; protected set;}
     public virtual List<Point> Down  { get; protected set; }
 
+    public abstract List<List<Point>> GetRanges();
+
     protected Weapon(WeaponType type)
     {
         Type = type;
