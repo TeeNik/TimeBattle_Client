@@ -10,6 +10,7 @@ public class ActionPhase
 
 public class ComponentDto
 {
+    public int StartTick;
     public ComponentType Type;
     public string Component;
 
