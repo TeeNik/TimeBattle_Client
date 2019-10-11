@@ -39,8 +39,25 @@ public abstract class Weapon
         Left.ForEach(p => p.Y *= -1);
     }
 
-    public IEnumerable<List<Point>> GetFullRange()
+    public virtual IEnumerable<List<Point>> GetAvailableRange(Point position)
     {
-        return new []{Left, Down, Right, Up};
+        var map = Game.I.MapController;
+        var mapData = map.MapDatas;
+        var availableRanges = new List<List<Point>>();
+        foreach(var range in GetRanges())
+        {
+            var list = new List<Point>();
+            foreach(var point in range)
+            {
+                var p = position.Sum(point);
+                if (!map.IsInBounds(p) || mapData[p.X][p.Y].Type == OnMapType.Wall)
+                {
+                    break;
+                }
+                list.Add(p);
+            }
+            availableRanges.Add(list);
+        }
+        return availableRanges;
     }
 }

@@ -484,7 +484,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ac9f43bf60dc0e45befd99a14d8bd2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  EmulateServer: 1
+  EmulateServer: 0
   Net: {fileID: 1905782872}
 --- !u!4 &1905782871
 Transform:

@@ -52,17 +52,9 @@ public class ShootInput : ActionInput
         var map = Game.I.MapController;
         var mapData = map.MapDatas;
 
-        foreach (var range in _weapon.GetRanges())
+        foreach (var range in _weapon.GetAvailableRange(_position))
         {
-            foreach (var point in range)
-            {
-                var p = _position.Sum(point);
-                /*if (!map.IsInBounds(p) || mapData[p.X][p.Y].Type == OnMapType.Wall)
-                {
-                    break;
-                }*/
-                fullRange.Add(p);
-            }
+            fullRange.AddRange(range);
         }
 
         foreach (var point in fullRange)
@@ -76,64 +68,18 @@ public class ShootInput : ActionInput
     {
         var map = Game.I.MapController;
         var tile = map.GetTileByMouse();
-        var mousePoint = new Point(tile.x, tile.y).Substract(_position);
+        var mousePoint = new Point(tile.x, tile.y);
 
-
-        /*List<Point> range = null;
-        if (_weapon.Left.Any(t=> point.Equals(t)))
+        foreach (var range in _weapon.GetAvailableRange(_position))
         {
-            range = _weapon.Left;
-        }
-        else if (_weapon.Right.Any(t => point.Equals(t)))
-        {
-            range = _weapon.Right;
-        }
-        else if (_weapon.Down.Any(t => point.Equals(t)))
-        {
-            range = _weapon.Down;
-        }
-        else if(_weapon.Up.Any(t => point.Equals(t)))
-        {
-            range = _weapon.Up;
-        }*/
-
-
-        foreach (var range in _weapon.GetRanges())
-        {
-            if (range.Any(r => r./*Sum(r).*/Equals(mousePoint)))
+            if (range.Any(r => r.Equals(mousePoint)))
             {
-                List<Point> toDraw = new List<Point>();
-                foreach (var point in range)
-                {
-                    toDraw.Add(_position.Sum(point));    
-                }
-
-                _range = toDraw;
-                _prediction.DrawShootInput(toDraw);
+                _range = range;
+                _prediction.DrawShootInput(range);
                 break;
             }
             _range = null;
             _prediction.ClearLayer(Layers.Temporary);
         }
-
-        /*if (range != null)
-        {
-            foreach (var p in range)
-            {
-                var resultPoint = _position.Sum(p);
-                if (fullRange.Any(r => r.Equals(resultPoint)))
-                {
-                    toDraw.Add(resultPoint);
-                }
-            }
-            _range = toDraw;
-            _prediction.DrawShootInput(toDraw);
-        }
-        else
-        {
-            _range = null;
-            _prediction.ClearLayer(Layers.Temporary);
-        }*/
-
     }
 }
