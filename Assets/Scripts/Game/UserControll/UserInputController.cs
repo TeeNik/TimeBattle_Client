@@ -75,13 +75,22 @@ public class UserInputController : MonoBehaviour
     public void ProduceInput(ActionType compType, ComponentBase component)
     {
         AddComponentToInput(component);
-        RemoveActionFromCharacter(compType);
+        RemoveActionFromCharacter(compType, component);
     }
 
-    private void RemoveActionFromCharacter(ActionType compType)
+    private void RemoveActionFromCharacter(ActionType compType, ComponentBase component)
     {
         var ac = _selectedChar.GetEcsComponent<CharacterActionComponent>();
-        ac.RemoveAction(compType);
+
+        if(compType == ActionType.Move)
+        {
+            var mc = (MovementComponent)component;
+            ac.RemoveAction(mc.Path.Count);
+        }
+        else if (compType == ActionType.Shoot)
+        {
+            ac.RemoveAction(3);
+        }
         SelectCharacter(_selectedChar);
         CheckEndTurn();
     }

@@ -9,6 +9,8 @@ public class ShootComponent : ComponentBase
     [NonSerialized]
     public Weapon Weapon;
 
+    public int Time;
+
     public ShootComponent()
     {
 
@@ -31,6 +33,7 @@ public class ShootComponent : ComponentBase
         if(sc.Range != null)
         {
             Range = sc.Range;
+            Time = 3;
         }
     }
 }
