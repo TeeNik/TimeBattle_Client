@@ -8,7 +8,7 @@ using WebSocketSharp;
 
 public partial class NetworkController : MonoBehaviour
 {
-    private readonly string Address = "ws://116.203.77.112:8090/multiplayer/rand";
+    private readonly string Address = "ws://116.203.77.112:8000/multiplayer/rand";
     //private readonly string Address = "ws://localhost:8080/multiplayer/rand";
 
     private WebSocket _ws;
