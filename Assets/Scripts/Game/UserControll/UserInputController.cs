@@ -72,27 +72,33 @@ public class UserInputController : MonoBehaviour
     }
 
 
-    public void ProduceInput(ActionType compType, ComponentBase component)
+    public void ProduceInput(ActionType actionType, ComponentBase component)
     {
         AddComponentToInput(component);
-        RemoveActionFromCharacter(compType, component);
+        RemoveActionFromCharacter(actionType, component);
     }
 
-    private void RemoveActionFromCharacter(ActionType compType, ComponentBase component)
+    private void RemoveActionFromCharacter(ActionType actionType, ComponentBase component)
     {
         var ac = _selectedChar.GetEcsComponent<CharacterActionComponent>();
-
-        if(compType == ActionType.Move)
-        {
-            var mc = (MovementComponent)component;
-            ac.RemoveAction(mc.Path.Count);
-        }
-        else if (compType == ActionType.Shoot)
-        {
-            ac.RemoveAction(3);
-        }
+        ac.RemoveAction(GetComponentLength(component));
         SelectCharacter(_selectedChar);
         CheckEndTurn();
+    }
+
+    private int GetComponentLength(ComponentBase component)
+    {
+        var componentType = ComponentBase.GetComponentType(component.GetType());
+        if (componentType == ComponentType.Movement)
+        {
+            var mc = (MovementComponent)component;
+            return mc.Path.Count;
+        }
+        if (componentType == ComponentType.Shoot)
+        {
+            return  3;
+        }
+        return 0;
     }
 
     private void AddComponentToInput(ComponentBase comp)
@@ -103,11 +109,12 @@ public class UserInputController : MonoBehaviour
             action = new ActionPhase()
             {
                 entityId = _selectedChar.Id,
-                phases = new List<ComponentDto>()
+                dtos = new List<ComponentDto>()
             };
             _storedInputs.Add(action);
         }
-        action.phases.Add(new ComponentDto(comp));
+        var fullTime = action.dtos.Sum(c => GetComponentLength(c.ToComponentBase()));
+        action.dtos.Add(new ComponentDto(comp, fullTime));
     }
 
     //TODO this function will be changed

@@ -11,11 +11,13 @@ public class MoveInput : ActionInput
     private Character _char;
     private int _moveLimit;
     private List<Point> _path;
+    private CharacterActionController _ac;
 
-    public MoveInput(PredictionMap prediction)
+    public MoveInput(PredictionMap prediction, CharacterActionController ac)
     {
         _prediction = prediction;
         _map = Game.I.MapController;
+        _ac = ac;
     }
 
     public void ProduceInput()
@@ -31,6 +33,15 @@ public class MoveInput : ActionInput
             _path = null;
         }
         Game.I.MapController.OutlinePool.ReturnAll();
+    }
+
+    public void WaitForConfirm()
+    {
+        if (_path != null && _path.Count > 0)
+        {
+            _prediction.DrawMoveInput(_path);
+            _ac.ShowConfirmationPanel();
+        }
     }
 
     public void Start(Character ch)

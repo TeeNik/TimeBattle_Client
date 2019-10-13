@@ -17,14 +17,14 @@ public class CharacterActionController : MonoBehaviour
     [SerializeField]
     private ActionButton ActionButtonPrefab;
 
-    [SerializeField]
-    private GameObject ConfirmPanel;
+    [SerializeField] private GameObject ConfirmPanel;
+    public ShootConfirmPanel ShootConfirmPanel;
 
     private ActionInput _selectedInput;
     private Dictionary<ActionType, ActionInput> _actionInputs;
     private List<ActionButton> _actionButtons;
     private Character _selectedChar;
-    private bool _isWaitForConfirm;
+    public bool _isWaitForConfirm;
 
     void Start()
     {
@@ -66,9 +66,7 @@ public class CharacterActionController : MonoBehaviour
         {
             if (Input.GetMouseButton(0))
             {
-                _selectedInput.ProduceInput();
-                _selectedInput = null;
-                HideActionPanel();
+                _selectedInput.WaitForConfirm();
             }
             else
             {
@@ -83,21 +81,19 @@ public class CharacterActionController : MonoBehaviour
         ConfirmPanel.SetActive(true);
     }
 
-    private void CloseConfirm()
+
+    public void CloseConfirm()
     {
         ConfirmPanel.SetActive(false);
+        ShootConfirmPanel.Hide();
         _selectedInput = null;
         HideActionPanel();
+        _isWaitForConfirm = false;
     }
 
     public void ConfirmAction()
     {
         _selectedInput.ProduceInput();
-        CloseConfirm();
-    }
-
-    public void CancelAction()
-    {
         CloseConfirm();
     }
 
@@ -119,7 +115,7 @@ public class CharacterActionController : MonoBehaviour
     {
         _actionInputs = new Dictionary<ActionType, ActionInput>();
 
-        _actionInputs.Add(ActionType.Move, new MoveInput(PredictionMap));
-        _actionInputs.Add(ActionType.Shoot, new ShootInput(PredictionMap));
+        _actionInputs.Add(ActionType.Move, new MoveInput(PredictionMap, this));
+        _actionInputs.Add(ActionType.Shoot, new ShootInput(PredictionMap, this));
     }
 }

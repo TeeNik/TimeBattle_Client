@@ -21,10 +21,10 @@ public class ShootComponent : ComponentBase
         Weapon = weapon;
     }
 
-    public ShootComponent(List<Point> range)
+    public ShootComponent(List<Point> range, int duration)
     {
         Range = range;
-        Weapon = new Pistol();
+        Time = duration;
     }
 
     public override void Update(ComponentBase newData)
@@ -33,7 +33,7 @@ public class ShootComponent : ComponentBase
         if(sc.Range != null)
         {
             Range = sc.Range;
-            Time = 3;
+            Time = sc.Time;
         }
     }
 }

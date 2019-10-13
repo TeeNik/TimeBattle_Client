@@ -5,7 +5,7 @@ using UnityEngine;
 public class ActionPhase
 {
     public int entityId;
-    public List<ComponentDto> phases;
+    public List<ComponentDto> dtos;
 }
 
 public class ComponentDto
@@ -19,8 +19,9 @@ public class ComponentDto
 
     }
 
-    public ComponentDto(ComponentBase component)
+    public ComponentDto(ComponentBase component, int tick)
     {
+        StartTick = tick;
         Type = ComponentBase.GetComponentType(component.GetType());
         Component = JsonConvert.SerializeObject(component);
     }

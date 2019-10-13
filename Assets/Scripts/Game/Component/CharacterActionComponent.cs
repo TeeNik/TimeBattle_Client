@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 
 [Component(ComponentType.CharacterAction)]
 public class CharacterActionComponent : ComponentBase
@@ -32,5 +33,6 @@ public class CharacterActionComponent : ComponentBase
 
         //var amount = type == ActionType.Move ? 1 : 2;
         Energy -= amount;
+        Debug.Log("Energy: " + Energy);
     }
 }

@@ -64,7 +64,7 @@ public class Game : MonoBehaviour
     public void ProducePhase()
     {
 
-        if (_currentPhase > _turnData.Max(t => t.phases.Count))
+        if(_currentPhase == 10)
         {
             _currentPhase = 0;
             SystemController.OnUpdateEnd();
@@ -73,10 +73,33 @@ public class Game : MonoBehaviour
             return;
         }
 
-        /*if (_currentPhase != 0)
+        foreach(var actionPhase in _turnData)
         {
+            foreach (var dto in actionPhase.dtos)
+            {
+                if (dto.StartTick == _currentPhase)
+                {
+                    SystemController.ProcessData(actionPhase.entityId, dto.ToComponentBase());
+                }
+            }
+
+            /*if (actionPhase.dtos.Count > _currentPhase)
+            {
+                SystemController.ProcessData(actionPhase.entityId, actionPhase.dtos[_currentPhase].ToComponentBase());
+            }*/
+        }
+        
+        ++_currentPhase;
+        StartCoroutine(WaitForNextIteration());
+
+        /*if (_currentPhase > _turnData.Max(t => t.phases.Count))
+        {
+            _currentPhase = 0;
             SystemController.OnUpdateEnd();
-        }*/
+            CheckEndGame();
+            Messages.SendEvent(EventStrings.OnNextTurn);
+            return;
+        }
 
         foreach (var dto in _turnData)
         {
@@ -89,17 +112,19 @@ public class Game : MonoBehaviour
         }
 
         ++_currentPhase;
-        IterateOverPhase();
+        IterateOverPhase();*/
     }
 
     private IEnumerator WaitForNextIteration()
     {
+        SystemController.UpdateSystems();
         do
         {
             yield return new WaitForSeconds(.01f);
         } while (SystemController.IsProcessing());
 
-        IterateOverPhase();
+        //IterateOverPhase();
+        ProducePhase();
     }
 
     public void IterateOverPhase()

@@ -5,6 +5,9 @@ public class ShootInput : ActionInput
 {
     private readonly PredictionMap _prediction;
     private List<Point> _range;
+    private CharacterActionController _ac;
+
+    private const int MinDuration = 3;
 
     private Character _char;
     private Point _position;
@@ -15,20 +18,30 @@ public class ShootInput : ActionInput
         return ActionType.Shoot;
     }
 
-    public ShootInput(PredictionMap prediction)
+    public ShootInput(PredictionMap prediction, CharacterActionController ac)
     {
         _prediction = prediction;
+        _ac = ac;
     }
 
     public void ProduceInput()
     {
+        var duration = _ac.ShootConfirmPanel.GetValue();
+        var comp = new ShootComponent(_range, 3);
+        Game.I.UserInputController.ProduceInput(GetActionType(), comp);
+        _range = null;
+        _ac.ShootConfirmPanel.Hide();
+        _ac._isWaitForConfirm = false;
+    }
+
+    public void WaitForConfirm()
+    {
         if (_range != null)
         {
-            _prediction.DrawShootingRange(_range);
-            var comp = new ShootComponent(_range);
-            Game.I.UserInputController.ProduceInput(GetActionType(), comp);
-
-            _range = null;
+            _prediction.DrawShootInput(_range);
+            var charInfo = _char.GetEcsComponent<CharacterActionComponent>();
+            _ac.ShootConfirmPanel.Show(MinDuration, charInfo.Energy);
+            _ac._isWaitForConfirm = true;
         }
 
         Game.I.MapController.OutlinePool.ReturnAll();
