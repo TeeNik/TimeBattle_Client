@@ -102,9 +102,4 @@ public class ShootingSystem : ISystem
     {
         _toDelete.Add(entityId);
     }
-
-    public int GetPhaseLength()
-    {
-        return 1;
-    }
 }

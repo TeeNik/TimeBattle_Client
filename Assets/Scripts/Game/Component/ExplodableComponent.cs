@@ -1,18 +1,13 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class ExplodableComponent : MonoBehaviour
+﻿[Component(ComponentType.Explodable)]
+public class ExplodableComponent : ComponentBase
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
-    // Update is called once per frame
-    void Update()
+    public Point Target;
+    public bool IsExloding;
+
+    public override void Update(ComponentBase newData)
     {
-        
+        var gt = (ExplodableComponent)newData;
+        Target = gt.Target;
     }
 }

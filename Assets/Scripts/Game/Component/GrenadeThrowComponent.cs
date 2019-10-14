@@ -1,18 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class GrenadeThrowComponent : MonoBehaviour
+﻿[Component(ComponentType.GrenadeThrow)]
+public class GrenadeThrowComponent : ComponentBase
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public Point Target;
 
-    // Update is called once per frame
-    void Update()
+    public override void Update(ComponentBase newData)
     {
-        
+        var gt = (GrenadeThrowComponent) newData;
+        Target = gt.Target;
     }
 }

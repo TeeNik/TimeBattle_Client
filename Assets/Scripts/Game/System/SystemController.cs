@@ -54,12 +54,6 @@ public class SystemController : IDisposable
         return Systems.Values.Any(s=>s.IsProcessing());
     }
 
-    public int GetPhaseLength()
-    {
-        return Systems.Values.Max(s => s.GetPhaseLength());
-    }
-
-
     public void Dispose()
     {
         foreach (var system in Systems.Values.Where(s=>s is IDisposable).Cast<IDisposable>())

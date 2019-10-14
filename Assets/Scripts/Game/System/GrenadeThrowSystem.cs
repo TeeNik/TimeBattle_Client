@@ -2,17 +2,33 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GrenadeThrowSystem : MonoBehaviour
+public class GrenadeThrowSystem : ISystem
 {
-    // Start is called before the first frame update
-    void Start()
+    private readonly Dictionary<int, GrenadeThrowComponent> _components = new Dictionary<int, GrenadeThrowComponent>();
+
+    public void Update()
     {
-        
+
+        foreach (var pair in _components)
+        {
+            
+        }
+
+        _components.Clear();
     }
 
-    // Update is called once per frame
-    void Update()
+    public void AddComponent(Entity entity, ComponentBase component)
     {
-        
+        _components.Add(entity.Id, (GrenadeThrowComponent)component);
+    }
+
+    public void RemoveComponent(int entityId)
+    {
+        _components.Remove(entityId);
+    }
+
+    public bool IsProcessing()
+    {
+        return false;
     }
 }

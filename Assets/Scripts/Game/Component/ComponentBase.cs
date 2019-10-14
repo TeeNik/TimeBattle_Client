@@ -12,6 +12,8 @@ public enum ComponentType
     Position,
     CharacterAction,
     FlagCarry,
+    GrenadeThrow,
+    Explodable,
 }
 
 public class ComponentAttribute : Attribute

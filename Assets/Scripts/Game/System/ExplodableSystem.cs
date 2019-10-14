@@ -1,18 +1,63 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
 
-public class ExplodableSystem : MonoBehaviour
+public class ExplodableSystem : ISystem
 {
-    // Start is called before the first frame update
-    void Start()
+
+    private readonly Dictionary<int, ExplodableComponent> _components = new Dictionary<int, ExplodableComponent>();
+    private readonly List<int> _toDelete = new List<int>();
+    private int _isMoving;
+
+    public void Update()
     {
-        
+        foreach (var pair in _components)
+        {
+            if (_toDelete.Contains(pair.Key))
+            {
+                return;
+            }
+
+            var component = pair.Value;
+
+            if (component.IsExloding)
+            {
+                Debug.Log("Boom");
+                Game.I.EntityManager.DestroyEntity(pair.Key);
+            }
+            else
+            {
+                var entity = Game.I.EntityManager.GetEntity(pair.Key);
+                var target = Game.I.MapController.GetTileWorldPosition(component.Target);
+                entity.transform.DOMove(target, 2).SetSpeedBased().SetEase(Ease.Linear).OnComplete(OnMoveComplete);
+                component.IsExloding = true;
+            }
+        }
+
+        foreach (var i in _toDelete)
+        {
+            _components.Remove(i);
+        }
+        _toDelete.Clear();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnMoveComplete()
     {
-        
+        --_isMoving;
+    }
+
+    public void AddComponent(Entity entity, ComponentBase component)
+    {
+        _components.Add(entity.Id, (ExplodableComponent)component);
+    }
+
+    public void RemoveComponent(int entityId)
+    {
+        _toDelete.Add(entityId);
+    }
+
+    public bool IsProcessing()
+    {
+        return _isMoving > 0;
     }
 }
