@@ -24,9 +24,6 @@ public class Game : MonoBehaviour
 
     private int _currentPhase;
 
-    private int _phaseLength;
-    private int _updatesCount;
-
     private readonly EventListener _eventListener = new EventListener();
 
     private void Start()
@@ -60,10 +57,9 @@ public class Game : MonoBehaviour
         ProducePhase();
     }
     
-    //TODO make this function cleaner
     public void ProducePhase()
     {
-
+        //TODO 10!!
         if(_currentPhase == 10)
         {
             _currentPhase = 0;
@@ -82,37 +78,10 @@ public class Game : MonoBehaviour
                     SystemController.ProcessData(actionPhase.entityId, dto.ToComponentBase());
                 }
             }
-
-            /*if (actionPhase.dtos.Count > _currentPhase)
-            {
-                SystemController.ProcessData(actionPhase.entityId, actionPhase.dtos[_currentPhase].ToComponentBase());
-            }*/
         }
         
         ++_currentPhase;
         StartCoroutine(WaitForNextIteration());
-
-        /*if (_currentPhase > _turnData.Max(t => t.phases.Count))
-        {
-            _currentPhase = 0;
-            SystemController.OnUpdateEnd();
-            CheckEndGame();
-            Messages.SendEvent(EventStrings.OnNextTurn);
-            return;
-        }
-
-        foreach (var dto in _turnData)
-        {
-            if (dto.phases.Count > _currentPhase)
-            {
-                SystemController.ProcessData(dto.entityId, dto.phases[_currentPhase].ToComponentBase());
-                _phaseLength = SystemController.GetPhaseLength();
-                _updatesCount = 0;
-            }
-        }
-
-        ++_currentPhase;
-        IterateOverPhase();*/
     }
 
     private IEnumerator WaitForNextIteration()
@@ -123,22 +92,7 @@ public class Game : MonoBehaviour
             yield return new WaitForSeconds(.01f);
         } while (SystemController.IsProcessing());
 
-        //IterateOverPhase();
         ProducePhase();
-    }
-
-    public void IterateOverPhase()
-    {
-        if (_updatesCount < _phaseLength)
-        {
-            ++_updatesCount;
-            SystemController.UpdateSystems();
-            StartCoroutine(WaitForNextIteration());
-        }
-        else
-        {
-            ProducePhase();
-        }
     }
 
     private void CheckEndGame()

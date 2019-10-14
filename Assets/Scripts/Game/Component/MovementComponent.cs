@@ -8,7 +8,6 @@ public class MovementComponent : ComponentBase
     public OnMapType MapType;
     public List<Point> Path;
     public Point Position;
-    public int MoveLimit = 7;
 
     public bool IsMoving;
     public Action OnEndMoving;

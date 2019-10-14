@@ -96,7 +96,8 @@ public class UserInputController : MonoBehaviour
         }
         if (componentType == ComponentType.Shoot)
         {
-            return  3;
+            var mc = (ShootComponent)component;
+            return mc.Time;
         }
         return 0;
     }

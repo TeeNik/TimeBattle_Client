@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 
 public class ShootInput : ActionInput
 {
@@ -27,7 +28,7 @@ public class ShootInput : ActionInput
     public void ProduceInput()
     {
         var duration = _ac.ShootConfirmPanel.GetValue();
-        var comp = new ShootComponent(_range, 3);
+        var comp = new ShootComponent(_range, duration);
         Game.I.UserInputController.ProduceInput(GetActionType(), comp);
         _range = null;
         _ac.ShootConfirmPanel.Hide();
@@ -40,7 +41,7 @@ public class ShootInput : ActionInput
         {
             _prediction.DrawShootInput(_range);
             var charInfo = _char.GetEcsComponent<CharacterActionComponent>();
-            _ac.ShootConfirmPanel.Show(MinDuration, charInfo.Energy);
+            _ac.ShootConfirmPanel.Show(Mathf.Min(charInfo.Energy, MinDuration), charInfo.Energy);
             _ac._isWaitForConfirm = true;
         }
 

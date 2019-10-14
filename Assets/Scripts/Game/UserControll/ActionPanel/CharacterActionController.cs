@@ -84,6 +84,8 @@ public class CharacterActionController : MonoBehaviour
 
     public void CloseConfirm()
     {
+        PredictionMap.ClearLayer(Layers.Temporary);
+        Game.I.MapController.OutlinePool.ReturnAll();
         ConfirmPanel.SetActive(false);
         ShootConfirmPanel.Hide();
         _selectedInput = null;

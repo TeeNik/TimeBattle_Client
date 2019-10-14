@@ -5,14 +5,14 @@ public class ShootingSystem : ISystem
 {
     private Dictionary<int, ShootComponent> _components = new Dictionary<int, ShootComponent>();
 
-    //TODO may be another way
     private readonly List<int> _toDelete = new List<int>();
 
     public void Update()
     {
         var map = Game.I.MapController;
-
         var msgs = new List<TakeDamageMsg>();
+        var predictionMap = Game.I.UserInputController.ActionController.PredictionMap;
+        predictionMap.ClearLayer(Layers.Shooting);
 
         foreach (var pair in _components)
         {
@@ -26,7 +26,7 @@ public class ShootingSystem : ISystem
 
             if (range != null && component.Time > 0)
             {
-                Game.I.UserInputController.ActionController.PredictionMap.DrawShootingRange(range);
+                predictionMap.DrawShootingRange(range);
                 var entity = Game.I.EntityManager.GetEntity(pair.Key);
                 var info = entity.GetEcsComponent<OperativeInfoComponent>();
                 var enemy = Utils.PlayerTypeToMap(Utils.GetOppositePlayer(info.Owner));
