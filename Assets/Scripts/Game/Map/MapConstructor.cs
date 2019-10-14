@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.Tilemaps;
 
 public enum TileType
@@ -11,7 +12,14 @@ public enum TileType
 
 public class MapConstructor
 {
-    public MapData[][] GenerateMap(Tilemap tilemap)
+    private readonly List<Tilemap> _layers;
+
+    public MapConstructor(List<Tilemap> layers)
+    {
+        _layers = layers;
+    }
+
+    public MapData[][] GenerateMap()
     {
         var map = GameLayer.I.GameBalance.Map;
 
@@ -31,13 +39,13 @@ public class MapConstructor
 
                 if (isWall)
                 {
-                    tilemap.SetTile(new Vector3Int(i, j, 0), bases[(int)tileType]);
+                    _layers[0].SetTile(new Vector3Int(i, j, 0), bases[(int)tileType]);
                 }
                 else
                 {
                     var num = Random.Range(0, 10);
                     var tile = floor[num >= floor.Length ? 3 : num];
-                    tilemap.SetTile(new Vector3Int(i, j, 0), tile);
+                    _layers[0].SetTile(new Vector3Int(i, j, 0), tile);
                 }
             }
         }

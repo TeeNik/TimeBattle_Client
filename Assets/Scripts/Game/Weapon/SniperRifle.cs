@@ -12,4 +12,10 @@ class SniperRifle : Weapon
     public override List<Point> Left { get; protected set; } = new List<Point>{ new Point(-1, -1), new Point(-2, -2), new Point(-3, -3), new Point(-4, -4), new Point(-5, -5) };
 
     protected override List<Point> Distance { get; }
+
+    public override List<List<Point>> GetRanges()
+    {
+        return new List<List<Point>> { Left, Down, Right, Up };
+
+    }
 }

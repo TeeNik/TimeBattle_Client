@@ -1,20 +1,30 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 [Component(ComponentType.Shoot)]
 public class ShootComponent : ComponentBase
 {
     public List<Point> Range;
+
+    [NonSerialized]
     public Weapon Weapon;
+
+    public int Time;
+
+    public ShootComponent()
+    {
+
+    }
 
     public ShootComponent(Weapon weapon)
     {
         Weapon = weapon;
     }
 
-    public ShootComponent(List<Point> range)
+    public ShootComponent(List<Point> range, int duration)
     {
         Range = range;
-        Weapon = new Pistol();
+        Time = duration;
     }
 
     public override void Update(ComponentBase newData)
@@ -23,6 +33,7 @@ public class ShootComponent : ComponentBase
         if(sc.Range != null)
         {
             Range = sc.Range;
+            Time = sc.Time;
         }
     }
 }

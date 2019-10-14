@@ -19,7 +19,7 @@ public class SystemController : IDisposable
             {typeof(CharacterActionComponent), new CharacterActionSystem()}
         };
 
-        ComponentBase.GetComponentType(ComponentType.Movement);
+        ComponentBase.GetClassType(ComponentType.Movement);
     }
 
     public T GetSystem<T>()
@@ -56,7 +56,7 @@ public class SystemController : IDisposable
 
     public int GetPhaseLength()
     {
-        return Systems.Values.Max(s => s.GetPhaseLegth());
+        return Systems.Values.Max(s => s.GetPhaseLength());
     }
 
 

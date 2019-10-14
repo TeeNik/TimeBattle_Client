@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine.Assertions;
 
 public enum ComponentType
@@ -27,25 +28,45 @@ public abstract class ComponentBase
 {
     private static Dictionary<ComponentType, Type> _types;
 
-    public static Type GetComponentType(ComponentType type)
+    private static Dictionary<ComponentType, Type> Types
     {
-        if (_types == null)
+        get
         {
-            _types = new Dictionary<ComponentType, Type>();
-            var baseType = typeof(ComponentBase);
-            var list = Utils.GetTypesOfParent(baseType);
-            foreach (var child in list)
+            if (_types == null)
             {
-
-                var attr = child.GetCustomAttributes(typeof(ComponentAttribute), false);
-                Assert.IsFalse(attr.Length == 0, $"Every component should have ComponentAttribute. {child} does not have.");
-                if (attr.Length > 0)
+                _types = new Dictionary<ComponentType, Type>();
+                var baseType = typeof(ComponentBase);
+                var list = Utils.GetTypesOfParent(baseType);
+                foreach (var child in list)
                 {
-                    _types.Add(((ComponentAttribute)(attr[0])).Type, child);
+
+                    var attr = child.GetCustomAttributes(typeof(ComponentAttribute), false);
+                    Assert.IsFalse(attr.Length == 0, $"Every component should have ComponentAttribute. {child} does not have.");
+                    if (attr.Length > 0)
+                    {
+                        _types.Add(((ComponentAttribute)(attr[0])).Type, child);
+                    }
                 }
             }
+            return _types;
         }
-        return _types[type];
+    }
+
+    public static Type GetClassType(ComponentType type)
+    {
+        return Types[type];
+    }
+
+    public static ComponentType GetComponentType(Type type)
+    {
+        foreach (var pair in Types)
+        {
+            if (type == pair.Value)
+            {
+                return pair.Key;
+            }
+        }
+        throw new Exception($"ComponentType of class {type} was not found");
     }
 
     public abstract void Update(ComponentBase newData);

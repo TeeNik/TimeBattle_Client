@@ -9,6 +9,7 @@ public class ResourceManager : MonoBehaviour
 
     public TileBase[] TileBases;
     public TileBase[] FloorTile;
+    public TileBase[] FlagArea;
     public Sprite[] Sprites;
     public Entity[] Entities;
     public GameObject Outline;

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -21,6 +20,7 @@ public class UserInputController : MonoBehaviour
     private Character _selectedChar;
 
     private readonly List<ActionPhase> _storedInputs = new List<ActionPhase>();
+
     private readonly EventListener _eventListener = new EventListener();
     private OperativeInfoSystem _infoSystem;
 
@@ -71,31 +71,34 @@ public class UserInputController : MonoBehaviour
         }
     }
 
-    public void ProduceInput(ActionType compType, IEnumerable<ComponentBase> components)
-    {
-        foreach (var comp in components)
-        {
-            AddComponentToInput(comp);
-        }
 
-        //TODO
-        RemoveActionFromCharacter(compType);
-    }
-
-    public void ProduceInput(ActionType compType, ComponentBase component)
+    public void ProduceInput(ActionType actionType, ComponentBase component)
     {
         AddComponentToInput(component);
-
-        //TODO
-        RemoveActionFromCharacter(compType);
+        RemoveActionFromCharacter(actionType, component);
     }
 
-    private void RemoveActionFromCharacter(ActionType compType)
+    private void RemoveActionFromCharacter(ActionType actionType, ComponentBase component)
     {
         var ac = _selectedChar.GetEcsComponent<CharacterActionComponent>();
-        ac.RemoveAction(compType);
+        ac.RemoveAction(GetComponentLength(component));
         SelectCharacter(_selectedChar);
         CheckEndTurn();
+    }
+
+    private int GetComponentLength(ComponentBase component)
+    {
+        var componentType = ComponentBase.GetComponentType(component.GetType());
+        if (componentType == ComponentType.Movement)
+        {
+            var mc = (MovementComponent)component;
+            return mc.Path.Count;
+        }
+        if (componentType == ComponentType.Shoot)
+        {
+            return  3;
+        }
+        return 0;
     }
 
     private void AddComponentToInput(ComponentBase comp)
@@ -106,11 +109,12 @@ public class UserInputController : MonoBehaviour
             action = new ActionPhase()
             {
                 entityId = _selectedChar.Id,
-                phases = new List<ComponentBase>()
+                dtos = new List<ComponentDto>()
             };
             _storedInputs.Add(action);
         }
-        action.phases.Add(comp);
+        var fullTime = action.dtos.Sum(c => GetComponentLength(c.ToComponentBase()));
+        action.dtos.Add(new ComponentDto(comp, fullTime));
     }
 
     //TODO this function will be changed
@@ -127,7 +131,7 @@ public class UserInputController : MonoBehaviour
                 Game.I.Messages.SendEvent(EventStrings.OnPlayerChanged);
                 if (prev == PlayerType.Player2)
                 {
-                    ProduceSystemUpdate();
+                    ProcessTurn(_storedInputs);
                 }
                 else
                 {
@@ -136,30 +140,17 @@ public class UserInputController : MonoBehaviour
             }
             else
             {
-                //SendToServer
+                GameLayer.I.Net.SendPlayerTurn(_storedInputs);
             }
 
         }
     }
 
-    public void LogStoredActions()
+    public void ProcessTurn(List<ActionPhase> turnData)
     {
-        foreach (var input in _storedInputs)
-        {
-            Debug.Log($"<color=blue>{input.entityId}</color> ");
-            foreach (var phase in input.phases)
-            {
-                var json = JsonUtility.ToJson(phase);
-                Debug.Log(json);
-            }
-        }
-    }
-
-    public void ProduceSystemUpdate()
-    {
-        Debug.Log("ProduceSystemUpdate");
-        ActionController.ClearPrediction();
-        Game.I.OnTurnData(_storedInputs);
+        Debug.Log("ProcessTurn");
+        ActionController.PredictionMap.ClearAll();
+        Game.I.OnTurnData(turnData);
         _storedInputs.Clear();
     }
 

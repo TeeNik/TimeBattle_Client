@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 
 [Component(ComponentType.CharacterAction)]
 public class CharacterActionComponent : ComponentBase
@@ -19,18 +20,19 @@ public class CharacterActionComponent : ComponentBase
         Energy = cc.Energy;
     }
 
-    public void RemoveAction(ActionType type)
+    public void RemoveAction(int amount)
     {
-        if (ReusableActions.Contains(type))
+        /*if (ReusableActions.Contains(type))
         {
             ReusableActions.Remove(type);
         }
         else
         {
             DisposableActions.Remove(type);
-        }
+        }*/
 
-        var amount = type == ActionType.Move ? 1 : 2;
+        //var amount = type == ActionType.Move ? 1 : 2;
         Energy -= amount;
+        Debug.Log("Energy: " + Energy);
     }
 }

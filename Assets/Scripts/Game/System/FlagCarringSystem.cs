@@ -103,7 +103,7 @@ public class FlagCarringSystem : ISystem
         return false;
     }
 
-    public int GetPhaseLegth()
+    public int GetPhaseLength()
     {
         return 1;
     }

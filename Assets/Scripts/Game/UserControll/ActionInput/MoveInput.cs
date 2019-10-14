@@ -11,18 +11,21 @@ public class MoveInput : ActionInput
     private Character _char;
     private int _moveLimit;
     private List<Point> _path;
+    private CharacterActionController _ac;
 
-    public MoveInput(PredictionMap prediction)
+    public MoveInput(PredictionMap prediction, CharacterActionController ac)
     {
         _prediction = prediction;
         _map = Game.I.MapController;
+        _ac = ac;
     }
 
     public void ProduceInput()
     {
-        if(_path != null)
+        if(_path != null && _path.Count > 0)
         {
             _prediction.DrawCharacter(_char, _path.Last());
+            _prediction.DrawMovePath(_path);
             var mc = new MovementComponent(_path);
             Game.I.UserInputController.ProduceInput(GetActionType(), mc);
 
@@ -30,6 +33,15 @@ public class MoveInput : ActionInput
             _path = null;
         }
         Game.I.MapController.OutlinePool.ReturnAll();
+    }
+
+    public void WaitForConfirm()
+    {
+        if (_path != null && _path.Count > 0)
+        {
+            _prediction.DrawMoveInput(_path);
+            _ac.ShowConfirmationPanel();
+        }
     }
 
     public void Start(Character ch)
@@ -84,14 +96,14 @@ public class MoveInput : ActionInput
                     path.RemoveRange(_moveLimit, path.Count - _moveLimit);
                 }
                 _path = path;
-                _prediction.DrawPath(path);
+                _prediction.DrawMoveInput(path);
             }
         }
         else
         {
             _lastPoint = null;
             _path = null;
-            _prediction.ClearTiles();
+            _prediction.ClearLayer(Layers.Temporary);
         }
 
     }

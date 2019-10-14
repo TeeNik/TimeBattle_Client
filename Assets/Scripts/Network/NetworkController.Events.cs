@@ -1,14 +1,20 @@
-﻿public partial class NetworkController
+﻿using System.Collections.Generic;
+
+public partial class NetworkController
 {
 
-    public void Login()
+    public void SendLogin()
     {
         Send(_eventAgregator.GetEvent<LoginEvent>().Send());
     }
 
-    public void PlayGame()
+    public void SendPlayGame()
     {
         Send(_eventAgregator.GetEvent<PlayGameEvent>().Send());
     }
 
+    public void SendPlayerTurn(List<ActionPhase> turnData)
+    {
+        Send(_eventAgregator.GetEvent<PlayerTurnEvent>().SetData(turnData));
+    }
 }

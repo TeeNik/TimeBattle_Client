@@ -14,21 +14,23 @@ public class ShootingSystem : ISystem
 
         var msgs = new List<TakeDamageMsg>();
 
-        foreach (var component in _components)
+        foreach (var pair in _components)
         {
-            if (_toDelete.Contains(component.Key))
+            if (_toDelete.Contains(pair.Key))
             {
                 continue;
             }
 
-            var range = component.Value.Range;
+            var component = pair.Value;
+            var range = pair.Value.Range;
 
-            if (range != null)
+            if (range != null && component.Time > 0)
             {
                 Game.I.UserInputController.ActionController.PredictionMap.DrawShootingRange(range);
-                var entity = Game.I.EntityManager.GetEntity(component.Key);
+                var entity = Game.I.EntityManager.GetEntity(pair.Key);
                 var info = entity.GetEcsComponent<OperativeInfoComponent>();
                 var enemy = Utils.PlayerTypeToMap(Utils.GetOppositePlayer(info.Owner));
+                --component.Time;
                 foreach (var point in range)
                 {
                     var hasEnemy = map.HasEnemy(point, enemy);
@@ -40,6 +42,7 @@ public class ShootingSystem : ISystem
                         {
                             msgs.Add(new TakeDamageMsg(target.Value, 1));
                         }
+
                         range.Clear();
                         break;
                     }
@@ -87,7 +90,7 @@ public class ShootingSystem : ISystem
         {
             comp.Range.Clear();
         }
-        Game.I.UserInputController.ActionController.PredictionMap.ClearShootingLayer();
+        Game.I.UserInputController.ActionController.PredictionMap.ClearLayer(Layers.Shooting);
     }
 
     public bool IsProcessing()
@@ -100,7 +103,7 @@ public class ShootingSystem : ISystem
         _toDelete.Add(entityId);
     }
 
-    public int GetPhaseLegth()
+    public int GetPhaseLength()
     {
         return 1;
     }

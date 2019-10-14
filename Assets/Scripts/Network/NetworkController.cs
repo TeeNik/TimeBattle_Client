@@ -8,8 +8,8 @@ using WebSocketSharp;
 
 public partial class NetworkController : MonoBehaviour
 {
-    //private readonly string Address = "ws://116.203.77.112:8080/multiplayer/rand";
-    private readonly string Address = "ws://localhost:8080/multiplayer/rand";
+    private readonly string Address = "ws://116.203.77.112:8000/multiplayer/rand";
+    //private readonly string Address = "ws://localhost:8080/multiplayer/rand";
 
     private WebSocket _ws;
     private EventAgregator _eventAgregator;
@@ -49,8 +49,8 @@ public partial class NetworkController : MonoBehaviour
 
     private void OnConnectionOpen(object sender, EventArgs args)
     {
-        Debug.Log("Coonection Open");
-        Login();
+        Debug.Log("Connection Open");
+        SendLogin();
     }
 
     private void OnMessage(object sender, MessageEventArgs args)

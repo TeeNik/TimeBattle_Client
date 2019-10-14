@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
+[Serializable]
 [Component(ComponentType.Movement)]
 public class MovementComponent : ComponentBase
 {
@@ -11,6 +12,11 @@ public class MovementComponent : ComponentBase
 
     public bool IsMoving;
     public Action OnEndMoving;
+
+    public MovementComponent()
+    {
+
+    }
 
     public MovementComponent(List<Point> path)
     {
