@@ -48,7 +48,9 @@ public class ExplodableSystem : ISystem
 
     public void AddComponent(Entity entity, ComponentBase component)
     {
-        _components.Add(entity.Id, (ExplodableComponent)component);
+        var ec = (ExplodableComponent) component;
+        entity.transform.position = Game.I.MapController.GetTileWorldPosition(ec.StartPosition);
+        _components.Add(entity.Id, ec);
     }
 
     public void RemoveComponent(int entityId)

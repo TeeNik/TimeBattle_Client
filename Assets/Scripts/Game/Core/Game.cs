@@ -11,6 +11,8 @@ public class Game : MonoBehaviour
     public SystemController SystemController { get; private set; }
     public EntityController EntityManager { get; private set; }
     public GameEventDispatcher Messages { get; private set; }
+    public EntitySpawner EntitySpawner { get; private set; }
+    
     public MapController MapController;
     public UserInputController UserInputController;
     public GameUI GameUI;
@@ -40,14 +42,14 @@ public class Game : MonoBehaviour
         Messages = new GameEventDispatcher();
         SystemController = new SystemController();
         EntityManager = new EntityController();
+        EntitySpawner = new EntitySpawner();
         MapController.Init();
         UserInputController.Init();
         GameUI.Init();
 
         flagController = new FlagController();
 
-        //TODO Remove later
-        GameLayer.I.ServerEmulator.Start();
+        EntitySpawner.StartGame();
     }
 
     public void OnTurnData(List<ActionPhase> data)

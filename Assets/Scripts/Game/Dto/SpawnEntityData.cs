@@ -7,9 +7,8 @@ public enum OperativeType
     Sniper,
 }
 
-public class SpawnEntityDto
+public class SpawnEntityData
 {
-    public int Id;
     public string PrefabName;
     public List<ComponentBase> InitialComponents = new List<ComponentBase>();
 }

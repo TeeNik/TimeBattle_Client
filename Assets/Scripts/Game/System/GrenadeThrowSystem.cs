@@ -11,7 +11,12 @@ public class GrenadeThrowSystem : ISystem
 
         foreach (var pair in _components)
         {
-            
+            var component = pair.Value;
+
+            var spawn = new SpawnEntityData()
+            {
+                
+            }
         }
 
         _components.Clear();
