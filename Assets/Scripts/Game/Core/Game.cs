@@ -32,12 +32,7 @@ public class Game : MonoBehaviour
     {
         I = this;
 
-        StartCoroutine(DelayedStart());
-    }
-
-    IEnumerator DelayedStart()
-    {
-        yield return new WaitForSeconds(.5f);
+        //StartCoroutine(DelayedStart());
 
         Messages = new GameEventDispatcher();
         SystemController = new SystemController();
@@ -51,6 +46,13 @@ public class Game : MonoBehaviour
 
         EntitySpawner.StartGame();
     }
+
+    /*IEnumerator DelayedStart()
+    {
+        yield return new WaitForSeconds(.5f);
+
+
+    }*/
 
     public void OnTurnData(List<ActionPhase> data)
     {
