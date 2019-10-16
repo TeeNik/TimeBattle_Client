@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEngine;
 
 public class SystemController : IDisposable
 {
@@ -16,7 +15,9 @@ public class SystemController : IDisposable
             {typeof(ShootComponent), new ShootingSystem()},
             {typeof(OperativeInfoComponent), new OperativeInfoSystem()},
             {typeof(HealthComponent), new HealthSystem()},
-            {typeof(CharacterActionComponent), new CharacterActionSystem()}
+            {typeof(CharacterActionComponent), new CharacterActionSystem()},
+            {typeof(GrenadeThrowComponent), new GrenadeThrowSystem()},
+            {typeof(ExplodableComponent), new ExplodableSystem()},
         };
 
         ComponentBase.GetClassType(ComponentType.Movement);

@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using System.Collections.Generic;
 
 public class GrenadeThrowSystem : ISystem
 {
@@ -12,11 +10,9 @@ public class GrenadeThrowSystem : ISystem
         foreach (var pair in _components)
         {
             var component = pair.Value;
-
-            var spawn = new SpawnEntityData()
-            {
-                
-            }
+            var entity = Game.I.EntityManager.GetEntity(pair.Key);
+            var position = entity.GetEcsComponent<MovementComponent>().Position;
+            Game.I.EntitySpawner.CreateGrenade(position, component.Target);
         }
 
         _components.Clear();
