@@ -13,7 +13,7 @@ public class WinnerPanelController : MonoBehaviour
     void Start()
     {
         _eventListener =new EventListener();
-        _eventListener.Add(Game.I.Messages.Subscribe<PlayerWinMsg>(OnPlayerWin));
+        //_eventListener.Add(Game.I.Messages.Subscribe<PlayerWinMsg>(OnPlayerWin));
     }
 
     private void OnPlayerWin(PlayerWinMsg msg)

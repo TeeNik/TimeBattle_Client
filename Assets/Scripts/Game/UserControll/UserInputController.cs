@@ -100,6 +100,11 @@ public class UserInputController : MonoBehaviour
             var mc = (ShootComponent)component;
             return mc.Time;
         }
+
+        if (componentType == ComponentType.GrenadeThrow)
+        {
+            return 5;
+        }
         return 0;
     }
 

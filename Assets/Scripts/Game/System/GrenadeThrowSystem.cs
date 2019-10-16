@@ -7,16 +7,18 @@ public class GrenadeThrowSystem : ISystem
 
     public void Update()
     {
-
         foreach (var pair in _components)
         {
             var component = pair.Value;
-            var entity = Game.I.EntityManager.GetEntity(pair.Key);
-            var position = entity.GetEcsComponent<MovementComponent>().Position;
-            Game.I.EntitySpawner.CreateGrenade(position, component.Target);
-        }
 
-        _components.Clear();
+            if (component.Target != null)
+            {
+                var entity = Game.I.EntityManager.GetEntity(pair.Key);
+                var position = entity.GetEcsComponent<MovementComponent>().Position;
+                Game.I.EntitySpawner.CreateGrenade(position, component.Target);
+                component.Target = null;
+            }
+        }
     }
 
     public void AddComponent(Entity entity, ComponentBase component)

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 
 public class SystemController : IDisposable
 {
@@ -46,7 +47,14 @@ public class SystemController : IDisposable
         var entity = Game.I.EntityManager.GetEntity(entityId);
         if (entity != null)
         {
-            entity.GetEcsComponent(comp.GetType()).Update(comp);
+            try
+            {
+                entity.GetEcsComponent(comp.GetType()).Update(comp);
+            }
+            catch (Exception e)
+            {
+                Debug.Log(entityId);
+            }
         }
     }
 

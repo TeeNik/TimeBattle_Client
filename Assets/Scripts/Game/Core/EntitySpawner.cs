@@ -37,6 +37,7 @@ public class EntitySpawner
         spawn.InitialComponents.Add(new ShootComponent(weapon));
         spawn.InitialComponents.Add(new HealthComponent(maxHealth));
         spawn.InitialComponents.Add(new CharacterActionComponent());
+        spawn.InitialComponents.Add(new GrenadeThrowComponent());
         return spawn;
     }
 

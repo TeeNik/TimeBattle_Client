@@ -21,7 +21,7 @@ public class CharacterActionSystem : ISystem
     private void CreateReusableActions(CharacterActionComponent comp)
     {
         comp.ReusableActions.Clear();
-        comp.ReusableActions.AddRange(new[] {ActionType.Move, ActionType.Move, ActionType.Shoot});
+        comp.ReusableActions.AddRange(new[] {ActionType.Move, ActionType.Move, ActionType.Shoot, ActionType.ThrowGrenade});
         comp.Energy = MaxEnergy;
     }
 

@@ -43,7 +43,6 @@ public abstract class Weapon
     public virtual IEnumerable<List<Point>> GetAvailableRange(Point position)
     {
         var map = Game.I.MapController;
-        var mapData = map.MapDatas;
         var availableRanges = new List<List<Point>>();
         foreach(var range in GetRanges())
         {
@@ -51,7 +50,7 @@ public abstract class Weapon
             foreach(var point in range)
             {
                 var p = position.Sum(point);
-                if (!map.IsInBounds(p) || mapData[p.X][p.Y].Type == OnMapType.Wall)
+                if (!map.IsNotWall(p))
                 {
                     break;
                 }

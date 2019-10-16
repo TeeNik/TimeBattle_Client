@@ -119,5 +119,6 @@ public class CharacterActionController : MonoBehaviour
 
         _actionInputs.Add(ActionType.Move, new MoveInput(PredictionMap, this));
         _actionInputs.Add(ActionType.Shoot, new ShootInput(PredictionMap, this));
+        _actionInputs.Add(ActionType.ThrowGrenade, new ThrowGrenadeInput(PredictionMap, this));
     }
 }
