@@ -4,6 +4,7 @@ public class GrenadeThrowSystem : ISystem
 {
     private readonly Dictionary<int, GrenadeThrowComponent> _components = new Dictionary<int, GrenadeThrowComponent>();
 
+
     public void Update()
     {
 

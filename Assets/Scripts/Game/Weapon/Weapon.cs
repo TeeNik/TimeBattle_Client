@@ -6,7 +6,8 @@ public enum WeaponType
     Pistol,
     Assault,
     Shotgun,
-    Sniper
+    Sniper,
+    Grenade
 }
 
 public abstract class Weapon

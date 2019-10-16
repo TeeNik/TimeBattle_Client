@@ -63,8 +63,6 @@ public class ShootInput : ActionInput
     {
         var pool = Game.I.MapController.OutlinePool;
         fullRange = new List<Point>();
-        var map = Game.I.MapController;
-        var mapData = map.MapDatas;
 
         foreach (var range in _weapon.GetAvailableRange(_position))
         {

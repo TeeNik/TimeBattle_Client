@@ -7,6 +7,7 @@ public enum ActionType
     None,
     Move,
     Shoot,
+    ThrowGrenade
 }
 
 public class UserInputController : MonoBehaviour

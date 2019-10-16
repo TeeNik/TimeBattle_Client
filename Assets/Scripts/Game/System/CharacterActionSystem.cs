@@ -4,6 +4,7 @@ public class CharacterActionSystem : ISystem
 {
     private const int MaxEnergy = 10;
     protected Dictionary<int, CharacterActionComponent> Components = new Dictionary<int, CharacterActionComponent>();
+    protected Dictionary<int, ActionView> Views = new Dictionary<int, ActionView>();
 
     public void AddComponent(Entity entity, ComponentBase component)
     {
