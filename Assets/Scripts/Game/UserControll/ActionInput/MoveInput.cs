@@ -11,23 +11,36 @@ public class MoveInput : ActionInput
     private Character _char;
     private int _moveLimit;
     private List<Point> _path;
+    private CharacterActionController _ac;
 
-    public MoveInput(PredictionMap prediction)
+    public MoveInput(PredictionMap prediction, CharacterActionController ac)
     {
         _prediction = prediction;
         _map = Game.I.MapController;
+        _ac = ac;
     }
 
     public void ProduceInput()
     {
-        if(_path != null)
+        if(_path != null && _path.Count > 0)
         {
             _prediction.DrawCharacter(_char, _path.Last());
-            MovementComponent mc = new MovementComponent(_path);
-            Game.I.InputController.ProduceInput(GetActionType(), mc);
+            _prediction.DrawMovePath(_path);
+            var mc = new MovementComponent(_path);
+            Game.I.UserInputController.ProduceInput(GetActionType(), mc);
 
             _lastPoint = null;
             _path = null;
+        }
+        Game.I.MapController.OutlinePool.ReturnAll();
+    }
+
+    public void WaitForConfirm()
+    {
+        if (_path != null && _path.Count > 0)
+        {
+            _prediction.DrawMoveInput(_path);
+            _ac.ShowConfirmationPanel();
         }
     }
 
@@ -36,6 +49,35 @@ public class MoveInput : ActionInput
         _char = ch;
         _pos = ch.transform.position;
         _moveLimit = ch.GetEcsComponent<MovementComponent>().MoveLimit;
+        DrawArea();
+    }
+
+    public void DrawArea()
+    {
+        var map = Game.I.MapController;
+        var data = map.MapDatas;
+        var pos = map.GetTileByVector3(_pos);
+        var x = pos.x;
+        var y = pos.y;
+        var r = _char.GetEcsComponent<MovementComponent>().MoveLimit;
+        for (int i = 0; i < data.Length; i++)
+        {
+            for (int j = 0; j < data[i].Length; j++)
+            {
+                var value = Mathf.Abs(i - x) + Mathf.Abs(j - y);
+                if (value <= r && map.IsWalkable(new Vector3Int(i, j, 0)))
+                {
+                    var point = new Point(i, j);
+                    var start = new Point(pos.x,pos.y);
+                    var path = map.PathFinder.FindPath(start, point, false);
+                    if (path != null && path.Count <= r)
+                    {
+                        var o = map.OutlinePool.GetFromPool();
+                        o.transform.position = Game.I.MapController.GetTileWorldPosition(new Point(i, j));
+                    }
+                }
+            }
+        }
     }
 
     public void Update()
@@ -51,18 +93,17 @@ public class MoveInput : ActionInput
                 var path = _map.PathFinder.FindPath(startPoint, _lastPoint, false);
                 if(path.Count > _moveLimit)
                 {
-                    path.RemoveRange(_moveLimit, path.Count - _moveLimit - 1);
+                    path.RemoveRange(_moveLimit, path.Count - _moveLimit);
                 }
                 _path = path;
-                _prediction.DrawPath(path);
+                _prediction.DrawMoveInput(path);
             }
-
         }
         else
         {
             _lastPoint = null;
             _path = null;
-            _prediction.ClearTiles();
+            _prediction.ClearLayer(Layers.Temporary);
         }
 
     }

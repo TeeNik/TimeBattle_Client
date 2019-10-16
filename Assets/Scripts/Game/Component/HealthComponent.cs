@@ -1,4 +1,5 @@
-﻿public class HealthComponent : ComponentBase
+﻿[Component(ComponentType.Health)]
+public class HealthComponent : ComponentBase
 {
 
     public int CurrentHealth;
@@ -11,7 +12,7 @@
         CurrentHealth = maxHealth;
     }
 
-    public void Update(ComponentBase newData)
+    public override void Update(ComponentBase newData)
     {
         var hc = (HealthComponent)newData;
         CurrentHealth = hc.CurrentHealth;

@@ -12,16 +12,19 @@ public class CharacterActionController : MonoBehaviour
     [SerializeField]
     private Transform SelectionTarget;
 
-    [SerializeField]
-    private PredictionMap PredictionMap;
+    public PredictionMap PredictionMap;
 
     [SerializeField]
     private ActionButton ActionButtonPrefab;
+
+    [SerializeField] private GameObject ConfirmPanel;
+    public ShootConfirmPanel ShootConfirmPanel;
 
     private ActionInput _selectedInput;
     private Dictionary<ActionType, ActionInput> _actionInputs;
     private List<ActionButton> _actionButtons;
     private Character _selectedChar;
+    public bool _isWaitForConfirm;
 
     void Start()
     {
@@ -59,19 +62,39 @@ public class CharacterActionController : MonoBehaviour
 
     private void Update()
     {
-        if (_selectedInput != null)
+        if (_selectedInput != null && !_isWaitForConfirm)
         {
             if (Input.GetMouseButton(0))
             {
-                _selectedInput.ProduceInput();
-                _selectedInput = null;
-                HideActionPanel();
+                _selectedInput.WaitForConfirm();
             }
             else
             {
                 _selectedInput.Update();
             }
         }
+    }
+
+    public void ShowConfirmationPanel()
+    {
+        _isWaitForConfirm = true;
+        ConfirmPanel.SetActive(true);
+    }
+
+
+    public void CloseConfirm()
+    {
+        ConfirmPanel.SetActive(false);
+        ShootConfirmPanel.Hide();
+        _selectedInput = null;
+        HideActionPanel();
+        _isWaitForConfirm = false;
+    }
+
+    public void ConfirmAction()
+    {
+        _selectedInput.ProduceInput();
+        CloseConfirm();
     }
 
     private void CreateButtons()
@@ -92,12 +115,7 @@ public class CharacterActionController : MonoBehaviour
     {
         _actionInputs = new Dictionary<ActionType, ActionInput>();
 
-        _actionInputs.Add(ActionType.Move, new MoveInput(PredictionMap));
-        _actionInputs.Add(ActionType.Shoot, new ShootInput(PredictionMap));
-    }
-
-    public void ClearPrediction()
-    {
-        PredictionMap.ClearPrediction();
+        _actionInputs.Add(ActionType.Move, new MoveInput(PredictionMap, this));
+        _actionInputs.Add(ActionType.Shoot, new ShootInput(PredictionMap, this));
     }
 }

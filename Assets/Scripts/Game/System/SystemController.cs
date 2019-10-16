@@ -12,12 +12,14 @@ public class SystemController : IDisposable
     {
         Systems = new Dictionary<Type, ISystem>
         {
-            {typeof(ShootComponent), new ShootingSystem()},
             {typeof(MovementComponent), new MovementSystem()},
-            {typeof(OperativeInfoCmponent), new OperativeInfoSystem()},
+            {typeof(ShootComponent), new ShootingSystem()},
+            {typeof(OperativeInfoComponent), new OperativeInfoSystem()},
             {typeof(HealthComponent), new HealthSystem()},
             {typeof(CharacterActionComponent), new CharacterActionSystem()}
         };
+
+        ComponentBase.GetClassType(ComponentType.Movement);
     }
 
     public T GetSystem<T>()
@@ -31,20 +33,30 @@ public class SystemController : IDisposable
         {
             system.Update();
         }
+    }
 
+    public void OnUpdateEnd()
+    {
         GetSystem<ShootingSystem>().OnUpdateEnd();
     }
 
-    public void ProcessData(int entityId, ActionPhase phase)
+    public void ProcessData(int entityId, ComponentBase comp)
     {
         var entity = Game.I.EntityManager.GetEntity(entityId);
-        var comp = Utils.ActionTypeToComponent(phase.type);
-        entity.GetEcsComponent(comp).Update(phase.component);
+        if (entity != null)
+        {
+            entity.GetEcsComponent(comp.GetType()).Update(comp);
+        }
     }
 
     public bool IsProcessing()
     {
-         return Systems.Values.Any(s=>s.IsProcessing());
+        return Systems.Values.Any(s=>s.IsProcessing());
+    }
+
+    public int GetPhaseLength()
+    {
+        return Systems.Values.Max(s => s.GetPhaseLength());
     }
 
 

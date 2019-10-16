@@ -3,10 +3,16 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
+public enum Layers
+{
+    Temporary = 0,
+    Shooting = 1,
+    Movement = 2,
+}
+
 public class PredictionMap : MonoBehaviour
 {
-    [SerializeField]
-    private Tilemap _predictionTilemap;
+    [SerializeField] private List<Tilemap> _layers;
 
     [SerializeField]
     private List<CharacterPrediction> _objectsPrediction;
@@ -24,30 +30,64 @@ public class PredictionMap : MonoBehaviour
         _objectsPrediction.Add(ch);
     }
 
-    public void DrawPath(List<Point> path)
+    public void DrawMoveInput(List<Point> path)
     {
-        ClearTiles();
+        ClearLayer(Layers.Temporary);
         TileBase tile = ResourceManager.Instance.TileBases[(int)TileType.Path];
-        foreach (var point in path)
+        DrawTileOnLayer(path, Layers.Temporary, tile);
+    }
+
+    public void DrawMovePath(List<Point> path)
+    {
+        //ClearLayer(Layers.Temporary);
+        TileBase tile = ResourceManager.Instance.TileBases[(int)TileType.Path];
+        DrawTileOnLayer(path, Layers.Movement, tile);
+    }
+
+    public void DrawShootingRange(List<Point> range)
+    {
+        TileBase tile = ResourceManager.Instance.TileBases[(int)TileType.Shoot];
+        DrawTileOnLayer(range, Layers.Shooting, tile);
+    }
+
+    public void DrawShootInput(List<Point> range)
+    {
+        TileBase tile = ResourceManager.Instance.TileBases[(int)TileType.Shoot];
+        DrawTileOnLayer(range, Layers.Temporary, tile);
+    }
+
+    private void DrawTileOnLayer(List<Point> area, Layers layer, TileBase tile)
+    {
+        foreach (var point in area)
         {
-            _predictionTilemap.SetTile(new Vector3Int(point.X, point.Y, 0), tile);
+            _layers[(int)layer].SetTile(new Vector3Int(point.X, point.Y, 0), tile);
         }
     }
 
-    public void ClearPrediction()
+    public void ClearLayer(Layers layer)
     {
-        ClearTiles();
+        _layers[(int)layer].ClearAllTiles();
+    }
+
+    public void ClearAll()
+    {
+        foreach (var layer in _layers)
+        {
+            layer.ClearAllTiles();
+        }
+
+        ReverseCharacterPrediction();
+    }
+
+    public void ReverseCharacterPrediction()
+    {
+        ClearLayer(Layers.Temporary);
         _objectsPrediction.Reverse();
         foreach (var o in _objectsPrediction)
         {
+            o.MoveReferance();
             Destroy(o.gameObject);
         }
         _objectsPrediction.Clear();
     }
-
-    public void ClearTiles()
-    {
-        _predictionTilemap.ClearAllTiles();
-    }
-
 }

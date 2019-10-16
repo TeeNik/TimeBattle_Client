@@ -2,7 +2,7 @@
 
 public class CharacterActionSystem : ISystem
 {
-    private const int MaxEnergy = 2;
+    private const int MaxEnergy = 10;
     protected Dictionary<int, CharacterActionComponent> Components = new Dictionary<int, CharacterActionComponent>();
 
     public void AddComponent(Entity entity, ComponentBase component)
@@ -32,6 +32,11 @@ public class CharacterActionSystem : ISystem
     public bool IsProcessing()
     {
         return false;
+    }
+
+    public int GetPhaseLength()
+    {
+        return 0;
     }
 
     public void Update()

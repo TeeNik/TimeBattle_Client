@@ -1,14 +1,15 @@
 ﻿using System.Collections.Generic;
-using SimpleJSON;
+using Newtonsoft.Json.Linq;
+using UnityEngine;
 
 public class ServerEmulator
 {
 
+    private int _entityCounter = 0;
+
     public void Login()
     {
-        JSONObject json = new JSONObject();
-        json["cmd"] = "login";
-        GameLayer.I.Net.ProcessEvent(json);
+        GameLayer.I.Net.ProcessEvent(CreateEventMessage("login", null));
     }
 
     public void Start()
@@ -16,14 +17,37 @@ public class ServerEmulator
         SendInitialEvent();
     }
 
+    private JObject CreateEventMessage(string cmd, object param)
+    {
+        var json = new JObject
+        {
+            ["cmd"] = cmd,
+            ["params"] = JsonUtility.ToJson(param)
+        };
+        return json;
+    }
+
+    private int GetId()
+    {
+        return _entityCounter++;
+    }
+
     private void SendInitialEvent()
     {
-        var list = new List<SpawnEntityDto>() {
-            CreateCharacterSpawn(PlayerType.Player1, OperativeType.Assault, new Point(8, 8)),
-            CreateCharacterSpawn(PlayerType.Player2, OperativeType.Assault, new Point(9, 4)),
-
+        var param = new List<SpawnEntityDto>() {
+            //CreateCharacter(PlayerType.Player1, OperativeType.Assault, new Pistol(), new Point(8, 14)),
+            //CreateCharacter(PlayerType.Player1, OperativeType.Sniper, new SniperRifle(), new Point(2, 2)),
+            CreateCharacter(PlayerType.Player1, OperativeType.Ranger, new Shotgun(), new Point(9, 8)),
+            CreateCharacter(PlayerType.Player2, OperativeType.Assault, new Pistol(), new Point(2, 15)),
+            //CreateCharacter(PlayerType.Player2, OperativeType.Sniper, new SniperRifle(), new Point(4, 9)),
+            //CreateCharacter(PlayerType.Player2, OperativeType.Ranger, new Shotgun(), new Point(9, 4)),
         };
-        foreach(var spawn in list)
+
+        foreach (var point in GameLayer.I.GameBalance.GetCoversPoint())
+        {
+            param.Add(CreateCover(point));
+        }
+        foreach (var spawn in param)
         {
             Game.I.EntityManager.CreateEntity(spawn);
         }
@@ -33,32 +57,33 @@ public class ServerEmulator
 
     public void PlayGame()
     {
-        JSONObject json = new JSONObject();
-        json["cmd"] = "playGame";
-        GameLayer.I.Net.ProcessEvent(json);
+        //GameLayer.I.Net.ProcessEvent(CreateEventMessage("playGame", null));
+        GameLayer.I.Net.ProcessEvent(CreateEventMessage("startGame", null));
     }
 
-    private JSONObject CreatePlayGameData()
+    private SpawnEntityDto CreateCharacter(PlayerType owner, OperativeType operative, Weapon weapon, Point point)
     {
-
-    }
-
-    private JSONObject CreateCharacterSpawn(PlayerType owner, OperativeType operative, Point point)
-    {
-        var spawn = new SpawnEntityDto();
-
-    }
-
-    private SpawnEntityDto CreateCharacterSpawn(PlayerType owner, OperativeType operative, Point point)
-    {
-        var spawn = new SpawnEntityDto();
+        var spawn = new SpawnEntityDto {Id = GetId()};
         var maxHealth = 1;
-        spawn.PrefabName = $"{operative}_{owner}";
-        spawn.InitialComponents.Add(new ComponentDto());new OperativeInfoCmponent(owner, operative));
-        spawn.InitialComponents.Add(new MovementComponent(point));
-        spawn.InitialComponents.Add(new ShootComponent(null));
+        var mapType = owner == PlayerType.Player1 ? OnMapType.Player1 : OnMapType.Player2;
+        spawn.PrefabName = "CharacterBase";
+        spawn.InitialComponents.Add(new OperativeInfoComponent(owner, operative));
+        spawn.InitialComponents.Add(new MovementComponent(point, mapType));
+        spawn.InitialComponents.Add(new ShootComponent(weapon));
         spawn.InitialComponents.Add(new HealthComponent(maxHealth));
         spawn.InitialComponents.Add(new CharacterActionComponent());
+        return spawn;
+    }
+
+    private SpawnEntityDto CreateCover(Point point)
+    {
+        var spawn = new SpawnEntityDto
+        {
+            Id = GetId(),
+            PrefabName = "Cover"
+        };
+        spawn.InitialComponents.Add(new MovementComponent(point, OnMapType.Cover));
+        spawn.InitialComponents.Add(new HealthComponent(1));
         return spawn;
     }
 

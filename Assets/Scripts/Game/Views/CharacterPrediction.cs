@@ -9,8 +9,7 @@ public class CharacterPrediction : MonoBehaviour
         _reference = ch;
     }
 
-    //TODO remove this
-    void OnDestroy()
+    public void MoveReferance()
     {
         _reference.transform.position = transform.position;
     }

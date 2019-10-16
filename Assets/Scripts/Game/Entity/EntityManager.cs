@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.Object;
 
 public class EntityController
 {
@@ -15,21 +16,21 @@ public class EntityController
 
     public Entity GetEntity(int id)
     {
-        return _entities[id];
+        return _entities.ContainsKey(id) ?_entities[id] : null;
     }
 
     public void DestroyEntity(int entityId)
     {
         var entity = _entities[entityId];
-        entity.ClearComponents();
+        entity.Destroy();
         _entities.Remove(entityId);
-        GameObject.Destroy(entity.gameObject);
+        //GameObject.Destroy(entity.gameObject);
     }
 
     public void CreateEntity(SpawnEntityDto dto)
     {
-        var playerPrefab = ResourceManager.GetEntity(dto.PrefabName);
-        var entity = GameObject.Instantiate(playerPrefab);
+        var playerPrefab = ResourceManager.Instance.GetEntity(dto.PrefabName);
+        var entity = Instantiate(playerPrefab);
         _entities.Add(_idCounter, entity);
         entity.Init(_idCounter);
         foreach (var comp in dto.InitialComponents)
