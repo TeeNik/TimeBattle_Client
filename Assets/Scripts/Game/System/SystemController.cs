@@ -47,14 +47,7 @@ public class SystemController : IDisposable
         var entity = Game.I.EntityManager.GetEntity(entityId);
         if (entity != null)
         {
-            try
-            {
-                entity.GetEcsComponent(comp.GetType()).Update(comp);
-            }
-            catch (Exception e)
-            {
-                Debug.Log(entityId);
-            }
+            entity.GetEcsComponent(comp.GetType()).Update(comp);
         }
     }
 
