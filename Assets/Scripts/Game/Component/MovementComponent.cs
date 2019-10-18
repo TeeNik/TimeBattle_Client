@@ -40,4 +40,9 @@ public class MovementComponent : ComponentBase
             Path = mc.Path;
         }
     }
+
+    public override int GetUpdateLength()
+    {
+        return Path.Count;
+    }
 }

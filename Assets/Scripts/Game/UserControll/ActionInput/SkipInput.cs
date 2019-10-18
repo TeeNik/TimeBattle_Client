@@ -1,37 +1,37 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using System;
 
 public class SkipInput : ActionInput
 {
+    private readonly Action _show;
+    private readonly Action _hide;
+
+    public SkipInput(Action show, Action hide)
+    {
+        _show = show;
+        _hide = hide;
+    }
 
     public ActionType GetActionType()
     {
         return ActionType.Skip;
     }
 
-    void ActionInput.Update()
+    public void Update()
     {
-        Update();
     }
 
     public void ProduceInput()
     {
-        throw new System.NotImplementedException();
+        Game.I.UserInputController.ProduceInput(ActionType.Skip, null);
+        _hide();
     }
 
     public void WaitForConfirm()
     {
-        throw new System.NotImplementedException();
     }
 
     public void Start(Character ch)
     {
-        throw new System.NotImplementedException();
-    }
-
-    void Update()
-    {
-        
+        _show();
     }
 }

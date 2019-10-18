@@ -14,23 +14,18 @@ public class ShootInput : ActionInput
     private Point _position;
     private Weapon _weapon;
 
-    private Action<int, int> _show;
-    private Action _hide;
-    private Func<int> _getDuration;
+    private readonly Action<int, int> _show;
+    private readonly Action _hide;
+    private readonly Func<int> _getDuration;
 
     public ActionType GetActionType()
     {
         return ActionType.Shoot;
     }
 
-    /*public ShootInput(PredictionMap prediction, CharacterActionController ac)
-    {
-        _prediction = Game.I.UserInputController.ActionController.PredictionMap;
-        _ac = ac;
-    }*/
-
     public ShootInput(Action<int, int> show, Action hide, Func<int> getDuration)
     {
+        _prediction = Game.I.UserInputController.ActionController.PredictionMap;
         _show = show;
         _hide = hide;
         _getDuration = getDuration;
@@ -43,8 +38,6 @@ public class ShootInput : ActionInput
         Game.I.UserInputController.ProduceInput(GetActionType(), comp);
         _range = null;
         _hide();
-        /*_ac.ShootConfirmPanel.Hide();
-        _ac._isWaitForConfirm = false;*/
     }
 
     public void WaitForConfirm()
@@ -54,8 +47,6 @@ public class ShootInput : ActionInput
             _prediction.DrawShootInput(_range);
             var charInfo = _char.GetEcsComponent<CharacterActionComponent>();
             _show(Mathf.Min(charInfo.Energy, MinDuration), charInfo.Energy);
-            /*_ac.ShootConfirmPanel.Show(Mathf.Min(charInfo.Energy, MinDuration), charInfo.Energy);
-            _ac._isWaitForConfirm = true;*/
         }
 
         Game.I.MapController.OutlinePool.ReturnAll();

@@ -18,4 +18,9 @@ public class GrenadeThrowComponent : ComponentBase
         var gt = (GrenadeThrowComponent) newData;
         Target = gt.Target;
     }
+
+    public override int GetUpdateLength()
+    {
+        return 5;
+    }
 }

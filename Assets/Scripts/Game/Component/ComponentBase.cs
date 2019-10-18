@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine.Assertions;
 
 public enum ComponentType
@@ -72,5 +71,10 @@ public abstract class ComponentBase
     }
 
     public abstract void Update(ComponentBase newData);
+
+    public virtual int GetUpdateLength()
+    {
+        return 0;
+    }
 
 }

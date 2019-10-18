@@ -56,7 +56,7 @@ public class MovementSystem : ISystem
 
                 ++_moving;
                 component.IsMoving = true;
-                entity.transform.DOMove(pos, 1f).SetSpeedBased().SetEase(Ease.Linear).OnComplete(()=>StopMoving(component));
+                entity.transform.DOMove(pos, Utils.MovementSpeed).SetEase(Ease.Linear).OnComplete(()=>StopMoving(component));
             }
         }
 

@@ -7,7 +7,7 @@ using UnityEngine;
 
 public static class Utils
 {
-    public const float MovementSpeed = 1.5f;
+    public const float MovementSpeed = .75f;
 
     public static IEnumerable<Type> GetTypesOfParent(Type t)
     {

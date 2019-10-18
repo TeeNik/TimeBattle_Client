@@ -29,7 +29,7 @@ public class ExplodableSystem : ISystem
             {
                 var entity = Game.I.EntityManager.GetEntity(pair.Key);
                 var target = Game.I.MapController.GetTileWorldPosition(component.Target);
-                entity.transform.DOMove(target, 2).SetSpeedBased().SetEase(Ease.Linear).OnComplete(OnMoveComplete);
+                entity.transform.DOMove(target, Utils.MovementSpeed).SetEase(Ease.Linear).OnComplete(OnMoveComplete);
                 component.IsExloding = true;
             }
         }

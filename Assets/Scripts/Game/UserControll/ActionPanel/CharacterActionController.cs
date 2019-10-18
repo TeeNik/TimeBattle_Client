@@ -123,5 +123,6 @@ public class CharacterActionController : MonoBehaviour
         _actionInputs.Add(ActionType.Move, new MoveInput(PredictionMap, this));
         _actionInputs.Add(ActionType.Shoot, new ShootInput(ShowShootConfirm, CloseConfirm, ShootConfirmPanel.GetValue));
         _actionInputs.Add(ActionType.ThrowGrenade, new ThrowGrenadeInput(PredictionMap, this));
+        _actionInputs.Add(ActionType.Skip, new SkipInput(ShowConfirmation, CloseConfirm));
     }
 }
