@@ -1,27 +1,33 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class ActionButton : MonoBehaviour
 {
-    [SerializeField]
-    private Button _button;
-
-    [SerializeField]
-    private TMPro.TMP_Text _text;
+    public Button Button;
+    public TMP_Text Name;
+    public TMP_Text EnergyText;
+    public GameObject EnergyBadge;
 
     private Action<ActionType> _onClick;
 
     public ActionType ActionType { get; private set; }
 
-    public void Init(ActionType type, Action<ActionType> onClick)
+    public void Init(ActionConfigData data, Action<ActionType> onClick)
     {
-        ActionType = type;
+        ActionType = data.type;
         _onClick = onClick;
-        _button.onClick.AddListener(OnClick);
-        _text.text = type.ToString();
+        Button.onClick.AddListener(OnClick);
+        Name.text = data.name;
+        EnergyText.text = data.energy.ToString();
+
+        EnergyBadge.SetActive(data.energy > 1);
+    }
+
+    public void SetAvailable(bool value)
+    {
+        
     }
 
     public void SetVisibility(bool value)

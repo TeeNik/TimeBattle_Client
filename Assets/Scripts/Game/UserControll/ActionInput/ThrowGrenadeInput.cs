@@ -57,7 +57,7 @@ public class ThrowGrenadeInput : ActionInput
         if (_target != null)
         {
             DrawExplosionRange(_target);
-            _ac.ShowConfirmationPanel();
+            _ac.ShowConfirmation();
         }
         Game.I.MapController.OutlinePool.ReturnAll();
     }

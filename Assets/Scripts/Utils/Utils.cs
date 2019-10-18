@@ -7,6 +7,8 @@ using UnityEngine;
 
 public static class Utils
 {
+    public const float MovementSpeed = 1.5f;
+
     public static IEnumerable<Type> GetTypesOfParent(Type t)
     {
         return Assembly.GetAssembly(t).GetTypes().Where(myType => myType.IsClass && !myType.IsAbstract && t.IsAssignableFrom(myType));

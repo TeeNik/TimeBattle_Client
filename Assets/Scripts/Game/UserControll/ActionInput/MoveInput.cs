@@ -40,7 +40,7 @@ public class MoveInput : ActionInput
         if (_path != null && _path.Count > 0)
         {
             _prediction.DrawMoveInput(_path);
-            _ac.ShowConfirmationPanel();
+            _ac.ShowConfirmation();
         }
     }
 

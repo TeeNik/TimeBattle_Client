@@ -96,7 +96,7 @@ public class MapController : MonoBehaviour
 
     public bool IsNotWall(Point point)
     {
-        return IsInBounds(point) && MapDatas[point.X][point.Y].Type == OnMapType.Empty;
+        return IsInBounds(point) && MapDatas[point.X][point.Y].Type != OnMapType.Wall;
     }
 
     public bool IsInBounds(Vector3Int tile)

@@ -1,0 +1,30 @@
+﻿{
+  "actions": [
+    {
+      "name": "Move",
+      "energy": "1",
+      "icon": "",
+      "type": "1"
+    },
+    {
+      "name": "Shoot",
+      "energy": "3",
+      "icon": "",
+      "type": "2"
+    },
+    {
+      "name": "Grenade",
+      "energy": "5",
+      "icon": "",
+      "type": "3"
+    },
+    {
+      "name": "Skip",
+      "energy": "0",
+      "icon": "",
+      "type": "4"
+    }
+  ],
+  "height": "12",
+  "width": "18"
+}

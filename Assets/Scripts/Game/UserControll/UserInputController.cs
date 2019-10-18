@@ -4,10 +4,11 @@ using UnityEngine;
 
 public enum ActionType
 {
-    None,
+    None = 0,
     Move,
     Shoot,
-    ThrowGrenade
+    ThrowGrenade,
+    Skip,
 }
 
 public class UserInputController : MonoBehaviour
