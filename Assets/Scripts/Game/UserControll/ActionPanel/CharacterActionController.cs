@@ -24,7 +24,8 @@ public class CharacterActionController : MonoBehaviour
     private Dictionary<ActionType, ActionInput> _actionInputs;
     private List<ActionButton> _actionButtons;
     private Character _selectedChar;
-    public bool _isWaitForConfirm;
+    private bool _isWaitForConfirm;
+    private readonly Vector3  HidePos = new Vector3(10000,10000);
 
     void Start()
     {
@@ -51,6 +52,7 @@ public class CharacterActionController : MonoBehaviour
     public void HideActionPanel()
     {
         _selectedChar = null;
+        SelectionTarget.position = HidePos;
         ActionPanel.SetActive(false);
     }
 

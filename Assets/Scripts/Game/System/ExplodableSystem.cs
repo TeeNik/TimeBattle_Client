@@ -23,7 +23,9 @@ public class ExplodableSystem : ISystem
             if (component.IsExloding)
             {
                 Debug.Log("Boom");
+                var entity = Game.I.EntityManager.GetEntity(pair.Key);
                 Game.I.EntityManager.DestroyEntity(pair.Key);
+                Object.Destroy(entity.gameObject);
             }
             else
             {
