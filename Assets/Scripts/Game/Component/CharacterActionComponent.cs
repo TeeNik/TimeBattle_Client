@@ -19,20 +19,4 @@ public class CharacterActionComponent : ComponentBase
         DisposableActions = cc.DisposableActions;
         Energy = cc.Energy;
     }
-
-    public void RemoveAction(int amount)
-    {
-        /*if (ReusableActions.Contains(type))
-        {
-            ReusableActions.Remove(type);
-        }
-        else
-        {
-            DisposableActions.Remove(type);
-        }*/
-
-        //var amount = type == ActionType.Move ? 1 : 2;
-        Energy -= amount;
-        Debug.Log("Energy: " + Energy);
-    }
 }

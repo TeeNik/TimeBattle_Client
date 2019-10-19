@@ -40,7 +40,7 @@ public class MoveInput : ActionInput
         if (_path != null && _path.Count > 0)
         {
             _prediction.DrawMoveInput(_path);
-            _ac.ShowConfirmationPanel();
+            _ac.ShowConfirmation();
         }
     }
 
@@ -48,7 +48,7 @@ public class MoveInput : ActionInput
     {
         _char = ch;
         _pos = ch.transform.position;
-        _moveLimit = ch.GetEcsComponent<MovementComponent>().MoveLimit;
+        _moveLimit = ch.GetEcsComponent<CharacterActionComponent>().Energy;
         DrawArea();
     }
 
@@ -59,7 +59,7 @@ public class MoveInput : ActionInput
         var pos = map.GetTileByVector3(_pos);
         var x = pos.x;
         var y = pos.y;
-        var r = _char.GetEcsComponent<MovementComponent>().MoveLimit;
+        var r = _moveLimit;
         for (int i = 0; i < data.Length; i++)
         {
             for (int j = 0; j < data[i].Length; j++)

@@ -11,6 +11,8 @@ public class Game : MonoBehaviour
     public SystemController SystemController { get; private set; }
     public EntityController EntityManager { get; private set; }
     public GameEventDispatcher Messages { get; private set; }
+    public EntitySpawner EntitySpawner { get; private set; }
+    
     public MapController MapController;
     public UserInputController UserInputController;
     public GameUI GameUI;
@@ -24,33 +26,23 @@ public class Game : MonoBehaviour
 
     private int _currentPhase;
 
-    private int _phaseLength;
-    private int _updatesCount;
-
     private readonly EventListener _eventListener = new EventListener();
 
     private void Start()
     {
         I = this;
 
-        StartCoroutine(DelayedStart());
-    }
-
-    IEnumerator DelayedStart()
-    {
-        yield return new WaitForSeconds(.5f);
-
         Messages = new GameEventDispatcher();
         SystemController = new SystemController();
         EntityManager = new EntityController();
+        EntitySpawner = new EntitySpawner();
         MapController.Init();
         UserInputController.Init();
         GameUI.Init();
 
         flagController = new FlagController();
 
-        //TODO Remove later
-        GameLayer.I.ServerEmulator.Start();
+        EntitySpawner.StartGame();
     }
 
     public void OnTurnData(List<ActionPhase> data)
@@ -60,10 +52,9 @@ public class Game : MonoBehaviour
         ProducePhase();
     }
     
-    //TODO make this function cleaner
     public void ProducePhase()
     {
-
+        //TODO 10!!
         if(_currentPhase == 10)
         {
             _currentPhase = 0;
@@ -82,37 +73,10 @@ public class Game : MonoBehaviour
                     SystemController.ProcessData(actionPhase.entityId, dto.ToComponentBase());
                 }
             }
-
-            /*if (actionPhase.dtos.Count > _currentPhase)
-            {
-                SystemController.ProcessData(actionPhase.entityId, actionPhase.dtos[_currentPhase].ToComponentBase());
-            }*/
         }
         
         ++_currentPhase;
         StartCoroutine(WaitForNextIteration());
-
-        /*if (_currentPhase > _turnData.Max(t => t.phases.Count))
-        {
-            _currentPhase = 0;
-            SystemController.OnUpdateEnd();
-            CheckEndGame();
-            Messages.SendEvent(EventStrings.OnNextTurn);
-            return;
-        }
-
-        foreach (var dto in _turnData)
-        {
-            if (dto.phases.Count > _currentPhase)
-            {
-                SystemController.ProcessData(dto.entityId, dto.phases[_currentPhase].ToComponentBase());
-                _phaseLength = SystemController.GetPhaseLength();
-                _updatesCount = 0;
-            }
-        }
-
-        ++_currentPhase;
-        IterateOverPhase();*/
     }
 
     private IEnumerator WaitForNextIteration()
@@ -123,22 +87,7 @@ public class Game : MonoBehaviour
             yield return new WaitForSeconds(.01f);
         } while (SystemController.IsProcessing());
 
-        //IterateOverPhase();
         ProducePhase();
-    }
-
-    public void IterateOverPhase()
-    {
-        if (_updatesCount < _phaseLength)
-        {
-            ++_updatesCount;
-            SystemController.UpdateSystems();
-            StartCoroutine(WaitForNextIteration());
-        }
-        else
-        {
-            ProducePhase();
-        }
     }
 
     private void CheckEndGame()

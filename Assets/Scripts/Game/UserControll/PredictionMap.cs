@@ -39,7 +39,6 @@ public class PredictionMap : MonoBehaviour
 
     public void DrawMovePath(List<Point> path)
     {
-        //ClearLayer(Layers.Temporary);
         TileBase tile = ResourceManager.Instance.TileBases[(int)TileType.Path];
         DrawTileOnLayer(path, Layers.Movement, tile);
     }

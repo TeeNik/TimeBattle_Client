@@ -54,6 +54,8 @@ public class Entity : MonoBehaviour
 
     public ComponentBase GetEcsComponent(Type type)
     {
-        return Components.Find(c => c.GetType() == type);
+        var component = Components.Find(c => c.GetType() == type);
+        Assert.IsNotNull(component, $"Component of type: {type} was not found!");
+        return component;
     }
 }

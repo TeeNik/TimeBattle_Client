@@ -51,11 +51,6 @@ public class HealthSystem : ISystem, IDisposable
         return false;
     }
 
-    public int GetPhaseLength()
-    {
-        return 0;
-    }
-
     public void RemoveComponent(int entityId)
     {
         _components.Remove(entityId);

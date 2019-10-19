@@ -4,9 +4,11 @@ using UnityEngine;
 
 public enum ActionType
 {
-    None,
+    None = 0,
     Move,
     Shoot,
+    ThrowGrenade,
+    Skip,
 }
 
 public class UserInputController : MonoBehaviour
@@ -74,31 +76,27 @@ public class UserInputController : MonoBehaviour
 
     public void ProduceInput(ActionType actionType, ComponentBase component)
     {
-        AddComponentToInput(component);
-        RemoveActionFromCharacter(actionType, component);
+        if (actionType != ActionType.Skip)
+        {
+            AddComponentToInput(component);
+        }
+        RemoveActionFromCharacter(component);
     }
 
-    private void RemoveActionFromCharacter(ActionType actionType, ComponentBase component)
+    private void RemoveActionFromCharacter(ComponentBase component)
     {
-        var ac = _selectedChar.GetEcsComponent<CharacterActionComponent>();
-        ac.RemoveAction(GetComponentLength(component));
+        Game.I.Messages.SendEvent(new EnergyChangeMsg(_selectedChar.Id, GetComponentLength(component)));
         SelectCharacter(_selectedChar);
         CheckEndTurn();
     }
 
     private int GetComponentLength(ComponentBase component)
     {
-        var componentType = ComponentBase.GetComponentType(component.GetType());
-        if (componentType == ComponentType.Movement)
+        if (component != null)
         {
-            var mc = (MovementComponent)component;
-            return mc.Path.Count;
+            return component.GetUpdateLength();
         }
-        if (componentType == ComponentType.Shoot)
-        {
-            return  3;
-        }
-        return 0;
+        return 10;
     }
 
     private void AddComponentToInput(ComponentBase comp)

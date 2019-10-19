@@ -39,9 +39,4 @@ public class OperativeInfoSystem : ISystem
     {
         _components.Remove(entityId);
     }
-
-    public int GetPhaseLength()
-    {
-        return 0;
-    }
 }
