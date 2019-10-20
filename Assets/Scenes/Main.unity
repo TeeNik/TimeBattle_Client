@@ -282,6 +282,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
+    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
   m_Type: 1
   m_PreserveAspect: 0
@@ -335,6 +337,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
+    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_text: Error
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -552,6 +556,11 @@ MonoBehaviour:
   - {fileID: 2817395487777404867, guid: 30cee20e6fc6a2e46a7242cee5301bc3, type: 3}
   Outline: {fileID: 4329403703697224341, guid: 8c03f707a71bd4f49a2d44343517faff, type: 3}
   Flag: {fileID: 2913980928687624932, guid: 4f633cb97bc2b364aa499cf41c2afb13, type: 3}
+  CharacterModels:
+  - {fileID: 3557322555373345984, guid: 089e5ebc1eeecb940a021eb7fbbfd9cd, type: 3}
+  - {fileID: 562419280910231720, guid: b3e56386bc009684eaa1c9f1e4c7a37e, type: 3}
+  - {fileID: 4031848391255208303, guid: 2f44db1677b49fd4f8374c9ffa7d22bb, type: 3}
+  - {fileID: 3605389241565523061, guid: 4c7570917fe26e24ca4bc5a1877ce8b9, type: 3}
   CharacterPrediction: {fileID: 7412160270274367409, guid: 783f0ef64461d254eb966b2dbddac456,
     type: 3}
 --- !u!4 &5184177086868199588
