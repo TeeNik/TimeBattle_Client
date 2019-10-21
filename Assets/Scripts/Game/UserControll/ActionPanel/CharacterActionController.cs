@@ -68,6 +68,7 @@ public class CharacterActionController : MonoBehaviour
         {
             if (Input.GetMouseButton(0))
             {
+                _isWaitForConfirm = true;
                 _selectedInput.WaitForConfirm();
             }
             else
@@ -79,18 +80,17 @@ public class CharacterActionController : MonoBehaviour
 
     public void ShowConfirmation()
     {
-        _isWaitForConfirm = true;
         ConfirmPanel.SetActive(true);
     }
 
     public void ShowShootConfirm(int min, int max)
     {
         ShootConfirmPanel.Show(min, max);
-        _isWaitForConfirm = true;
     }
 
     public void CloseConfirm()
     {
+        Game.I.UserInputController.ReleaseCharacter();
         PredictionMap.ClearLayer(Layers.Temporary);
         Game.I.MapController.OutlinePool.ReturnAll();
         ConfirmPanel.SetActive(false);
@@ -124,7 +124,7 @@ public class CharacterActionController : MonoBehaviour
 
         _actionInputs.Add(ActionType.Move, new MoveInput(PredictionMap, this));
         _actionInputs.Add(ActionType.Shoot, new ShootInput(ShowShootConfirm, CloseConfirm, ShootConfirmPanel.GetValue));
-        _actionInputs.Add(ActionType.ThrowGrenade, new ThrowGrenadeInput(PredictionMap, this));
+        _actionInputs.Add(ActionType.ThrowGrenade, new ThrowGrenadeInput(ShowConfirmation, CloseConfirm));
         _actionInputs.Add(ActionType.Skip, new SkipInput(ShowConfirmation, CloseConfirm));
     }
 }

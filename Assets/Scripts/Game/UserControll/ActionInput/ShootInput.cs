@@ -48,6 +48,10 @@ public class ShootInput : ActionInput
             var charInfo = _char.GetEcsComponent<CharacterActionComponent>();
             _show(Mathf.Min(charInfo.Energy, MinDuration), charInfo.Energy);
         }
+        else
+        {
+            _hide();
+        }
 
         Game.I.MapController.OutlinePool.ReturnAll();
     }

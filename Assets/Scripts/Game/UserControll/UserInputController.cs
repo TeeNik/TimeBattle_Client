@@ -54,6 +54,12 @@ public class UserInputController : MonoBehaviour
         }
     }
 
+    public void ReleaseCharacter()
+    {
+        _selectedChar = null;
+        ActionController.HideActionPanel();
+    }
+
     public void SelectCharacter(Character ch)
     {
         if (!_currentChars.Contains(ch) || ch.GetEcsComponent<CharacterActionComponent>().Energy <= 0)
@@ -63,8 +69,7 @@ public class UserInputController : MonoBehaviour
 
         if (_selectedChar == ch)
         {
-            _selectedChar = null;
-            ActionController.HideActionPanel();
+            ReleaseCharacter();
         }
         else
         {
@@ -86,7 +91,7 @@ public class UserInputController : MonoBehaviour
     private void RemoveActionFromCharacter(ComponentBase component)
     {
         Game.I.Messages.SendEvent(new EnergyChangeMsg(_selectedChar.Id, GetComponentLength(component)));
-        SelectCharacter(_selectedChar);
+        ReleaseCharacter();
         CheckEndTurn();
     }
 
