@@ -4,7 +4,6 @@ public class GrenadeThrowSystem : ISystem
 {
     private readonly Dictionary<int, GrenadeThrowComponent> _components = new Dictionary<int, GrenadeThrowComponent>();
 
-
     public void Update()
     {
         foreach (var pair in _components)
@@ -15,7 +14,7 @@ public class GrenadeThrowSystem : ISystem
             {
                 var entity = Game.I.EntityManager.GetEntity(pair.Key);
                 var position = entity.GetEcsComponent<MovementComponent>().Position;
-                Game.I.EntitySpawner.CreateGrenade(position, component.Target);
+                Game.I.EntitySpawner.CreateGrenade(position, component.Target, component.Range);
                 component.Target = null;
             }
         }

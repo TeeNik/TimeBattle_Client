@@ -8,6 +8,7 @@ public class GameLayer : MonoBehaviour
     public SceneController SceneController { get; private set; }
     public ServerEmulator ServerEmulator { get; private set; }
     public NetworkController Net;
+    public LoadingScreen LoadingScreen;
     public GameBalance GameBalance { get; private set; }
 
     public void Start()

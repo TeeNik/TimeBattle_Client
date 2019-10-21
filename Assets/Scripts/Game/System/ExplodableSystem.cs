@@ -11,6 +11,7 @@ public class ExplodableSystem : ISystem
 
     public void Update()
     {
+        var mapData = Game.I.MapController.MapDatas;
         foreach (var pair in _components)
         {
             if (_toDelete.Contains(pair.Key))
@@ -22,7 +23,14 @@ public class ExplodableSystem : ISystem
 
             if (component.IsExloding)
             {
-                Debug.Log("Boom");
+                foreach (var point in component.Range)
+                {
+                    var id = mapData[point.X][point.Y].EntityId;
+                    if (id != null)
+                    {
+                        Game.I.Messages.SendEvent(new TakeDamageMsg(id.Value, 2));
+                    }
+                }
                 var entity = Game.I.EntityManager.GetEntity(pair.Key);
                 Game.I.EntityManager.DestroyEntity(pair.Key);
                 Object.Destroy(entity.gameObject);
@@ -41,6 +49,11 @@ public class ExplodableSystem : ISystem
             _components.Remove(i);
         }
         _toDelete.Clear();
+    }
+
+    private void Explode()
+    {
+
     }
 
     private void OnMoveComplete()
