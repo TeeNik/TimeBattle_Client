@@ -16,7 +16,9 @@ public class SystemController : IDisposable
             {typeof(ShootComponent), new ShootingSystem()},
             {typeof(OperativeInfoComponent), new OperativeInfoSystem()},
             {typeof(HealthComponent), new HealthSystem()},
-            {typeof(CharacterActionComponent), new CharacterActionSystem()}
+            {typeof(CharacterActionComponent), new CharacterActionSystem()},
+            {typeof(GrenadeThrowComponent), new GrenadeThrowSystem()},
+            {typeof(ExplodableComponent), new ExplodableSystem()},
         };
 
         ComponentBase.GetClassType(ComponentType.Movement);
@@ -53,12 +55,6 @@ public class SystemController : IDisposable
     {
         return Systems.Values.Any(s=>s.IsProcessing());
     }
-
-    public int GetPhaseLength()
-    {
-        return Systems.Values.Max(s => s.GetPhaseLength());
-    }
-
 
     public void Dispose()
     {

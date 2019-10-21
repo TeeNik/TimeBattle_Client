@@ -56,7 +56,7 @@ public class MovementSystem : ISystem
 
                 ++_moving;
                 component.IsMoving = true;
-                entity.transform.DOMove(pos, 1f).SetSpeedBased().SetEase(Ease.Linear).OnComplete(()=>StopMoving(component));
+                entity.transform.DOMove(pos, Utils.MovementSpeed).SetEase(Ease.Linear).OnComplete(()=>StopMoving(component));
             }
         }
 
@@ -85,11 +85,5 @@ public class MovementSystem : ISystem
         Game.I.MapController.SetMapData(_components[entityId].Position, OnMapType.Empty);
 
         _toDelete.Add(entityId);
-    }
-
-    public int GetPhaseLength()
-    {
-        var notNull = _components.Values.Where(c => c.Path != null).ToArray();
-        return !notNull.Any() ? 0 : notNull.Max(c => c.Path.Count);
     }
 }

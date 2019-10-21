@@ -18,7 +18,7 @@ public class ExceptionHandler : MonoBehaviour
 
     private void OnLogCallback(string condition, string stackTrace, LogType type)
     {
-        if (type == LogType.Exception)
+        if (type == LogType.Exception || type == LogType.Assert)
         {
             var exceptionText = new StringBuilder();
             exceptionText.AppendLine(type.ToString());

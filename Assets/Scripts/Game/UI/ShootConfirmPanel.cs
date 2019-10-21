@@ -23,6 +23,7 @@ public class ShootConfirmPanel : MonoBehaviour
     {
         _min = min;
         _max = max;
+        SetValue(min);
         gameObject.SetActive(true);
     }
 
@@ -35,9 +36,7 @@ public class ShootConfirmPanel : MonoBehaviour
     {
         if(_value < _max)
         {
-            ++_value;
-            Text.text = _value.ToString();
-            CheckButtons();
+            SetValue(_value + 1);
         }
     }
 
@@ -45,17 +44,22 @@ public class ShootConfirmPanel : MonoBehaviour
     {
         if (_value > _min)
         {
-            ++_value;
-            Text.text = _value.ToString();
-            CheckButtons();
+            SetValue(_value - 1);
         }
     }
 
     private void CheckButtons()
     {
-        Up.interactable = _value == _max;
-        Down.interactable = _value == _min;
+        Up.interactable = _value != _max;
+        Down.interactable = _value != _min;
 
+    }
+
+    private void SetValue(int value)
+    {
+        _value = value;
+        Text.text = _value.ToString();
+        CheckButtons();
     }
 
     public int GetValue()

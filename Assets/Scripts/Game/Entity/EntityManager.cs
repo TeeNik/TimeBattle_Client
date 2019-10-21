@@ -27,13 +27,13 @@ public class EntityController
         //GameObject.Destroy(entity.gameObject);
     }
 
-    public void CreateEntity(SpawnEntityDto dto)
+    public void CreateEntity(SpawnEntityData data)
     {
-        var playerPrefab = ResourceManager.Instance.GetEntity(dto.PrefabName);
+        var playerPrefab = ResourceManager.Instance.GetEntity(data.PrefabName);
         var entity = Instantiate(playerPrefab);
         _entities.Add(_idCounter, entity);
         entity.Init(_idCounter);
-        foreach (var comp in dto.InitialComponents)
+        foreach (var comp in data.InitialComponents)
         {
             entity.AddComponent(comp);
         }

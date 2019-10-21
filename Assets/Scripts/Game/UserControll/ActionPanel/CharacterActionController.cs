@@ -75,15 +75,22 @@ public class CharacterActionController : MonoBehaviour
         }
     }
 
-    public void ShowConfirmationPanel()
+    public void ShowConfirmation()
     {
         _isWaitForConfirm = true;
         ConfirmPanel.SetActive(true);
     }
 
+    public void ShowShootConfirm(int min, int max)
+    {
+        ShootConfirmPanel.Show(min, max);
+        _isWaitForConfirm = true;
+    }
 
     public void CloseConfirm()
     {
+        PredictionMap.ClearLayer(Layers.Temporary);
+        Game.I.MapController.OutlinePool.ReturnAll();
         ConfirmPanel.SetActive(false);
         ShootConfirmPanel.Hide();
         _selectedInput = null;
@@ -100,14 +107,12 @@ public class CharacterActionController : MonoBehaviour
     private void CreateButtons()
     {
         _actionButtons = new List<ActionButton>();
-        foreach (var type in Enum.GetValues(typeof(ActionType)).Cast<ActionType>())
+        var config = Utils.ParseConfig<ActionConfig>("actions");
+        foreach (var data in config.actions)
         {
-            if (type != ActionType.None)
-            {
-                var button = Instantiate(ActionButtonPrefab, ActionPanel.transform);
-                button.Init(type, SelectAction);
-                _actionButtons.Add(button);
-            }
+            var button = Instantiate(ActionButtonPrefab, ActionPanel.transform);
+            button.Init(data, SelectAction);
+            _actionButtons.Add(button);
         }
     }
 
@@ -116,6 +121,8 @@ public class CharacterActionController : MonoBehaviour
         _actionInputs = new Dictionary<ActionType, ActionInput>();
 
         _actionInputs.Add(ActionType.Move, new MoveInput(PredictionMap, this));
-        _actionInputs.Add(ActionType.Shoot, new ShootInput(PredictionMap, this));
+        _actionInputs.Add(ActionType.Shoot, new ShootInput(ShowShootConfirm, CloseConfirm, ShootConfirmPanel.GetValue));
+        _actionInputs.Add(ActionType.ThrowGrenade, new ThrowGrenadeInput(PredictionMap, this));
+        _actionInputs.Add(ActionType.Skip, new SkipInput(ShowConfirmation, CloseConfirm));
     }
 }

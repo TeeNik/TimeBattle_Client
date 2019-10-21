@@ -36,4 +36,9 @@ public class ShootComponent : ComponentBase
             Time = sc.Time;
         }
     }
+
+    public override int GetUpdateLength()
+    {
+        return Time;
+    }
 }
