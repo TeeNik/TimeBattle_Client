@@ -18,6 +18,7 @@ public class StartGameEvent : BaseEventClass
                 var player = json["playerType"].ToObject<PlayerType>();
                 Game.I.PlayerType = player;
             }
+            Game.I.Messages.SendEvent(EventStrings.OnGameInitialized);
         });
     }
 }
