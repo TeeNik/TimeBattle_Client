@@ -23,4 +23,21 @@ public class SceneController
         onLoaded?.Invoke(sceneName);
         GameLayer.I.LoadingScreen.Hide();
     }
+
+    public void LoadGameScene(PlayerType player = PlayerType.Player1)
+    {
+        LoadScene("Game", true, (_) =>
+        {
+            if (!GameLayer.I.EmulateServer)
+            {
+                Game.I.PlayerType = player;
+            }
+            Game.I.Messages.SendEvent(EventStrings.OnGameInitialized);
+        });
+    }
+
+    public void LoadLobbyScene()
+    {
+        GameLayer.I.SceneController.LoadScene("Lobby", true, null);
+    }
 }

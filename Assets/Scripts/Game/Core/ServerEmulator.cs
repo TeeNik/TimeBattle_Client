@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Newtonsoft.Json.Linq;
+using UnityEditor;
 using UnityEngine;
 
 public class ServerEmulator
@@ -24,7 +25,9 @@ public class ServerEmulator
 
     public void PlayGame()
     {
-        GameLayer.I.Net.ProcessEvent(CreateEventMessage("startGame", null));
+        JObject param = new JObject();
+        param["playerType"] = (int)PlayerType.Player1;
+        GameLayer.I.Net.ProcessEvent(CreateEventMessage("startGame", param));
     }
 
 }
