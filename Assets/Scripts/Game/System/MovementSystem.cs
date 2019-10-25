@@ -5,7 +5,6 @@ using System.Linq;
 public class MovementSystem : ISystem
 {
     private int _moving = 0;
-
     private readonly Dictionary<int, MovementComponent> _components = new Dictionary<int, MovementComponent>();
     private readonly Dictionary<int, CharacterView> _views = new Dictionary<int, CharacterView>();
     private readonly List<int> _toDelete = new List<int>();
@@ -65,6 +64,10 @@ public class MovementSystem : ISystem
 
         foreach (var comp in _toDelete)
         {
+            if (_components[comp].IsMoving)
+            {
+                --_moving;
+            }
             _components.Remove(comp);
         }
         _toDelete.Clear();

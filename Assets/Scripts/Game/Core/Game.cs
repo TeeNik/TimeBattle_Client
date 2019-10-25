@@ -90,22 +90,25 @@ public class Game : MonoBehaviour
     {
         var player1 = SystemController.GetSystem<OperativeInfoSystem>().GetEntitiesByOwner(PlayerType.Player1).Count;
         var player2 = SystemController.GetSystem<OperativeInfoSystem>().GetEntitiesByOwner(PlayerType.Player2).Count;
-        PlayerType? winner = null;
-        if (player1 == 0 && player2 == 0)
+        if (player1 == 0 || player2 == 0)
         {
-            Debug.Log("Draw");
+            PlayerType? winner = null;
+            if (player1 == 0 && player2 == 0)
+            {
+                Debug.Log("Draw");
+            }
+            else if (player1 == 0)
+            {
+                winner = PlayerType.Player2;
+                Debug.Log("player2 wins!");
+            }
+            else if (player2 == 0)
+            {
+                winner = PlayerType.Player1;
+                Debug.Log("player1 wins!");
+            }
+            Messages.SendEvent(new PlayerWinMsg(winner));
         }
-        else if (player1 == 0)
-        {
-            winner = PlayerType.Player2;
-            Debug.Log("player2 wins!");
-        }
-        else if (player2 == 0)
-        {
-            winner = PlayerType.Player1;
-            Debug.Log("player1 wins!");
-        }
-        Messages.SendEvent(new PlayerWinMsg(winner));
     }
 
     void OnDestroy()

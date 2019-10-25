@@ -37,6 +37,7 @@ public class ShootInput : ActionInput
         var duration = _getDuration();
         var comp = new ShootComponent(_range, duration);
         Game.I.UserInputController.ProduceInput(GetActionType(), comp);
+        _prediction.DrawShootingRange(_range);
         _range = null;
         _hide();
     }

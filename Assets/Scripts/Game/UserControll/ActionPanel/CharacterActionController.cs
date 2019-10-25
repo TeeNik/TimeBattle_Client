@@ -68,12 +68,13 @@ public class CharacterActionController : MonoBehaviour
         {
             if (Input.GetMouseButton(0))
             {
+                _selectedInput.Update();
                 _isWaitForConfirm = true;
                 _selectedInput.WaitForConfirm();
             }
             else
             {
-                _selectedInput.Update();
+                //_selectedInput.Update();
             }
         }
     }

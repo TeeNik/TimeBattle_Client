@@ -44,8 +44,10 @@ public class ThrowGrenadeInput : ActionInput
 
     public void ProduceInput()
     {
-        var comp = new GrenadeThrowComponent(_target, _grenade.GetExplosionRadius(_target));
+        var range = _grenade.GetExplosionRadius(_target);
+        var comp = new GrenadeThrowComponent(_target, range);
         Game.I.UserInputController.ProduceInput(GetActionType(), comp);
+        _prediction.DrawShootingRange(range);
         _target = null;
         _hide();
     }

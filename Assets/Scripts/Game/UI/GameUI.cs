@@ -25,6 +25,7 @@ public class GameUI : MonoBehaviour
 
     private void Exit()
     {
+        SceneManager.UnloadSceneAsync("Game");
         GameLayer.I.SceneController.LoadLobbyScene();
     }
 
