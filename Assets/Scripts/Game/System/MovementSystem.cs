@@ -64,10 +64,6 @@ public class MovementSystem : ISystem
 
         foreach (var comp in _toDelete)
         {
-            if (_components[comp].IsMoving)
-            {
-                --_moving;
-            }
             _components.Remove(comp);
         }
         _toDelete.Clear();
