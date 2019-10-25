@@ -17,11 +17,11 @@ public class CharacterActionSystem : ISystem, IDisposable
     public void AddComponent(Entity entity, ComponentBase component)
     {
         var cc = (CharacterActionComponent) component;
-        CreateReusableActions(cc);
         Components.Add(entity.Id, cc);
         var view = entity.GetComponent<ActionView>();
-        view.SetValue(MaxEnergy);
         _views.Add(entity.Id, view);
+        view.SetValue(MaxEnergy);
+        CreateReusableActions(cc);
     }
 
     private void OnEnergyChanged(EnergyChangeMsg msg)
@@ -60,6 +60,7 @@ public class CharacterActionSystem : ISystem, IDisposable
         foreach (var component in Components)
         {
             CreateReusableActions(component.Value);
+            _views[component.Key].SetValue(MaxEnergy);
         }
     }
 

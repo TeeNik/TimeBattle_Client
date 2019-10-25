@@ -120,11 +120,12 @@ public class CharacterActionController : MonoBehaviour
 
     private void InitActionInputs()
     {
-        _actionInputs = new Dictionary<ActionType, ActionInput>();
-
-        _actionInputs.Add(ActionType.Move, new MoveInput(PredictionMap, this));
-        _actionInputs.Add(ActionType.Shoot, new ShootInput(ShowShootConfirm, CloseConfirm, ShootConfirmPanel.GetValue));
-        _actionInputs.Add(ActionType.ThrowGrenade, new ThrowGrenadeInput(ShowConfirmation, CloseConfirm));
-        _actionInputs.Add(ActionType.Skip, new SkipInput(ShowConfirmation, CloseConfirm));
+        _actionInputs = new Dictionary<ActionType, ActionInput>
+        {
+            {ActionType.Move, new MoveInput(ShowConfirmation, CloseConfirm)},
+            {ActionType.Shoot, new ShootInput(ShowShootConfirm, CloseConfirm, ShootConfirmPanel.GetValue)},
+            {ActionType.ThrowGrenade, new ThrowGrenadeInput(ShowConfirmation, CloseConfirm)},
+            {ActionType.Skip, new SkipInput(ShowConfirmation, CloseConfirm)}
+        };
     }
 }

@@ -1,5 +1,4 @@
-﻿using System;
-using TMPro;
+﻿using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -26,12 +25,13 @@ public class GameUI : MonoBehaviour
 
     private void Exit()
     {
-
+        GameLayer.I.SceneController.LoadLobbyScene();
     }
 
     private void Replay()
     {
-        GameLayer.I.SceneController.LoadGame(Game.I.PlayerType);
+        SceneManager.UnloadSceneAsync("Game");
+        GameLayer.I.SceneController.LoadGameScene(Game.I.PlayerType);
     }
 
     private void OnGameStateChanged()

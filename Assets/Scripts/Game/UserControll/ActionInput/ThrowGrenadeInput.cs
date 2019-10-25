@@ -62,6 +62,10 @@ public class ThrowGrenadeInput : ActionInput
             DrawExplosionRange(_target);
             _show();
         }
+        else
+        {
+            _hide();
+        }
         Game.I.MapController.OutlinePool.ReturnAll();
     }
 

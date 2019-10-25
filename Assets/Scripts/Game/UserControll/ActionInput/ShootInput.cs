@@ -13,6 +13,7 @@ public class ShootInput : ActionInput
     private Character _char;
     private Point _position;
     private Weapon _weapon;
+    private List<Point> _fullRange;
 
     private readonly Action<int, int> _show;
     private readonly Action _hide;
@@ -64,8 +65,6 @@ public class ShootInput : ActionInput
         _position = new Point(tile.x, tile.y);
         DrawRanges();
     }
-
-    private List<Point> _fullRange;
 
     private void DrawRanges()
     {
