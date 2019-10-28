@@ -4,6 +4,7 @@ using System.Linq;
 public class ShootingSystem : ISystem
 {
     private Dictionary<int, ShootComponent> _components = new Dictionary<int, ShootComponent>();
+    private readonly Dictionary<int, CharacterView> _views = new Dictionary<int, CharacterView>();
 
     private readonly List<int> _toDelete = new List<int>();
 
@@ -26,6 +27,7 @@ public class ShootingSystem : ISystem
 
             if (range != null && component.Time > 0)
             {
+                _views[pair.Key].PlayStandAnimation(true);
                 predictionMap.DrawShootingRange(range);
                 var entity = Game.I.EntityManager.GetEntity(pair.Key);
                 var info = entity.GetEcsComponent<OperativeInfoComponent>();
@@ -40,6 +42,7 @@ public class ShootingSystem : ISystem
                         var target = map.CheckCover(range, point);
                         if(target.HasValue)
                         {
+                            _views[pair.Key].PlayShootAnimation();
                             msgs.Add(new TakeDamageMsg(target.Value, 1));
                         }
 
@@ -48,6 +51,7 @@ public class ShootingSystem : ISystem
                     }
                 }
             }
+            _views[pair.Key].PlayStandAnimation(false);
         }
 
         foreach (var msg in msgs)
@@ -55,9 +59,10 @@ public class ShootingSystem : ISystem
             MakeShoot(msg);
         }
 
-        foreach (var comp in _toDelete)
+        foreach (var id in _toDelete)
         {
-            _components.Remove(comp);
+            _components.Remove(id);
+            _views.Remove(id);
         }
         _toDelete.Clear();
     }
@@ -82,6 +87,7 @@ public class ShootingSystem : ISystem
     public void AddComponent(Entity entity, ComponentBase component)
     {
         _components.Add(entity.Id, (ShootComponent)component);
+        _views.Add(entity.Id, entity.GetComponent<CharacterView>());
     }
 
     public void OnUpdateEnd()

@@ -7,6 +7,7 @@ public class CharacterView : MonoBehaviour
     [SerializeField] private TMP_Text _title;
     [SerializeField] private SpriteRenderer _spriteRenderer; 
     [SerializeField] private Transform _container; 
+    [SerializeField] private Animator _animator;
 
     public void SetInfo(OperativeInfoComponent info)
     {
@@ -16,6 +17,7 @@ public class CharacterView : MonoBehaviour
         //_spriteRenderer.sprite = ResourceManager.Instance.GetSprite(sprite);
         var model = ResourceManager.Instance.GetCharacterModel(name);
         Instantiate(model, _container);
+        _animator = GetComponentInChildren<Animator>();
     }
 
     public void Rotate(Point from, Point to)
@@ -30,6 +32,21 @@ public class CharacterView : MonoBehaviour
             direction = from.Y > to.Y ? Rotation.Left : Rotation.Right;
         }
         _container.localEulerAngles = new Vector3(0, 0, (int)direction);
+    }
+
+    public void PlayMoveAnimation(bool isMoving)
+    {
+        _animator.SetBool("walk", isMoving);
+    }
+
+    public void PlayStandAnimation(bool isStanding)
+    {
+        _animator.SetBool("stand", isStanding);
+    }
+
+    public void PlayShootAnimation()
+    {
+        _animator.SetTrigger("shoot");
     }
 
     private enum Rotation

@@ -6,10 +6,10 @@ public class EntitySpawner
     {
         var param = new List<SpawnEntityData>() {
             //CreateCharacter(PlayerType.Player1, OperativeType.Ranger, new Pistol(), new Point(8, 14)),
-            CreateCharacter(PlayerType.Player1, OperativeType.Sniper, new SniperRifle(), new Point(2, 2)),
+            //CreateCharacter(PlayerType.Player1, OperativeType.Sniper, new SniperRifle(), new Point(2, 2)),
             CreateCharacter(PlayerType.Player1, OperativeType.Ranger, new Shotgun(), new Point(9, 8)),
             CreateCharacter(PlayerType.Player2, OperativeType.Soldier, new Pistol(), new Point(2, 15)),
-            CreateCharacter(PlayerType.Player2, OperativeType.Sniper, new SniperRifle(), new Point(4, 9)),
+            //CreateCharacter(PlayerType.Player2, OperativeType.Sniper, new SniperRifle(), new Point(4, 9)),
             //CreateCharacter(PlayerType.Player2, OperativeType.Ranger, new Shotgun(), new Point(9, 4)),
         };
 
@@ -23,7 +23,6 @@ public class EntitySpawner
         }
 
     }
-
 
     private SpawnEntityData CreateCharacter(PlayerType owner, OperativeType operative, Weapon weapon, Point point)
     {

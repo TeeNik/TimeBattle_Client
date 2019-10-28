@@ -58,13 +58,19 @@ public class MovementSystem : ISystem
 
                 ++_moving;
                 component.IsMoving = true;
-                entity.transform.DOMove(pos, Utils.MovementSpeed).SetEase(Ease.Linear).OnComplete(()=>StopMoving(component));
+                _views[id].PlayMoveAnimation(true);
+                entity.transform.DOMove(pos, Utils.MovementSpeed).SetEase(Ease.Linear).OnComplete(()=>
+                {
+                    StopMoving(component);
+                    _views[id].PlayMoveAnimation(false);
+                });
             }
         }
 
-        foreach (var comp in _toDelete)
+        foreach (var id in _toDelete)
         {
-            _components.Remove(comp);
+            _components.Remove(id);
+            _views.Remove(id);
         }
         _toDelete.Clear();
     }
