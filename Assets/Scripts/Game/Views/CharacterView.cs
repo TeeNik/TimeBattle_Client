@@ -9,6 +9,9 @@ public class CharacterView : MonoBehaviour
     [SerializeField] private Transform _container; 
     [SerializeField] private Animator _animator;
 
+    public bool IsStanding { get; private set; }
+    public bool IsWalking { get; private set; }
+
     public void SetInfo(OperativeInfoComponent info)
     {
         _title.text = info.OperativeType.ToString();
@@ -34,13 +37,15 @@ public class CharacterView : MonoBehaviour
         _container.localEulerAngles = new Vector3(0, 0, (int)direction);
     }
 
-    public void PlayMoveAnimation(bool isMoving)
+    public void PlayWalkAnimation(bool isWalking)
     {
-        _animator.SetBool("walk", isMoving);
+        IsWalking = isWalking;
+        _animator.SetBool("walk", isWalking);
     }
 
     public void PlayStandAnimation(bool isStanding)
     {
+        IsStanding = isStanding;
         _animator.SetBool("stand", isStanding);
     }
 

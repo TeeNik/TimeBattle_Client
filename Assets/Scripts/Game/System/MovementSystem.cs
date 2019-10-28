@@ -58,11 +58,11 @@ public class MovementSystem : ISystem
 
                 ++_moving;
                 component.IsMoving = true;
-                _views[id].PlayMoveAnimation(true);
+                _views[id].PlayWalkAnimation(true);
                 entity.transform.DOMove(pos, Utils.MovementSpeed).SetEase(Ease.Linear).OnComplete(()=>
                 {
                     StopMoving(component);
-                    _views[id].PlayMoveAnimation(false);
+                    _views[id].PlayWalkAnimation(false);
                 });
             }
         }

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 
 public class ShootingSystem : ISystem
 {
@@ -24,10 +25,14 @@ public class ShootingSystem : ISystem
 
             var component = pair.Value;
             var range = pair.Value.Range;
+            var view = _views[pair.Key];
 
             if (range != null && component.Time > 0)
             {
-                _views[pair.Key].PlayStandAnimation(true);
+                if (!view.IsStanding)
+                {
+                    view.PlayStandAnimation(true);
+                }
                 predictionMap.DrawShootingRange(range);
                 var entity = Game.I.EntityManager.GetEntity(pair.Key);
                 var info = entity.GetEcsComponent<OperativeInfoComponent>();
@@ -42,16 +47,22 @@ public class ShootingSystem : ISystem
                         var target = map.CheckCover(range, point);
                         if(target.HasValue)
                         {
-                            _views[pair.Key].PlayShootAnimation();
+                            Utils.PlayWithDelay(view.PlayShootAnimation, Utils.MovementSpeed);
+                            //view.PlayShootAnimation();
                             msgs.Add(new TakeDamageMsg(target.Value, 1));
+                            Utils.PlayWithDelay(()=> view.PlayStandAnimation(false), 2*Utils.MovementSpeed);
                         }
 
                         range.Clear();
                         break;
                     }
                 }
+
+                if (component.Time == 0)
+                {
+                    view.PlayStandAnimation(false);
+                }
             }
-            _views[pair.Key].PlayStandAnimation(false);
         }
 
         foreach (var msg in msgs)

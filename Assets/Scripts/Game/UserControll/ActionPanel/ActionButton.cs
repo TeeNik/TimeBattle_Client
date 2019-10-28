@@ -9,6 +9,8 @@ public class ActionButton : MonoBehaviour
     public TMP_Text Name;
     public TMP_Text EnergyText;
     public GameObject EnergyBadge;
+    public TMP_Text Amount;
+    public GameObject Block;
 
     private Action<ActionType> _onClick;
 
@@ -27,7 +29,7 @@ public class ActionButton : MonoBehaviour
 
     public void SetAvailable(bool value)
     {
-        
+        Block.SetActive(!value);
     }
 
     public void SetVisibility(bool value)
