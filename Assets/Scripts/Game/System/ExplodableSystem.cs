@@ -28,7 +28,17 @@ public class ExplodableSystem : ISystem
                     var id = mapData[point.X][point.Y].EntityId;
                     if (id != null)
                     {
-                        Game.I.Messages.SendEvent(new TakeDamageMsg(id.Value, 2));
+                        var toDamage = Game.I.EntityManager.GetEntity(id.Value);
+                        var mc = toDamage.GetEcsComponent<MovementComponent>();
+                        var msg = new TakeDamageMsg(id.Value, 2);
+                        if (mc.IsMoving)
+                        {
+                            mc.OnEndMoving += () => Game.I.Messages.SendEvent(msg);
+                        }
+                        else
+                        {
+                            Game.I.Messages.SendEvent(msg);
+                        }
                     }
                 }
                 var entity = Game.I.EntityManager.GetEntity(pair.Key);
