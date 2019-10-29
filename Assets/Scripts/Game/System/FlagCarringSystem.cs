@@ -25,7 +25,7 @@ public class FlagCarringSystem : ISystem
     {
         var flagBase = ResourceManager.Instance.Flag;
         var pos = Game.I.MapController.GetTileWorldPosition(point);
-        _flag = GameObject.Instantiate(flagBase);
+        _flag = GameObject.Instantiate(flagBase, Game.I.transform.GetChild(0));
         _flag.transform.position = pos;
     }
 

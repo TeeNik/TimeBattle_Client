@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -11,13 +12,15 @@ public class MoveInput : ActionInput
     private Character _char;
     private int _moveLimit;
     private List<Point> _path;
-    private CharacterActionController _ac;
+    private readonly Action _show;
+    private readonly Action _hide;
 
-    public MoveInput(PredictionMap prediction, CharacterActionController ac)
+    public MoveInput(Action show, Action hide)
     {
-        _prediction = prediction;
+        _prediction = Game.I.UserInputController.ActionController.PredictionMap;
         _map = Game.I.MapController;
-        _ac = ac;
+        _show = show;
+        _hide = hide;
     }
 
     public void ProduceInput()
@@ -40,7 +43,11 @@ public class MoveInput : ActionInput
         if (_path != null && _path.Count > 0)
         {
             _prediction.DrawMoveInput(_path);
-            _ac.ShowConfirmation();
+            _show();
+        }
+        else
+        {
+            _hide();
         }
     }
 

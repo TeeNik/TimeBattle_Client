@@ -14,6 +14,7 @@ public class ResourceManager : MonoBehaviour
     public Entity[] Entities;
     public GameObject Outline;
     public GameObject Flag;
+    public GameObject[] CharacterModels;
 
     public CharacterPrediction CharacterPrediction;
 
@@ -34,9 +35,14 @@ public class ResourceManager : MonoBehaviour
         return default(T);
     }
 
-    public Entity GetEntity(String name)
+    public Entity GetEntity(string name)
     {
         return Get(name, Entities);
+    }
+
+    public GameObject GetCharacterModel(string name)
+    {
+        return Get(name, CharacterModels);
     }
 
     public Sprite GetSprite(string sprite)

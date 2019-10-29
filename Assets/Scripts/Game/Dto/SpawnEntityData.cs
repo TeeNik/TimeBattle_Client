@@ -4,6 +4,7 @@ public enum OperativeType
 {
     Assault,
     Ranger,
+    Soldier,
     Sniper,
 }
 

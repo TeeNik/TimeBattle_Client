@@ -5,10 +5,10 @@ public class EntitySpawner
     public void StartGame()
     {
         var param = new List<SpawnEntityData>() {
-            //CreateCharacter(PlayerType.Player1, OperativeType.Assault, new Pistol(), new Point(8, 14)),
+            //CreateCharacter(PlayerType.Player1, OperativeType.Ranger, new Pistol(), new Point(8, 14)),
             //CreateCharacter(PlayerType.Player1, OperativeType.Sniper, new SniperRifle(), new Point(2, 2)),
             CreateCharacter(PlayerType.Player1, OperativeType.Ranger, new Shotgun(), new Point(9, 8)),
-            CreateCharacter(PlayerType.Player2, OperativeType.Assault, new Pistol(), new Point(2, 15)),
+            CreateCharacter(PlayerType.Player2, OperativeType.Soldier, new Pistol(), new Point(2, 15)),
             //CreateCharacter(PlayerType.Player2, OperativeType.Sniper, new SniperRifle(), new Point(4, 9)),
             //CreateCharacter(PlayerType.Player2, OperativeType.Ranger, new Shotgun(), new Point(9, 4)),
         };
@@ -22,9 +22,7 @@ public class EntitySpawner
             Game.I.EntityManager.CreateEntity(spawn);
         }
 
-        Game.I.Messages.SendEvent(EventStrings.OnGameInitialized);
     }
-
 
     private SpawnEntityData CreateCharacter(PlayerType owner, OperativeType operative, Weapon weapon, Point point)
     {
@@ -52,11 +50,11 @@ public class EntitySpawner
         return spawn;
     }
 
-    public void CreateGrenade(Point startPos, Point target)
+    public void CreateGrenade(Point startPos, Point target, List<Point> range)
     {
         var spawn = new SpawnEntityData();
         spawn.PrefabName = "Grenade";
-        spawn.InitialComponents.Add(new ExplodableComponent(startPos, target));
+        spawn.InitialComponents.Add(new ExplodableComponent(startPos, target, range));
         Game.I.EntityManager.CreateEntity(spawn);
     }
 }

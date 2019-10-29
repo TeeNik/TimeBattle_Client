@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 
 public class ShootingSystem : ISystem
 {
     private Dictionary<int, ShootComponent> _components = new Dictionary<int, ShootComponent>();
+    private readonly Dictionary<int, CharacterView> _views = new Dictionary<int, CharacterView>();
 
     private readonly List<int> _toDelete = new List<int>();
 
@@ -23,9 +25,14 @@ public class ShootingSystem : ISystem
 
             var component = pair.Value;
             var range = pair.Value.Range;
+            var view = _views[pair.Key];
 
             if (range != null && component.Time > 0)
             {
+                if (!view.IsStanding)
+                {
+                    view.PlayStandAnimation(true);
+                }
                 predictionMap.DrawShootingRange(range);
                 var entity = Game.I.EntityManager.GetEntity(pair.Key);
                 var info = entity.GetEcsComponent<OperativeInfoComponent>();
@@ -40,12 +47,20 @@ public class ShootingSystem : ISystem
                         var target = map.CheckCover(range, point);
                         if(target.HasValue)
                         {
+                            Utils.PlayWithDelay(view.PlayShootAnimation, Utils.MovementSpeed);
+                            //view.PlayShootAnimation();
                             msgs.Add(new TakeDamageMsg(target.Value, 1));
+                            Utils.PlayWithDelay(()=> view.PlayStandAnimation(false), 2*Utils.MovementSpeed);
                         }
 
                         range.Clear();
                         break;
                     }
+                }
+
+                if (component.Time == 0)
+                {
+                    view.PlayStandAnimation(false);
                 }
             }
         }
@@ -55,9 +70,10 @@ public class ShootingSystem : ISystem
             MakeShoot(msg);
         }
 
-        foreach (var comp in _toDelete)
+        foreach (var id in _toDelete)
         {
-            _components.Remove(comp);
+            _components.Remove(id);
+            _views.Remove(id);
         }
         _toDelete.Clear();
     }
@@ -82,6 +98,7 @@ public class ShootingSystem : ISystem
     public void AddComponent(Entity entity, ComponentBase component)
     {
         _components.Add(entity.Id, (ShootComponent)component);
+        _views.Add(entity.Id, entity.GetComponent<CharacterView>());
     }
 
     public void OnUpdateEnd()

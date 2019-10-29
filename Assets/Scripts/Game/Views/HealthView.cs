@@ -14,9 +14,10 @@ public class HealthView : MonoBehaviour
 
     public virtual void PlayDeath()
     {
-        BaseSprite.DOColor(Color.red, .1f).SetEase(Ease.Linear).SetLoops(10, LoopType.Yoyo).OnComplete(() =>
+        Destroy(gameObject);
+
+        /*BaseSprite.DOColor(Color.red, .1f).SetEase(Ease.Linear).SetLoops(10, LoopType.Yoyo).OnComplete(() =>
         {
-            Destroy(gameObject);
-        });
+        });*/
     }
 }
