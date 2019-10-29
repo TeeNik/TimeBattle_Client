@@ -24,7 +24,8 @@ public class CharacterActionController : MonoBehaviour
     private Dictionary<ActionType, ActionInput> _actionInputs;
     private List<ActionButton> _actionButtons;
     private Character _selectedChar;
-    public bool _isWaitForConfirm;
+    private bool _isWaitForConfirm;
+    private readonly Vector3  HidePos = new Vector3(10000,10000);
 
     void Start()
     {
@@ -51,6 +52,7 @@ public class CharacterActionController : MonoBehaviour
     public void HideActionPanel()
     {
         _selectedChar = null;
+        SelectionTarget.position = HidePos;
         ActionPanel.SetActive(false);
     }
 
@@ -66,6 +68,8 @@ public class CharacterActionController : MonoBehaviour
         {
             if (Input.GetMouseButton(0))
             {
+                //_selectedInput.Update();
+                _isWaitForConfirm = true;
                 _selectedInput.WaitForConfirm();
             }
             else
@@ -77,18 +81,17 @@ public class CharacterActionController : MonoBehaviour
 
     public void ShowConfirmation()
     {
-        _isWaitForConfirm = true;
         ConfirmPanel.SetActive(true);
     }
 
     public void ShowShootConfirm(int min, int max)
     {
         ShootConfirmPanel.Show(min, max);
-        _isWaitForConfirm = true;
     }
 
     public void CloseConfirm()
     {
+        Game.I.UserInputController.ReleaseCharacter();
         PredictionMap.ClearLayer(Layers.Temporary);
         Game.I.MapController.OutlinePool.ReturnAll();
         ConfirmPanel.SetActive(false);
@@ -118,11 +121,12 @@ public class CharacterActionController : MonoBehaviour
 
     private void InitActionInputs()
     {
-        _actionInputs = new Dictionary<ActionType, ActionInput>();
-
-        _actionInputs.Add(ActionType.Move, new MoveInput(PredictionMap, this));
-        _actionInputs.Add(ActionType.Shoot, new ShootInput(ShowShootConfirm, CloseConfirm, ShootConfirmPanel.GetValue));
-        _actionInputs.Add(ActionType.ThrowGrenade, new ThrowGrenadeInput(PredictionMap, this));
-        _actionInputs.Add(ActionType.Skip, new SkipInput(ShowConfirmation, CloseConfirm));
+        _actionInputs = new Dictionary<ActionType, ActionInput>
+        {
+            {ActionType.Move, new MoveInput(ShowConfirmation, CloseConfirm)},
+            {ActionType.Shoot, new ShootInput(ShowShootConfirm, CloseConfirm, ShootConfirmPanel.GetValue)},
+            {ActionType.ThrowGrenade, new ThrowGrenadeInput(ShowConfirmation, CloseConfirm)},
+            {ActionType.Skip, new SkipInput(ShowConfirmation, CloseConfirm)}
+        };
     }
 }

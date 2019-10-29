@@ -5,5 +5,4 @@
     void ProduceInput();
     void WaitForConfirm();
     void Start(Character ch);
-
 }

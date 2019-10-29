@@ -13,6 +13,7 @@ public class ShootInput : ActionInput
     private Character _char;
     private Point _position;
     private Weapon _weapon;
+    private List<Point> _fullRange;
 
     private readonly Action<int, int> _show;
     private readonly Action _hide;
@@ -36,6 +37,7 @@ public class ShootInput : ActionInput
         var duration = _getDuration();
         var comp = new ShootComponent(_range, duration);
         Game.I.UserInputController.ProduceInput(GetActionType(), comp);
+        _prediction.DrawShootingRange(_range);
         _range = null;
         _hide();
     }
@@ -47,6 +49,10 @@ public class ShootInput : ActionInput
             _prediction.DrawShootInput(_range);
             var charInfo = _char.GetEcsComponent<CharacterActionComponent>();
             _show(Mathf.Min(charInfo.Energy, MinDuration), charInfo.Energy);
+        }
+        else
+        {
+            _hide();
         }
 
         Game.I.MapController.OutlinePool.ReturnAll();
@@ -60,8 +66,6 @@ public class ShootInput : ActionInput
         _position = new Point(tile.x, tile.y);
         DrawRanges();
     }
-
-    private List<Point> _fullRange;
 
     private void DrawRanges()
     {

@@ -15,6 +15,6 @@ public class LoginEvent : BaseEventClass
 
     protected override void HandleResponseImpl(JObject json)
     {
-        GameLayer.I.SceneController.LoadScene("Lobby", true, null);
+        GameLayer.I.SceneController.LoadLobbyScene();
     }
 }

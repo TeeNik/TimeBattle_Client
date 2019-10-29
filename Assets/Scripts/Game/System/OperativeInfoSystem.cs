@@ -9,7 +9,7 @@ public class OperativeInfoSystem : ISystem
         var ic = (OperativeInfoComponent) component;
         _components.Add(entity.Id, ic);
 
-        entity.GetComponent<InfoView>().SetInfo(ic);
+        entity.GetComponent<CharacterView>().SetInfo(ic);
     }
 
     public bool IsProcessing()

@@ -5,8 +5,8 @@ using System.Linq;
 public class MovementSystem : ISystem
 {
     private int _moving = 0;
-
     private readonly Dictionary<int, MovementComponent> _components = new Dictionary<int, MovementComponent>();
+    private readonly Dictionary<int, CharacterView> _views = new Dictionary<int, CharacterView>();
     private readonly List<int> _toDelete = new List<int>();
 
     public void AddComponent(Entity entity, ComponentBase component)
@@ -16,27 +16,28 @@ public class MovementSystem : ISystem
 
         var pos = Game.I.MapController.SetToPosition(entity.Id, mc.MapType, mc.Position);
         entity.transform.position = pos;
+        _views.Add(entity.Id, entity.GetComponent<CharacterView>());
     }
 
     public void Update()
     {
         var map = Game.I.MapController;
 
-        foreach (var keyValuePair in _components)
+        foreach (var pair in _components)
         {
-            if (_toDelete.Contains(keyValuePair.Key))
+            if (_toDelete.Contains(pair.Key))
             {
                 continue;
             }
 
-            var component = keyValuePair.Value;
-            var key = keyValuePair.Key;
+            var component = pair.Value;
+            var id = pair.Key;
             if (component.Path != null && component.Path.Count > 0)
             {
-                var entity = Game.I.EntityManager.GetEntity(key);
+                var entity = Game.I.EntityManager.GetEntity(id);
                 var nextPosition = component.Path.First();
                 component.Path.Remove(nextPosition);
-                var position = keyValuePair.Value.Position;
+                var position = pair.Value.Position;
                 var mapData = map.MapDatas[nextPosition.X][nextPosition.Y];
                 var onMapType = component.MapType;
                 if (mapData.Type != OnMapType.Empty)
@@ -51,18 +52,25 @@ public class MovementSystem : ISystem
                     }
                 }
 
-                var pos = map.MoveToPosition(key, onMapType, position, nextPosition);
-                keyValuePair.Value.Position = nextPosition;
+                var pos = map.MoveToPosition(id, onMapType, position, nextPosition);
+                _views[id].Rotate(position, nextPosition);
+                pair.Value.Position = nextPosition;
 
                 ++_moving;
                 component.IsMoving = true;
-                entity.transform.DOMove(pos, Utils.MovementSpeed).SetEase(Ease.Linear).OnComplete(()=>StopMoving(component));
+                _views[id].PlayWalkAnimation(true);
+                entity.transform.DOMove(pos, Utils.MovementSpeed).SetEase(Ease.Linear).OnComplete(()=>
+                {
+                    StopMoving(component);
+                    _views[id].PlayWalkAnimation(false);
+                });
             }
         }
 
-        foreach (var comp in _toDelete)
+        foreach (var id in _toDelete)
         {
-            _components.Remove(comp);
+            _components.Remove(id);
+            _views.Remove(id);
         }
         _toDelete.Clear();
     }

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -21,11 +20,8 @@ public class Game : MonoBehaviour
     public GameState GameState = GameState.UserInput;
 
     public FlagController flagController;
-
     private List<ActionPhase> _turnData;
-
     private int _currentPhase;
-
     private readonly EventListener _eventListener = new EventListener();
 
     private void Start()
@@ -94,17 +90,24 @@ public class Game : MonoBehaviour
     {
         var player1 = SystemController.GetSystem<OperativeInfoSystem>().GetEntitiesByOwner(PlayerType.Player1).Count;
         var player2 = SystemController.GetSystem<OperativeInfoSystem>().GetEntitiesByOwner(PlayerType.Player2).Count;
-        if (player1 == 0 && player2 == 0)
+        if (player1 == 0 || player2 == 0)
         {
-            Debug.Log("Draw");
-        }
-        else if (player1 == 0)
-        {
-            Debug.Log("player2 wins!");
-        }
-        else if (player2 == 0)
-        {
-            Debug.Log("player1 wins!");
+            PlayerType? winner = null;
+            if (player1 == 0 && player2 == 0)
+            {
+                Debug.Log("Draw");
+            }
+            else if (player1 == 0)
+            {
+                winner = PlayerType.Player2;
+                Debug.Log("player2 wins!");
+            }
+            else if (player2 == 0)
+            {
+                winner = PlayerType.Player1;
+                Debug.Log("player1 wins!");
+            }
+            Messages.SendEvent(new PlayerWinMsg(winner));
         }
     }
 

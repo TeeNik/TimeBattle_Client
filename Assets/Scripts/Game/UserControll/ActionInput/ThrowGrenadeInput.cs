@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 public class ThrowGrenadeInput : ActionInput
@@ -8,17 +9,19 @@ public class ThrowGrenadeInput : ActionInput
     private Point _position;
     private readonly PredictionMap _prediction;
     private Point _target;
-    private CharacterActionController _ac;
+    private readonly Action _show;
+    private readonly Action _hide;
 
     public ActionType GetActionType()
     {
         return ActionType.ThrowGrenade;
     }
 
-    public ThrowGrenadeInput(PredictionMap prediction, CharacterActionController ac)
+    public ThrowGrenadeInput(Action show, Action hide)
     {
-        _prediction = prediction;
-        _ac = ac;
+        _prediction = Game.I.UserInputController.ActionController.PredictionMap;
+        _show = show;
+        _hide = hide;
     }
 
     public void Update()
@@ -41,10 +44,12 @@ public class ThrowGrenadeInput : ActionInput
 
     public void ProduceInput()
     {
-        var comp = new GrenadeThrowComponent(_target);
+        var range = _grenade.GetExplosionRadius(_target);
+        var comp = new GrenadeThrowComponent(_target, range);
         Game.I.UserInputController.ProduceInput(GetActionType(), comp);
+        _prediction.DrawShootingRange(range);
         _target = null;
-        _ac.CloseConfirm();
+        _hide();
     }
 
     private void DrawExplosionRange(Point target)
@@ -57,7 +62,11 @@ public class ThrowGrenadeInput : ActionInput
         if (_target != null)
         {
             DrawExplosionRange(_target);
-            _ac.ShowConfirmation();
+            _show();
+        }
+        else
+        {
+            _hide();
         }
         Game.I.MapController.OutlinePool.ReturnAll();
     }

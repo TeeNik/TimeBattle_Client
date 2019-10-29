@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -9,7 +10,7 @@ public class LobbyUIController : MonoBehaviour
 
     void Start()
     {
-        _playButton.onClick.AddListener(Play);      
+        _playButton.onClick.AddListener(Play);  
     }
 
     void Play()
