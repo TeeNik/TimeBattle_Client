@@ -4,17 +4,14 @@ using UnityEngine;
 public class CharacterView : MonoBehaviour
 {
 
-    [SerializeField] private TMP_Text _title;
-    [SerializeField] private SpriteRenderer _spriteRenderer; 
     [SerializeField] private Transform _container; 
-    [SerializeField] private Animator _animator;
+    private Animator _animator;
 
     public bool IsStanding { get; private set; }
     public bool IsWalking { get; private set; }
 
     public void SetInfo(OperativeInfoComponent info)
     {
-        _title.text = info.OperativeType.ToString();
         var name = $"{info.OperativeType}_{info.Owner}";
         //var sprite = $"Assault_{info.Owner}";
         //_spriteRenderer.sprite = ResourceManager.Instance.GetSprite(sprite);

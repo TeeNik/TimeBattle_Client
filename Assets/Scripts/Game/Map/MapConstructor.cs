@@ -21,11 +21,13 @@ public class MapConstructor
 
     public MapData[][] GenerateMap()
     {
-        var map = GameLayer.I.GameBalance.Map;
+        var config = GameLayer.I.GameBalance.MapConfig;
+        var map = config.map;
+        var decor = config.decorationMap;
 
         MapData[][] mapData = new MapData[map.Length][];
-        TileBase[] bases = ResourceManager.Instance.TileBases;
         TileBase[] floor = ResourceManager.Instance.FloorTile;
+        TileBase[] decarationTiles = ResourceManager.Instance.DecarationTiles;
 
         for (int i = 0; i < map.Length; i++)
         {
@@ -34,12 +36,12 @@ public class MapConstructor
             {
                 //TODO refactor
                 var isWall = (OnMapType) map[i][j] == OnMapType.Wall;
-                var tileType = isWall ? TileType.Wall : TileType.Floor;
                 mapData[i][j].Type = isWall ? OnMapType.Wall : OnMapType.Empty;
 
                 if (isWall)
                 {
-                    _layers[0].SetTile(new Vector3Int(i, j, 0), bases[(int)tileType]);
+                    var tile = decarationTiles[decor[i][j] - 1];
+                    _layers[0].SetTile(new Vector3Int(i, j, 0), tile);
                 }
                 else
                 {

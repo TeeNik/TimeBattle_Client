@@ -15,6 +15,7 @@ public class ResourceManager : MonoBehaviour
     public GameObject Outline;
     public GameObject Flag;
     public GameObject[] CharacterModels;
+    public TileBase[] DecarationTiles;
 
     public CharacterPrediction CharacterPrediction;
 
